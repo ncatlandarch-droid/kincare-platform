@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KinCare — Live Session Tracker</title>
+  <meta name="description" content="Monitor your care session in real-time with KinCare's body camera live feed, GPS tracking, and photo updates.">
+  <link rel="icon" type="image/png" href="app-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --coral: #32CD32; --coral-dark: #28A428; --navy: #0A1628; --navy-light: #142236;
+      --gold: #FFD93D; --green: #10B981; --white: #FFFFFF; --cloud: #F8F9FC;
+      --mist: #EEF0F5; --slate: #6B7280; --charcoal: #2D3436; --black: #0D0D1A;
+      --font-heading: 'Outfit', sans-serif; --font-body: 'Inter', sans-serif;
+      --font-accent: 'Space Grotesk', sans-serif;
+      --radius-md: 12px; --radius-lg: 20px; --radius-xl: 28px; --radius-full: 9999px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-body); background: var(--black); color: var(--white); min-height: 100vh; }
+
+    /* Top bar */
+    .tracker-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; background: rgba(10,22,40,0.95); border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px);
+    }
+    .tracker-logo { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; }
+    .tracker-logo span { color: var(--coral); }
+    .tracker-status {
+      display: flex; align-items: center; gap: 8px; padding: 6px 16px;
+      border-radius: var(--radius-full); background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);
+    }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #EF4444; animation: blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .tracker-status-text { font-size: 0.85rem; font-weight: 600; color: var(--green); }
+    .tracker-back {
+      padding: 8px 16px; border-radius: var(--radius-full); background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15); color: var(--white); font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .tracker-back:hover { background: rgba(255,255,255,0.15); }
+
+    /* Main Layout */
+    .tracker-layout {
+      display: grid; grid-template-columns: 1fr 380px; min-height: calc(100vh - 65px);
+    }
+
+    /* LEFT: Camera Feed */
+    .camera-panel { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+    .camera-main {
+      position: relative; border-radius: var(--radius-xl); overflow: hidden;
+      background: #111; aspect-ratio: 16/9; border: 2px solid rgba(255,255,255,0.1);
+    }
+    .camera-main img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Camera overlay HUD */
+    .cam-hud { position: absolute; inset: 0; pointer-events: none; }
+    .cam-hud-top {
+      position: absolute; top: 0; left: 0; right: 0; padding: 16px 20px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+    }
+    .cam-live {
+      display: flex; align-items: center; gap: 6px; padding: 4px 12px;
+      border-radius: var(--radius-full); background: rgba(239,68,68,0.9);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+    }
+    .cam-live .blink-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--white); animation: blink 1s infinite; }
+    .cam-time {
+      font-family: var(--font-accent); font-size: 0.85rem; font-weight: 600;
+      padding: 4px 10px; border-radius: var(--radius-full);
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+    }
+    .cam-hud-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+    }
+    .cam-provider {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .cam-provider-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--coral), #1fa81f);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; border: 2px solid var(--white);
+    }
+    .cam-provider-name { font-weight: 700; font-size: 0.95rem; }
+    .cam-provider-role { font-size: 0.75rem; color: rgba(255,255,255,0.7); }
+    .cam-quality {
+      padding: 4px 10px; border-radius: var(--radius-full);
+      background: rgba(0,0,0,0.5); font-size: 0.75rem; font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Camera controls */
+    .cam-controls {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .cam-control-btn {
+      display: flex; align-items: center; gap: 8px; padding: 12px 20px;
+      border-radius: var(--radius-lg); background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1); color: var(--white);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .cam-control-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+    .cam-control-btn.active { background: rgba(50,205,50,0.15); border-color: var(--coral); color: var(--coral); }
+    .cam-control-btn.emergency {
+      background: rgba(239,68,68,0.15); border-color: #EF4444; color: #EF4444;
+    }
+    .cam-control-btn.emergency:hover { background: #EF4444; color: var(--white); }
+
+    /* Multi-cam grid */
+    .multi-cam { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .mini-cam {
+      position: relative; border-radius: var(--radius-md); overflow: hidden;
+      aspect-ratio: 16/10; background: #0a1628; border: 2px solid rgba(255,255,255,0.08);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .mini-cam:hover { border-color: var(--coral); transform: scale(1.02); }
+    .mini-cam.active { border-color: var(--coral); box-shadow: 0 0 20px rgba(50,205,50,0.3); }
+    .mini-cam-label {
+      position: absolute; bottom: 6px; left: 6px; padding: 2px 8px;
+      border-radius: var(--radius-full); background: rgba(0,0,0,0.7);
+      font-size: 0.65rem; font-weight: 600;
+    }
+    .mini-cam-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-size: 1.8rem; opacity: 0.4;
+    }
+
+    /* RIGHT: Info Panel */
+    .info-panel {
+      border-left: 1px solid rgba(255,255,255,0.08); display: flex;
+      flex-direction: column; background: rgba(10,22,40,0.5);
+    }
+
+    /* Session Info */
+    .session-info { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .session-info h3 { font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 16px; }
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--slate); }
+    .info-value { font-weight: 600; }
+    .info-value.green { color: var(--green); }
+
+    /* GPS Map */
+    .gps-section { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .gps-section h3 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .gps-mini-map {
+      border-radius: var(--radius-md); height: 160px; overflow: hidden;
+      background: linear-gradient(135deg, #142236, #0a1628); position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .gps-mini-map .gps-road { position: absolute; background: rgba(255,255,255,0.08); border-radius: 1px; }
+    .gps-mini-map .gps-pin {
+      position: absolute; font-size: 1.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .gps-mini-map .gps-pulse {
+      position: absolute; width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid rgba(50,205,50,0.4); animation: radar 2s ease-out infinite;
+    }
+    @keyframes radar { 0%{transform:scale(0.5);opacity:1;} 100%{transform:scale(2);opacity:0;} }
+    .gps-address { font-size: 0.8rem; color: var(--slate); margin-top: 8px; }
+
+    /* Activity Feed */
+    .activity-section { padding: 20px; flex: 1; overflow-y: auto; }
+    .activity-section h3 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .activity-feed { display: flex; flex-direction: column; gap: 12px; }
+    .activity-item {
+      display: flex; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.2s;
+    }
+    .activity-item:hover { background: rgba(255,255,255,0.08); }
+    .activity-icon {
+      width: 36px; height: 36px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+    }
+    .activity-icon.green { background: rgba(16,185,129,0.15); }
+    .activity-icon.blue { background: rgba(59,130,246,0.15); }
+    .activity-icon.coral { background: rgba(50,205,50,0.15); }
+    .activity-icon.gold { background: rgba(255,217,61,0.15); }
+    .activity-text { font-size: 0.8rem; line-height: 1.5; }
+    .activity-text strong { color: var(--white); }
+    .activity-time { font-size: 0.7rem; color: var(--slate); margin-top: 2px; }
+
+    /* Bottom CTA */
+    .tracker-footer {
+      padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; gap: 10px;
+    }
+    .tracker-footer button {
+      flex: 1; padding: 12px; border-radius: var(--radius-lg); font-weight: 700;
+      font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-message {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+    }
+    .btn-message:hover { background: rgba(255,255,255,0.15); }
+    .btn-end {
+      background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+      border: none; color: var(--white); box-shadow: 0 4px 15px rgba(50,205,50,0.3);
+    }
+    .btn-end:hover { transform: translateY(-1px); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .tracker-layout { grid-template-columns: 1fr; }
+      .info-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+    }
+    @media (max-width: 768px) {
+      .cam-controls { flex-wrap: wrap; }
+      .multi-cam { grid-template-columns: repeat(2, 1fr); }
+      .tracker-topbar { flex-wrap: wrap; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="tracker-topbar">
+    <div class="tracker-logo"><img src="logo.png" alt="KinCare" style="height: 28px; width: auto; margin-right: 6px; vertical-align: middle;">Kin<span>Care</span> Live</div>
+    <div class="tracker-status">
+      <span class="live-dot"></span>
+      <span class="tracker-status-text">Session Active — 1h 23m</span>
+    </div>
+    <a href="dashboard.html" class="tracker-back">← Back to Dashboard</a>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="tracker-layout">
+
+    <!-- LEFT: Camera Feed -->
+    <div class="camera-panel">
+
+      <!-- Main Camera View -->
+      <div class="camera-main" id="mainCamera">
+        <img src="bodycam-preview.png" alt="Live body camera feed showing children playing safely">
+        <div class="cam-hud">
+          <div class="cam-hud-top">
+            <div class="cam-live"><span class="blink-dot"></span> LIVE</div>
+            <div class="cam-time" id="camTime">8:34 PM</div>
+          </div>
+          <div class="cam-hud-bottom">
+            <div class="cam-provider">
+              <div class="cam-provider-avatar">👩🏾</div>
+              <div>
+                <div class="cam-provider-name">Sofia Rodriguez</div>
+                <div class="cam-provider-role">Babysitting • Body Cam #1</div>
+              </div>
+            </div>
+            <div class="cam-quality">1080p HD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camera Controls -->
+      <div class="cam-controls">
+        <button class="cam-control-btn active" id="btnLive">
+          🔴 Live Feed
+        </button>
+        <button class="cam-control-btn" id="btnScreenshot">
+          📸 Screenshot
+        </button>
+        <button class="cam-control-btn" id="btnRecord">
+          ⏺️ Record Clip
+        </button>
+        <button class="cam-control-btn" id="btnAudio">
+          🔊 Audio On
+        </button>
+        <button class="cam-control-btn" id="btnFullscreen">
+          🖥️ Fullscreen
+        </button>
+        <button class="cam-control-btn emergency" id="btnEmergency">
+          🚨 Emergency
+        </button>
+      </div>
+
+      <!-- Multi-Camera Grid -->
+      <div class="multi-cam">
+        <div class="mini-cam active" data-cam="body1">
+          <div class="mini-cam-icon">📹</div>
+          <div class="mini-cam-label">🔴 Body Cam</div>
+        </div>
+        <div class="mini-cam" data-cam="doorbell">
+          <div class="mini-cam-icon">🚪</div>
+          <div class="mini-cam-label">Doorbell Cam</div>
+        </div>
+        <div class="mini-cam" data-cam="nursery">
+          <div class="mini-cam-icon">🛏️</div>
+          <div class="mini-cam-label">Nursery Cam</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Session Info Panel -->
+    <div class="info-panel">
+
+      <!-- Session Details -->
+      <div class="session-info">
+        <h3>📋 Session Details</h3>
+        <div class="info-row">
+          <span class="info-label">Provider</span>
+          <span class="info-value">👩🏽 Sofia Rodriguez</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Service</span>
+          <span class="info-value">Babysitting</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Children</span>
+          <span class="info-value">Jayden (3) & Maya (6)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Started</span>
+          <span class="info-value">7:11 PM</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Duration</span>
+          <span class="info-value green" id="duration">1h 23m</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Running Cost</span>
+          <span class="info-value" id="runningCost">$34.50</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Body Cam</span>
+          <span class="info-value green">🟢 Streaming</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">GPS Location</span>
+          <span class="info-value green">📍 At Your Home</span>
+        </div>
+      </div>
+
+      <!-- GPS Map -->
+      <div class="gps-section">
+        <h3>📍 Live Location</h3>
+        <div class="gps-mini-map">
+          <div class="gps-road" style="top:40%;left:0;right:0;height:2px;"></div>
+          <div class="gps-road" style="top:70%;left:10%;right:20%;height:2px;"></div>
+          <div class="gps-road" style="left:35%;top:0;bottom:0;width:2px;"></div>
+          <div class="gps-road" style="left:65%;top:10%;bottom:10%;width:2px;"></div>
+          <div class="gps-pulse" style="top:38%;left:33%;"></div>
+          <div class="gps-pin" style="top:35%;left:33%;">🏠</div>
+          <div class="gps-pin" style="top:33%;left:35%;">👩🏽</div>
+        </div>
+        <div class="gps-address">📍 1247 Magnolia Drive, Charlotte, NC 28205</div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="activity-section">
+        <h3>📝 Live Activity Feed</h3>
+        <div class="activity-feed" id="activityFeed">
+          <div class="activity-item">
+            <div class="activity-icon green">📸</div>
+            <div>
+              <div class="activity-text"><strong>Photo update sent</strong> — Kids building a castle with blocks!</div>
+              <div class="activity-time">2 min ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon blue">🍎</div>
+            <div>
+              <div class="activity-text"><strong>Snack time</strong> — Apple slices and goldfish crackers served</div>
+              <div class="activity-time">18 min ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon gold">🎨</div>
+            <div>
+              <div class="activity-text"><strong>Activity started</strong> — Arts & crafts with watercolors</div>
+              <div class="activity-time">35 min ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon green">🏠</div>
+            <div>
+              <div class="activity-text"><strong>Arrived at location</strong> — GPS confirmed at your address</div>
+              <div class="activity-time">1h 23m ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon coral">🆔</div>
+            <div>
+              <div class="activity-text"><strong>Identity verified</strong> — Biometric check passed ✅</div>
+              <div class="activity-time">1h 24m ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon blue">📹</div>
+            <div>
+              <div class="activity-text"><strong>Body camera activated</strong> — Live stream started</div>
+              <div class="activity-time">1h 24m ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="tracker-footer">
+        <button class="btn-message">💬 Message Sofia</button>
+        <button class="btn-end">End Session</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Live clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('camTime').textContent = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Camera controls interactivity
+    document.querySelectorAll('.cam-control-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.id === 'btnEmergency') {
+          if (confirm('🚨 This will alert our safety team and local emergency services. Continue?')) {
+            btn.textContent = '🚨 Help is on the way!';
+            btn.style.background = '#EF4444';
+            btn.style.color = '#fff';
+          }
+          return;
+        }
+        if (btn.id === 'btnScreenshot') {
+          btn.textContent = '📸 Saved!';
+          setTimeout(() => btn.textContent = '📸 Screenshot', 2000);
+          return;
+        }
+        if (btn.id === 'btnRecord') {
+          btn.classList.toggle('active');
+          btn.textContent = btn.classList.contains('active') ? '⏹️ Recording...' : '⏺️ Record Clip';
+          return;
+        }
+        if (btn.id === 'btnAudio') {
+          btn.classList.toggle('active');
+          btn.textContent = btn.classList.contains('active') ? '🔇 Audio Off' : '🔊 Audio On';
+          return;
+        }
+      });
+    });
+
+    // Multi-cam switching
+    document.querySelectorAll('.mini-cam').forEach(cam => {
+      cam.addEventListener('click', () => {
+        document.querySelectorAll('.mini-cam').forEach(c => c.classList.remove('active'));
+        cam.classList.add('active');
+      });
+    });
+
+    // Simulate new activity
+    const activities = [
+      { icon: '🎵', bg: 'gold', text: '<strong>Music time</strong> — Playing nursery rhymes together', },
+      { icon: '📖', bg: 'blue', text: '<strong>Story time</strong> — Reading "Goodnight Moon" to Jayden', },
+      { icon: '😂', bg: 'green', text: '<strong>Play update</strong> — Kids are laughing and playing tag in the yard', },
+      { icon: '🧹', bg: 'coral', text: '<strong>Cleanup time</strong> — Toys being put away together', },
+    ];
+    let actIdx = 0;
+
+    setInterval(() => {
+      const a = activities[actIdx % activities.length];
+      const feed = document.getElementById('activityFeed');
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.style.opacity = '0'; item.style.transform = 'translateY(-10px)';
+      item.innerHTML = `
+        <div class="activity-icon ${a.bg}">${a.icon}</div>
+        <div>
+          <div class="activity-text">${a.text}</div>
+          <div class="activity-time">Just now</div>
+        </div>
+      `;
+      feed.insertBefore(item, feed.firstChild);
+      requestAnimationFrame(() => {
+        item.style.transition = 'all 0.4s cubic-bezier(0.16,1,0.3,1)';
+        item.style.opacity = '1'; item.style.transform = 'translateY(0)';
+      });
+      actIdx++;
+    }, 15000);
+  </script>
+
+</body>
+</html>

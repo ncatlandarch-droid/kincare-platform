@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KinCare — Book Care Near You</title>
+  <meta name="description" content="Browse and book vetted babysitters, pet sitters, tutors, and home helpers near you. Real-time availability, instant booking, GPS tracking.">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="icon" type="image/png" href="app-icon.png">
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="topbar">
+    <a href="index.html" class="topbar-logo"><img src="logo.png" alt="KinCare" style="height: 32px; width: auto; margin-right: 6px; vertical-align: middle;">Kin<span>Care</span></a>
+    
+    <div class="topbar-location" id="locationBtn">
+      <span class="pin">📍</span>
+      <span id="locationText">Charlotte, NC</span>
+      <span>▾</span>
+    </div>
+
+    <div class="topbar-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search babysitters, pet sitters, tutors..." id="searchInput">
+    </div>
+
+    <div class="topbar-actions">
+      <button class="topbar-btn btn-outline" onclick="window.location.href='index.html#franchise'">🏪 Franchise</button>
+      <button class="topbar-btn btn-fill" id="beProviderBtn">💼 Become a Provider</button>
+      <div class="topbar-avatar" id="userAvatar">CH</div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN APP LAYOUT ===== -->
+  <div class="app-layout">
+    
+    <!-- LEFT: Browse Panel -->
+    <main class="browse-panel" id="browsePanel">
+      
+      <!-- Category Pills (like DoorDash cuisine filters) -->
+      <div class="category-bar" id="categoryBar">
+        <div class="category-pill active" data-category="all">
+          <span class="cat-icon">⭐</span>
+          <span class="cat-label">All</span>
+        </div>
+        <div class="category-pill" data-category="baby">
+          <span class="cat-icon">🍼</span>
+          <span class="cat-label">Babysitting</span>
+        </div>
+        <div class="category-pill" data-category="pet">
+          <span class="cat-icon">🐾</span>
+          <span class="cat-label">Pet Care</span>
+        </div>
+        <div class="category-pill" data-category="transport">
+          <span class="cat-icon">🚗</span>
+          <span class="cat-label">Transport</span>
+        </div>
+        <div class="category-pill" data-category="home">
+          <span class="cat-icon">🏠</span>
+          <span class="cat-label">Home Help</span>
+        </div>
+        <div class="category-pill" data-category="senior">
+          <span class="cat-icon">👴</span>
+          <span class="cat-label">Senior</span>
+        </div>
+        <div class="category-pill" data-category="tutor">
+          <span class="cat-icon">📚</span>
+          <span class="cat-label">Tutoring</span>
+        </div>
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filter-bar">
+        <button class="filter-chip active" data-filter="available">🟢 Available Now</button>
+        <button class="filter-chip" data-filter="top">⭐ Top Rated</button>
+        <button class="filter-chip" data-filter="verified">🛡️ Triple Verified</button>
+        <button class="filter-chip" data-filter="price">💰 Price: Low-High</button>
+        <button class="filter-chip" data-filter="near">📍 Nearest First</button>
+        <button class="filter-chip" data-filter="community">🤝 Community Rate</button>
+      </div>
+
+      <!-- Quick Book Banner -->
+      <div class="quick-book">
+        <div class="quick-book-text">
+          <h3>⚡ Need someone right now?</h3>
+          <p>KinCare matches you with the nearest available provider in under 60 seconds.</p>
+        </div>
+        <button class="quick-book-btn" id="quickBookBtn">Instant Book →</button>
+      </div>
+
+      <!-- Providers Near You -->
+      <div class="section-header">
+        <h2>Providers Near You</h2>
+        <span class="count" id="providerCount">24 available</span>
+      </div>
+
+      <div class="providers-grid" id="providersGrid">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Community Care Section -->
+      <div class="quick-book" style="background: linear-gradient(135deg, #059669, #10B981);">
+        <div class="quick-book-text">
+          <h3>🤝 KinCare Community — Care for Everyone</h3>
+          <p>Need help but can't afford it? Our sliding scale and mutual aid programs ensure no family goes without care.</p>
+        </div>
+        <button class="quick-book-btn" style="background: var(--white); color: #059669;">Apply for Assistance →</button>
+      </div>
+
+    </main>
+
+    <!-- RIGHT: Map Panel -->
+    <aside class="map-panel">
+      <div class="map-container" id="mapContainer">
+        <!-- Simulated roads -->
+        <div class="map-road map-road-h1"></div>
+        <div class="map-road map-road-h2"></div>
+        <div class="map-road map-road-h3"></div>
+        <div class="map-road map-road-v1"></div>
+        <div class="map-road map-road-v2"></div>
+        <div class="map-road map-road-v3"></div>
+
+        <!-- Map blocks (buildings) -->
+        <div class="map-block" style="top:15%;left:10%;width:50px;height:35px;background:#C4B8AC;"></div>
+        <div class="map-block" style="top:20%;left:35%;width:60px;height:40px;background:#B8ADA2;"></div>
+        <div class="map-block" style="top:40%;left:60%;width:45px;height:55px;background:#C4B8AC;"></div>
+        <div class="map-block" style="top:65%;left:15%;width:70px;height:30px;background:#B8ADA2;"></div>
+        <div class="map-block" style="top:45%;left:35%;width:40px;height:40px;background:#D4C8BC;"></div>
+        <div class="map-block" style="top:70%;left:70%;width:55px;height:45px;background:#C4B8AC;"></div>
+        <div class="map-block" style="top:10%;left:65%;width:35px;height:50px;background:#B8ADA2;"></div>
+        <div class="map-block" style="top:85%;left:40%;width:60px;height:25px;background:#D4C8BC;"></div>
+
+        <!-- "You are here" pin -->
+        <div class="map-pin pin-you" style="top:48%;left:45%;" title="You are here">📍</div>
+        
+        <!-- Provider pins (populated by JS) -->
+        <div id="mapPins"></div>
+      </div>
+      
+      <div class="map-info">
+        <div class="map-info-row">
+          <span class="map-info-count"><span id="mapCount">12</span> providers nearby</span>
+          <button class="map-info-btn" id="refreshMap">↻ Refresh Map</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== PROVIDER DETAIL DRAWER ===== -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header" id="drawerHeader">
+      <button class="drawer-close" id="drawerClose">✕</button>
+      <div class="drawer-verified" id="drawerVerified"></div>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-footer" id="drawerFooter"></div>
+  </div>
+
+  <!-- ===== BOOKING CONFIRMATION MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-success" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

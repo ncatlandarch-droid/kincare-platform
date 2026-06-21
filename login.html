@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — KinCare | Trusted On-Demand Caregiving</title>
+  <meta name="description" content="Sign in to KinCare to book trusted babysitters, pet care, tutoring, and more. Families and providers can access their accounts securely.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --coral: #32CD32;
+      --coral-glow: rgba(50, 205, 50, .35);
+      --navy: #0A1628;
+      --navy-light: #142236;
+      --gold: #FFD93D;
+      --lavender: #E8D5F5;
+      --cloud: #F8F9FC;
+      --provider-accent: #7C5CFC;
+      --provider-glow: rgba(124, 92, 252, .35);
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --glass-bg: rgba(255, 255, 255, .08);
+      --glass-border: rgba(255, 255, 255, .15);
+      --radius: 18px;
+      --transition: .35s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--cloud);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+    .accent-font { font-family: 'Space Grotesk', monospace; }
+
+    /* ── Split Layout ──────────────────────────────────── */
+    .login-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Left Panel (Brand Visual) ─────────────────────── */
+    .brand-panel {
+      flex: 1;
+      background: linear-gradient(135deg, var(--navy) 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 3rem 2rem;
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .5;
+      animation: float 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .orb--coral {
+      width: 320px; height: 320px;
+      background: var(--coral);
+      top: 10%; left: -5%;
+      animation-delay: 0s;
+    }
+    .orb--gold {
+      width: 240px; height: 240px;
+      background: var(--gold);
+      bottom: 15%; right: -8%;
+      animation-delay: -3s;
+    }
+    .orb--lavender {
+      width: 200px; height: 200px;
+      background: var(--lavender);
+      top: 55%; left: 40%;
+      animation-delay: -5s;
+    }
+    .orb--provider {
+      width: 260px; height: 260px;
+      background: var(--provider-accent);
+      top: 25%; right: 10%;
+      animation-delay: -2s;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .orb--provider.visible { opacity: .45; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 420px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+    }
+    .brand-logo__icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--coral), var(--gold));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 8px 24px rgba(50, 205, 50, .3);
+      transition: transform var(--transition);
+    }
+    .brand-logo:hover .brand-logo__icon { transform: rotate(-8deg) scale(1.05); }
+    .brand-logo__text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      background: linear-gradient(90deg, var(--coral), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-tagline {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--lavender);
+      margin-bottom: 2.5rem;
+      opacity: .9;
+      letter-spacing: .02em;
+    }
+
+    /* Trust badges */
+    .trust-badges {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: .55rem 1.1rem;
+      font-size: .82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.85);
+      transition: transform var(--transition), background var(--transition);
+    }
+    .trust-badge:hover { transform: translateY(-2px); background: rgba(255,255,255,.12); }
+    .trust-badge__icon { font-size: 1.05rem; }
+
+    /* ── Right Panel (Form) ────────────────────────────── */
+    .form-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      background: radial-gradient(ellipse at 30% 50%, rgba(50,205,50,.06) 0%, transparent 70%);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+    }
+
+    /* Back to home */
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: rgba(255,255,255,.55);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      transition: color var(--transition);
+    }
+    .back-home:hover { color: var(--coral); }
+    .back-home svg { width: 16px; height: 16px; }
+
+    /* Glass card */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+      overflow: hidden;
+      position: relative;
+    }
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--gold));
+      transition: background .4s ease;
+    }
+    .glass-card.provider-mode::before {
+      background: linear-gradient(90deg, var(--provider-accent), var(--lavender));
+    }
+
+    /* ── Tabs ──────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      background: rgba(255,255,255,.06);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+    .tab {
+      flex: 1;
+      padding: .7rem 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      border-radius: 10px;
+      color: rgba(255,255,255,.5);
+      transition: color var(--transition);
+      position: relative;
+      z-index: 2;
+      user-select: none;
+    }
+    .tab.active { color: #fff; }
+    .tab-indicator {
+      position: absolute;
+      top: 4px; bottom: 4px;
+      left: 4px;
+      width: calc(50% - 4px);
+      background: var(--coral);
+      border-radius: 10px;
+      transition: transform var(--transition), background var(--transition);
+      z-index: 1;
+    }
+    .tab-indicator.provider {
+      transform: translateX(100%);
+      background: var(--provider-accent);
+    }
+
+    /* ── Form Header ───────────────────────────────────── */
+    .form-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .form-header__title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+    .form-header__sub {
+      color: rgba(255,255,255,.5);
+      font-size: .88rem;
+    }
+
+    /* ── Form Views Container ──────────────────────────── */
+    .form-views {
+      position: relative;
+      overflow: hidden;
+    }
+    .form-view {
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .form-view.hidden {
+      display: none;
+    }
+    .form-view.slide-out-left {
+      animation: slideOutLeft .35s ease forwards;
+    }
+    .form-view.slide-in-right {
+      animation: slideInRight .35s ease forwards;
+    }
+    .form-view.slide-out-right {
+      animation: slideOutRight .35s ease forwards;
+    }
+    .form-view.slide-in-left {
+      animation: slideInLeft .35s ease forwards;
+    }
+
+    @keyframes slideOutLeft {
+      to { transform: translateX(-100%); opacity: 0; }
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOutRight {
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    @keyframes slideInLeft {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ── Input Group ───────────────────────────────────── */
+    .input-group {
+      margin-bottom: 1.1rem;
+      position: relative;
+    }
+    .input-group label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.65);
+      margin-bottom: .4rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .input-wrap input,
+    .input-wrap select {
+      width: 100%;
+      padding: .75rem 1rem;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: .92rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .input-wrap select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(255,255,255,.5)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    .input-wrap select option {
+      background: var(--navy-light);
+      color: #fff;
+    }
+    .input-wrap input::placeholder { color: rgba(255,255,255,.3); }
+    .input-wrap input:focus,
+    .input-wrap select:focus {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 3px var(--coral-glow);
+    }
+    .provider-mode .input-wrap input:focus,
+    .provider-mode .input-wrap select:focus {
+      border-color: var(--provider-accent);
+      box-shadow: 0 0 0 3px var(--provider-glow);
+    }
+
+    /* Password toggle */
+    .pw-toggle {
+      position: absolute;
+      right: .8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.4);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: .2rem;
+      transition: color var(--transition);
+    }
+    .pw-toggle:hover { color: rgba(255,255,255,.75); }
+
+    /* Error styling */
+    .input-group.error .input-wrap input,
+    .input-group.error .input-wrap select {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(231, 76, 60, .25);
+    }
+    .input-group .error-msg {
+      display: none;
+      font-size: .75rem;
+      color: var(--danger);
+      margin-top: .3rem;
+      padding-left: .2rem;
+    }
+    .input-group.error .error-msg { display: block; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .shake { animation: shake .4s ease; }
+
+    /* ── Checkbox ───────────────────────────────────────── */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      margin-bottom: 1.2rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px; height: 20px; min-width: 20px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: 6px;
+      background: rgba(255,255,255,.06);
+      cursor: pointer;
+      position: relative;
+      transition: all var(--transition);
+      margin-top: 2px;
+    }
+    .checkbox-group input[type="checkbox"]:checked {
+      background: var(--coral);
+      border-color: var(--coral);
+    }
+    .checkbox-group input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .checkbox-group label {
+      font-size: .82rem;
+      color: rgba(255,255,255,.6);
+      line-height: 1.4;
+      cursor: pointer;
+    }
+    .checkbox-group label a {
+      color: var(--coral);
+      text-decoration: none;
+    }
+    .checkbox-group label a:hover { text-decoration: underline; }
+
+    /* ── Buttons ────────────────────────────────────────── */
+    .btn-primary {
+      width: 100%;
+      padding: .85rem;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary.family {
+      background: linear-gradient(135deg, var(--coral), #4dd24d);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(50, 205, 50, .3);
+    }
+    .btn-primary.family:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(50, 205, 50, .45);
+    }
+    .btn-primary.provider {
+      background: linear-gradient(135deg, var(--provider-accent), #9b7bff);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(124, 92, 252, .3);
+    }
+    .btn-primary.provider:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(124, 92, 252, .45);
+    }
+    .btn-primary:active { transform: translateY(0) scale(.98); }
+
+    /* Ripple */
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,.3) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .btn-primary:hover::after { opacity: 1; }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      margin: 1.3rem 0;
+      color: rgba(255,255,255,.3);
+      font-size: .78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.1);
+    }
+
+    /* Social buttons */
+    .social-buttons {
+      display: flex;
+      gap: .75rem;
+      margin-bottom: 1.3rem;
+    }
+    .btn-social {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .72rem;
+      border: 1.5px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.8);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-social:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.22);
+      transform: translateY(-1px);
+    }
+    .btn-social svg { width: 20px; height: 20px; }
+
+    /* Forgot / links */
+    .form-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.3rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .form-link {
+      color: rgba(255,255,255,.5);
+      font-size: .82rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .form-link:hover { color: var(--coral); }
+    .provider-mode .form-link:hover { color: var(--provider-accent); }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 1.4rem;
+      font-size: .85rem;
+      color: rgba(255,255,255,.45);
+    }
+    .form-footer button {
+      color: var(--coral);
+      font-weight: 600;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: inherit;
+      transition: color var(--transition);
+    }
+    .form-footer button:hover { color: var(--gold); }
+    .provider-mode .form-footer button { color: var(--provider-accent); }
+    .provider-mode .form-footer button:hover { color: var(--lavender); }
+
+    /* ── Success State ─────────────────────────────────── */
+    .success-view {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .success-view.hidden { display: none; }
+    .success-checkmark {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--success), #27ae60);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      animation: popIn .5s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 8px 30px rgba(46, 204, 113, .35);
+    }
+    .success-checkmark svg {
+      width: 40px; height: 40px;
+      stroke: #fff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .success-checkmark svg path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: drawCheck .6s .3s ease forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0) rotate(-45deg); opacity: 0; }
+      to { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+    .success-view h3 {
+      font-size: 1.35rem;
+      margin-bottom: .5rem;
+    }
+    .success-view p {
+      color: rgba(255,255,255,.55);
+      font-size: .9rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .btn-back-login {
+      display: inline-block;
+      padding: .7rem 1.8rem;
+      border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: 12px;
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .88rem;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all var(--transition);
+    }
+    .btn-back-login:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.35);
+    }
+
+    /* ── Loading spinner on button ──────────────────────── */
+    .btn-primary .spinner {
+      display: none;
+      width: 20px; height: 20px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+    .btn-primary.loading .btn-text { display: none; }
+    .btn-primary.loading .spinner { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .login-wrapper { flex-direction: column; }
+      .brand-panel {
+        padding: 2rem 1.5rem;
+        min-height: auto;
+      }
+      .brand-tagline { font-size: 1.1rem; margin-bottom: 1.5rem; }
+      .trust-badges { gap: .8rem; }
+      .form-panel { padding: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .glass-card { padding: 1.5rem 1.2rem; }
+      .social-buttons { flex-direction: column; }
+      .form-header__title { font-size: 1.25rem; }
+      .trust-badge { font-size: .75rem; padding: .45rem .8rem; }
+      .brand-logo__text { font-size: 1.6rem; }
+    }
+
+    /* ── Mobile brand panel collapse ───────────────────── */
+    @media (max-width: 900px) {
+      .brand-panel {
+        padding: 2.5rem 1.5rem 2rem;
+      }
+      .orb { display: none; }
+    }
+
+    /* ── Smooth scroll for views ────────────────────────── */
+    .signup-scroll {
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .signup-scroll::-webkit-scrollbar { width: 4px; }
+    .signup-scroll::-webkit-scrollbar-track { background: transparent; }
+    .signup-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+  <!-- ═══ LEFT — Brand Panel ═══ -->
+  <div class="brand-panel">
+    <div class="orb orb--coral"></div>
+    <div class="orb orb--gold"></div>
+    <div class="orb orb--lavender"></div>
+    <div class="orb orb--provider" id="orbProvider"></div>
+
+    <div class="brand-content">
+      <a href="index.html" class="brand-logo" aria-label="KinCare Home">
+        <span class="brand-logo__icon">🏠</span>
+        <span class="brand-logo__text">KinCare</span>
+      </a>
+      <p class="brand-tagline">Your kin. Our care.</p>
+
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <span class="trust-badge__icon">🛡️</span> Background Checked
+        </div>
+        <div class="trust-badge">
+          <span class="trust-badge__icon">⭐</span> 4.9 Star Rated
+        </div>
+        <div class="trust-badge">
+          <span class="trust-badge__icon">⚡</span> Instant Booking
+        </div>
+        <div class="trust-badge">
+          <span class="trust-badge__icon">💳</span> Secure Payments
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT — Form Panel ═══ -->
+  <div class="form-panel">
+    <div class="form-container">
+      <a href="index.html" class="back-home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Home
+      </a>
+
+      <div class="glass-card" id="glassCard">
+        <!-- Tabs -->
+        <div class="tabs" role="tablist">
+          <div class="tab active" id="tabFamily" role="tab" aria-selected="true" tabindex="0" onclick="switchTab('family')">👨‍👩‍👧 Family</div>
+          <div class="tab" id="tabProvider" role="tab" aria-selected="false" tabindex="0" onclick="switchTab('provider')">💼 Provider</div>
+          <div class="tab-indicator" id="tabIndicator"></div>
+        </div>
+
+        <div class="form-views">
+          <!-- ── LOGIN VIEW ────────────────────────── -->
+          <div class="form-view" id="loginView">
+            <div class="form-header">
+              <h1 class="form-header__title" id="loginTitle">Welcome Back</h1>
+              <p class="form-header__sub" id="loginSub">Sign in to your family account</p>
+            </div>
+
+            <!-- Social buttons -->
+            <div class="social-buttons">
+              <button class="btn-social" type="button" aria-label="Sign in with Google">
+                <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                Google
+              </button>
+              <button class="btn-social" type="button" aria-label="Sign in with Apple">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C4.24 16.7 4.89 10.34 8.7 10.1c1.2.06 2.04.7 2.75.72.98-.2 1.92-.77 2.98-.7 1.26.1 2.2.6 2.83 1.53-2.59 1.55-1.97 4.96.37 5.91-.46 1.2-.67 1.75-1.58 2.72zM12.04 10c-.14-2.22 1.66-4.14 3.83-4.3.3 2.52-2.22 4.42-3.83 4.3z"/></svg>
+                Apple
+              </button>
+            </div>
+
+            <div class="divider">or continue with email</div>
+
+            <form id="loginForm" novalidate>
+              <div class="input-group" id="loginEmailGroup">
+                <label for="loginEmail">Email Address</label>
+                <div class="input-wrap">
+                  <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+                <span class="error-msg">Please enter a valid email address</span>
+              </div>
+
+              <div class="input-group" id="loginPasswordGroup">
+                <label for="loginPassword">Password</label>
+                <div class="input-wrap">
+                  <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required>
+                  <button type="button" class="pw-toggle" onclick="togglePassword('loginPassword', this)" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                <span class="error-msg">Password is required</span>
+              </div>
+
+              <div class="form-links">
+                <button type="button" class="form-link" onclick="alert('Password reset flow coming soon!')">Forgot password?</button>
+              </div>
+
+              <button type="submit" class="btn-primary family" id="loginBtn">
+                <span class="btn-text">Sign In</span>
+                <span class="spinner"></span>
+              </button>
+            </form>
+
+            <div class="form-footer" id="loginFooter">
+              <span id="footerText">New to KinCare?</span>
+              <button id="footerAction" onclick="showSignup()">Sign up</button>
+            </div>
+          </div>
+
+          <!-- ── FAMILY SIGNUP VIEW ────────────────── -->
+          <div class="form-view hidden" id="familySignupView">
+            <div class="form-header">
+              <h2 class="form-header__title">Create Family Account</h2>
+              <p class="form-header__sub">Find trusted care in your neighborhood</p>
+            </div>
+
+            <form id="familySignupForm" novalidate>
+              <div class="signup-scroll">
+                <div class="input-group" id="fNameGroup">
+                  <label for="fName">Full Name</label>
+                  <div class="input-wrap">
+                    <input type="text" id="fName" placeholder="Jane Doe" autocomplete="name" required>
+                  </div>
+                  <span class="error-msg">Name is required</span>
+                </div>
+
+                <div class="input-group" id="fEmailGroup">
+                  <label for="fEmail">Email Address</label>
+                  <div class="input-wrap">
+                    <input type="email" id="fEmail" placeholder="you@example.com" autocomplete="email" required>
+                  </div>
+                  <span class="error-msg">Please enter a valid email</span>
+                </div>
+
+                <div class="input-group" id="fPassGroup">
+                  <label for="fPass">Password</label>
+                  <div class="input-wrap">
+                    <input type="password" id="fPass" placeholder="Min. 8 characters" autocomplete="new-password" required>
+                    <button type="button" class="pw-toggle" onclick="togglePassword('fPass', this)" aria-label="Toggle password visibility">👁️</button>
+                  </div>
+                  <span class="error-msg">Min. 8 characters required</span>
+                </div>
+
+                <div class="input-group" id="fConfirmGroup">
+                  <label for="fConfirm">Confirm Password</label>
+                  <div class="input-wrap">
+                    <input type="password" id="fConfirm" placeholder="Re-enter password" autocomplete="new-password" required>
+                    <button type="button" class="pw-toggle" onclick="togglePassword('fConfirm', this)" aria-label="Toggle password visibility">👁️</button>
+                  </div>
+                  <span class="error-msg">Passwords do not match</span>
+                </div>
+
+                <div class="input-group" id="fPhoneGroup">
+                  <label for="fPhone">Phone Number</label>
+                  <div class="input-wrap">
+                    <input type="tel" id="fPhone" placeholder="(555) 123-4567" autocomplete="tel" required>
+                  </div>
+                  <span class="error-msg">Phone number is required</span>
+                </div>
+
+                <div class="checkbox-group" id="fTermsGroup">
+                  <input type="checkbox" id="fTerms" required>
+                  <label for="fTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary family" id="familySignupBtn">
+                <span class="btn-text">Create Account</span>
+                <span class="spinner"></span>
+              </button>
+            </form>
+
+            <div class="form-footer">
+              Already have an account?
+              <button onclick="showLogin()">Sign in</button>
+            </div>
+          </div>
+
+          <!-- ── PROVIDER SIGNUP VIEW ──────────────── -->
+          <div class="form-view hidden" id="providerSignupView">
+            <div class="form-header">
+              <h2 class="form-header__title">Apply as a Provider</h2>
+              <p class="form-header__sub">Earn on your schedule, your way</p>
+            </div>
+
+            <form id="providerSignupForm" novalidate>
+              <div class="signup-scroll">
+                <div class="input-group" id="pNameGroup">
+                  <label for="pName">Full Name</label>
+                  <div class="input-wrap">
+                    <input type="text" id="pName" placeholder="Jane Doe" autocomplete="name" required>
+                  </div>
+                  <span class="error-msg">Name is required</span>
+                </div>
+
+                <div class="input-group" id="pEmailGroup">
+                  <label for="pEmail">Email Address</label>
+                  <div class="input-wrap">
+                    <input type="email" id="pEmail" placeholder="you@example.com" autocomplete="email" required>
+                  </div>
+                  <span class="error-msg">Please enter a valid email</span>
+                </div>
+
+                <div class="input-group" id="pPassGroup">
+                  <label for="pPass">Password</label>
+                  <div class="input-wrap">
+                    <input type="password" id="pPass" placeholder="Min. 8 characters" autocomplete="new-password" required>
+                    <button type="button" class="pw-toggle" onclick="togglePassword('pPass', this)" aria-label="Toggle password visibility">👁️</button>
+                  </div>
+                  <span class="error-msg">Min. 8 characters required</span>
+                </div>
+
+                <div class="input-group" id="pPhoneGroup">
+                  <label for="pPhone">Phone Number</label>
+                  <div class="input-wrap">
+                    <input type="tel" id="pPhone" placeholder="(555) 123-4567" autocomplete="tel" required>
+                  </div>
+                  <span class="error-msg">Phone number is required</span>
+                </div>
+
+                <div class="input-group" id="pServiceGroup">
+                  <label for="pService">Service Type</label>
+                  <div class="input-wrap">
+                    <select id="pService" required>
+                      <option value="" disabled selected>Choose your specialty…</option>
+                      <option value="babysitting">Babysitting</option>
+                      <option value="pet-care">Pet Care</option>
+                      <option value="transport">Transport</option>
+                      <option value="home-help">Home Help</option>
+                      <option value="senior-care">Senior Care</option>
+                      <option value="tutoring">Tutoring</option>
+                    </select>
+                  </div>
+                  <span class="error-msg">Please select a service</span>
+                </div>
+
+                <div class="input-group" id="pCityGroup">
+                  <label for="pCity">City</label>
+                  <div class="input-wrap">
+                    <input type="text" id="pCity" placeholder="e.g. Greensboro, NC" required>
+                  </div>
+                  <span class="error-msg">City is required</span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary provider" id="providerSignupBtn">
+                <span class="btn-text">Apply Now</span>
+                <span class="spinner"></span>
+              </button>
+            </form>
+
+            <div class="form-footer">
+              Already have an account?
+              <button onclick="showLogin()">Sign in</button>
+            </div>
+          </div>
+
+          <!-- ── SUCCESS VIEW ──────────────────────── -->
+          <div class="form-view hidden" id="successView">
+            <div class="success-view">
+              <div class="success-checkmark">
+                <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <h3 id="successTitle">Check Your Email!</h3>
+              <p id="successMsg">We've sent a confirmation link to your inbox. Click it to activate your account and start booking trusted care.</p>
+              <button class="btn-back-login" onclick="showLogin()">Back to Sign In</button>
+            </div>
+          </div>
+        </div><!-- /.form-views -->
+      </div><!-- /.glass-card -->
+    </div><!-- /.form-container -->
+  </div><!-- /.form-panel -->
+</div><!-- /.login-wrapper -->
+
+<script>
+  /* ═══ State ═══ */
+  let currentTab = 'family';   // 'family' | 'provider'
+  let currentView = 'login';   // 'login' | 'signup' | 'success'
+
+  /* ═══ DOM refs ═══ */
+  const card        = document.getElementById('glassCard');
+  const tabFamily   = document.getElementById('tabFamily');
+  const tabProvider = document.getElementById('tabProvider');
+  const indicator   = document.getElementById('tabIndicator');
+  const orbProvider = document.getElementById('orbProvider');
+
+  const loginView          = document.getElementById('loginView');
+  const familySignupView   = document.getElementById('familySignupView');
+  const providerSignupView = document.getElementById('providerSignupView');
+  const successView        = document.getElementById('successView');
+
+  const loginTitle   = document.getElementById('loginTitle');
+  const loginSub     = document.getElementById('loginSub');
+  const loginBtn     = document.getElementById('loginBtn');
+  const footerText   = document.getElementById('footerText');
+  const footerAction = document.getElementById('footerAction');
+
+  /* ═══ Tab Switch ═══ */
+  function switchTab(tab) {
+    currentTab = tab;
+
+    tabFamily.classList.toggle('active', tab === 'family');
+    tabProvider.classList.toggle('active', tab === 'provider');
+    tabFamily.setAttribute('aria-selected', tab === 'family');
+    tabProvider.setAttribute('aria-selected', tab === 'provider');
+    indicator.classList.toggle('provider', tab === 'provider');
+    card.classList.toggle('provider-mode', tab === 'provider');
+    orbProvider.classList.toggle('visible', tab === 'provider');
+
+    if (tab === 'family') {
+      loginTitle.textContent = 'Welcome Back';
+      loginSub.textContent = 'Sign in to your family account';
+      loginBtn.className = 'btn-primary family';
+      footerText.textContent = 'New to KinCare?';
+      footerAction.textContent = 'Sign up';
+      footerAction.onclick = () => showSignup();
+    } else {
+      loginTitle.textContent = 'Provider Portal';
+      loginSub.textContent = 'Sign in to your provider dashboard';
+      loginBtn.className = 'btn-primary provider';
+      footerText.textContent = 'Want to join our team?';
+      footerAction.textContent = 'Apply to be a Provider';
+      footerAction.onclick = () => showSignup();
+    }
+
+    // If on signup view, switch the signup form accordingly
+    if (currentView === 'signup') {
+      showSignup();
+    }
+  }
+
+  /* ═══ View Transitions ═══ */
+  function hideAllViews() {
+    [loginView, familySignupView, providerSignupView, successView].forEach(v => {
+      v.classList.add('hidden');
+      v.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-left', 'slide-out-right');
+    });
+  }
+
+  function transitionView(outView, inView, direction) {
+    const outClass = direction === 'right' ? 'slide-out-left' : 'slide-out-right';
+    const inClass  = direction === 'right' ? 'slide-in-right' : 'slide-in-left';
+
+    outView.classList.add(outClass);
+
+    setTimeout(() => {
+      outView.classList.add('hidden');
+      outView.classList.remove(outClass);
+
+      inView.classList.remove('hidden');
+      inView.classList.add(inClass);
+
+      setTimeout(() => inView.classList.remove(inClass), 360);
+    }, 340);
+  }
+
+  function showSignup() {
+    const outView = currentView === 'login' ? loginView :
+                    currentTab === 'family' ? familySignupView : providerSignupView;
+    const inView  = currentTab === 'family' ? familySignupView : providerSignupView;
+
+    if (outView === inView) return;
+
+    currentView = 'signup';
+    clearErrors();
+    transitionView(outView, inView, 'right');
+  }
+
+  function showLogin() {
+    const outView = currentView === 'signup'
+      ? (currentTab === 'family' ? familySignupView : providerSignupView)
+      : successView;
+
+    currentView = 'login';
+    clearErrors();
+    transitionView(outView, loginView, 'left');
+  }
+
+  function showSuccess(isProvider) {
+    const outView = isProvider ? providerSignupView : familySignupView;
+    const title   = document.getElementById('successTitle');
+    const msg     = document.getElementById('successMsg');
+
+    if (isProvider) {
+      title.textContent = 'Application Received!';
+      msg.textContent = 'We\'ll review your application and get back to you within 24-48 hours. Check your email for next steps.';
+    } else {
+      title.textContent = 'Check Your Email!';
+      msg.textContent = 'We\'ve sent a confirmation link to your inbox. Click it to activate your account and start booking trusted care.';
+    }
+
+    currentView = 'success';
+    transitionView(outView, successView, 'right');
+  }
+
+  /* ═══ Password Toggle ═══ */
+  function togglePassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      btn.textContent = '👁️';
+    }
+  }
+
+  /* ═══ Validation Helpers ═══ */
+  function setError(groupId, message) {
+    const group = document.getElementById(groupId);
+    group.classList.add('error');
+    if (message) group.querySelector('.error-msg').textContent = message;
+    group.classList.add('shake');
+    setTimeout(() => group.classList.remove('shake'), 400);
+  }
+
+  function clearError(groupId) {
+    document.getElementById(groupId).classList.remove('error');
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.input-group.error').forEach(g => g.classList.remove('error', 'shake'));
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  /* ═══ Login Form ═══ */
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearErrors();
+    let valid = true;
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPassword').value;
+
+    if (!email || !isValidEmail(email)) { setError('loginEmailGroup'); valid = false; }
+    if (!pass) { setError('loginPasswordGroup'); valid = false; }
+
+    if (!valid) return;
+
+    // Simulate login
+    const btn = document.getElementById('loginBtn');
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      alert('Login successful! (Demo mode — no backend connected)');
+    }, 1500);
+  });
+
+  /* ═══ Family Signup ═══ */
+  document.getElementById('familySignupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearErrors();
+    let valid = true;
+
+    const name    = document.getElementById('fName').value.trim();
+    const email   = document.getElementById('fEmail').value.trim();
+    const pass    = document.getElementById('fPass').value;
+    const confirm = document.getElementById('fConfirm').value;
+    const phone   = document.getElementById('fPhone').value.trim();
+    const terms   = document.getElementById('fTerms').checked;
+
+    if (!name)                        { setError('fNameGroup'); valid = false; }
+    if (!email || !isValidEmail(email)){ setError('fEmailGroup'); valid = false; }
+    if (!pass || pass.length < 8)     { setError('fPassGroup'); valid = false; }
+    if (confirm !== pass)             { setError('fConfirmGroup', 'Passwords do not match'); valid = false; }
+    if (!phone)                       { setError('fPhoneGroup'); valid = false; }
+    if (!terms) {
+      const cb = document.getElementById('fTermsGroup');
+      cb.querySelector('input').style.borderColor = 'var(--danger)';
+      setTimeout(() => cb.querySelector('input').style.borderColor = '', 2000);
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('familySignupBtn');
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      showSuccess(false);
+    }, 1800);
+  });
+
+  /* ═══ Provider Signup ═══ */
+  document.getElementById('providerSignupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearErrors();
+    let valid = true;
+
+    const name    = document.getElementById('pName').value.trim();
+    const email   = document.getElementById('pEmail').value.trim();
+    const pass    = document.getElementById('pPass').value;
+    const phone   = document.getElementById('pPhone').value.trim();
+    const service = document.getElementById('pService').value;
+    const city    = document.getElementById('pCity').value.trim();
+
+    if (!name)                        { setError('pNameGroup'); valid = false; }
+    if (!email || !isValidEmail(email)){ setError('pEmailGroup'); valid = false; }
+    if (!pass || pass.length < 8)     { setError('pPassGroup'); valid = false; }
+    if (!phone)                       { setError('pPhoneGroup'); valid = false; }
+    if (!service)                     { setError('pServiceGroup'); valid = false; }
+    if (!city)                        { setError('pCityGroup'); valid = false; }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('providerSignupBtn');
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      showSuccess(true);
+    }, 1800);
+  });
+
+  /* ═══ Button Ripple Tracking ═══ */
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      btn.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      btn.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+  });
+
+  /* ═══ Clear errors on input ═══ */
+  document.querySelectorAll('.input-group input, .input-group select').forEach(input => {
+    input.addEventListener('input', () => {
+      const group = input.closest('.input-group');
+      if (group) group.classList.remove('error');
+    });
+  });
+
+  /* ═══ Keyboard support for tabs ═══ */
+  [tabFamily, tabProvider].forEach(tab => {
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        tab.click();
+      }
+    });
+  });
+</script>
+</body>
+</html>

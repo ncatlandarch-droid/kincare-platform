@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KinCare — Your Kin. Our Care. | On-Demand Babysitting, Pet Care & Family Services</title>
+  <meta name="description" content="KinCare is the all-in-one on-demand care platform. Book vetted babysitters, pet sitters, kid transport, home help, and more — all in under 60 seconds. Triple-verified providers. GPS tracking. One app for your whole family.">
+  <meta name="keywords" content="babysitting, pet sitting, on-demand care, family services, childcare app, dog walking, kid transport, KinCare">
+  <meta property="og:title" content="KinCare — One App. Whole Family.">
+  <meta property="og:description" content="Book vetted babysitters, pet sitters, and family helpers instantly. Triple-verified. GPS-tracked. Trusted by thousands.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="logo.png" alt="KinCare" style="height: 64px; width: auto;">
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#trust">Trust & Safety</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="community.html">Community</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-secondary nav-login-btn" id="nav-login">Log In</a>
+        <a href="dashboard.html" class="btn btn-primary" id="nav-cta">Get Started</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <video autoplay loop muted playsinline
+             poster="hero.png"
+             style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.4;">
+        <source src="hero-video.mp4" type="video/mp4">
+      </video>
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-text">
+        <img src="logo-white-text.png" alt="KinCare — Your Kin. Our Care." class="hero-logo">
+        <h1 class="sr-only">KinCare — Babysitting, Pet Care, Transport, Senior Care, Home Help</h1>
+        <p class="hero-tagline">Your Kin. <span class="gradient-text">Our Care.</span></p>
+        <p class="hero-desc">
+          Book vetted, body-cam verified caregivers for your kids, pets, and parents — all in under 60 seconds.
+        </p>
+        <div class="hero-ctas">
+          <a href="dashboard.html" class="btn btn-primary" id="hero-get-started">
+            Book a Sitter Now
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="careers.html" class="btn btn-secondary" id="hero-learn-more">
+            Become a Provider
+          </a>
+        </div>
+
+        <div class="hero-trust-row">
+          <div class="hero-trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Background Checked</span>
+          </div>
+          <div class="hero-trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            <span>Live Body Cameras</span>
+          </div>
+          <div class="hero-trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2.5"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 0 0-16 0c0 3 2.7 7 8 11.7z"/></svg>
+            <span>Real-Time GPS</span>
+          </div>
+          <div class="hero-trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFD93D" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>4.9 Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stats-bar">
+      <div class="container hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="10000">0</span>
+          <span class="hero-stat-label">Verified Providers</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="50000">0</span>
+          <span class="hero-stat-label">Happy Families</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="98">0</span>
+          <span class="hero-stat-label">% Satisfaction</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="24">0</span>
+          <span class="hero-stat-label">Hour Response</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TICKER ==================== -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 8v13"/><path d="M8 21h8"/></svg></span> Babysitting</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="11" cy="4" r="2"/><circle cx="4" cy="9" r="2"/><circle cx="18" cy="9" r="2"/><path d="M12 18c-4 0-6-2-6-5s2-4 6-4 6 1 6 4-2 5-6 5z"/></svg></span> Pet Sitting</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M5 17h14M5 17a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h8l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/></svg></span> Kid Transport</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home Help</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Senior Companion</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Tutoring</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="11" cy="4" r="2"/><path d="M12 18c-4 0-6-2-6-5s2-4 6-4 6 1 6 4-2 5-6 5z"/></svg></span> Dog Walking</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M12 2v8"/><path d="M4.93 10.93l2.83 2.83"/><path d="M19.07 10.93l-2.83 2.83"/><path d="M8 14h8v8H8z"/></svg></span> Errand Running</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M10.5 1.5H8C4.7 1.5 2 4.2 2 7.5v9C2 19.8 4.7 22.5 8 22.5h8c3.3 0 6-2.7 6-6v-9c0-3.3-2.7-6-6-6h-2.5"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span> Med Reminders</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Activity Shuttle</div>
+      <!-- Duplicate for seamless loop -->
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 8v13"/><path d="M8 21h8"/></svg></span> Babysitting</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="11" cy="4" r="2"/><circle cx="4" cy="9" r="2"/><circle cx="18" cy="9" r="2"/><path d="M12 18c-4 0-6-2-6-5s2-4 6-4 6 1 6 4-2 5-6 5z"/></svg></span> Pet Sitting</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M5 17h14M5 17a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h8l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/></svg></span> Kid Transport</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home Help</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Senior Companion</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Tutoring</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="11" cy="4" r="2"/><path d="M12 18c-4 0-6-2-6-5s2-4 6-4 6 1 6 4-2 5-6 5z"/></svg></span> Dog Walking</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M12 2v8"/><path d="M4.93 10.93l2.83 2.83"/><path d="M19.07 10.93l-2.83 2.83"/><path d="M8 14h8v8H8z"/></svg></span> Errand Running</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M10.5 1.5H8C4.7 1.5 2 4.2 2 7.5v9C2 19.8 4.7 22.5 8 22.5h8c3.3 0 6-2.7 6-6v-9c0-3.3-2.7-6-6-6h-2.5"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span> Med Reminders</div>
+      <div class="ticker-item"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Activity Shuttle</div>
+    </div>
+  </div>
+
+  <!-- ==================== SERVICES ==================== -->
+  <section class="services section-padding" id="services">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label reveal">What We Offer</span>
+        <h2 class="section-title reveal">Every Kind of Care,<br><span class="gradient-text">One Tap Away</span></h2>
+        <p class="section-subtitle reveal">Stop juggling 4 different apps. KinCare covers your entire household — kids, pets, parents, and everything in between.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1" id="service-baby">
+          <div class="service-icon service-icon-baby"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 8v13"/><path d="M8 21h8"/></svg></div>
+          <h3>Babysitting</h3>
+          <p>Date night sitters, after-school care, newborn specialists — all background-checked and CPR certified.</p>
+          <span class="service-tag">Most Popular</span>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2" id="service-pet">
+          <div class="service-icon service-icon-pet"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="4" cy="9" r="2"/><circle cx="18" cy="9" r="2"/><path d="M12 18c-4 0-6-2-6-5s2-4 6-4 6 1 6 4-2 5-6 5z"/></svg></div>
+          <h3>Pet Care</h3>
+          <p>Dog walking, pet sitting, overnight boarding, and specialized care for all your furry family members.</p>
+          <span class="service-tag">Trending</span>
+        </div>
+
+        <div class="service-card reveal reveal-delay-3" id="service-transport">
+          <div class="service-icon service-icon-transport"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h8l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/></svg></div>
+          <h3>Kid Transport</h3>
+          <p>Safe school pickup, activity shuttle, and carpool coordination with GPS-tracked, vetted drivers.</p>
+          <span class="service-tag">New</span>
+        </div>
+
+        <div class="service-card reveal reveal-delay-4" id="service-home">
+          <div class="service-icon service-icon-home"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h3>Home Help</h3>
+          <p>Errand running, grocery pickup, light housekeeping, and meal prep — extra hands when you need them.</p>
+          <span class="service-tag">Time Saver</span>
+        </div>
+
+        <div class="service-card reveal reveal-delay-5" id="service-senior">
+          <div class="service-icon service-icon-senior"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Senior Companion</h3>
+          <p>Caring companion visits, medication reminders, appointment escorts, and wellness check-ins for loved ones.</p>
+          <span class="service-tag">Essential</span>
+        </div>
+
+        <div class="service-card reveal reveal-delay-6" id="service-tutor">
+          <div class="service-icon service-icon-tutor"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+          <h3>Tutoring & Homework</h3>
+          <p>After-school tutoring, test prep, homework help, and enrichment activities with qualified educators.</p>
+          <span class="service-tag">Academic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HOW IT WORKS ==================== -->
+  <section class="how-it-works section-padding" id="how-it-works">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label reveal">Simple as 1-2-3</span>
+        <h2 class="section-title reveal">Book Care in <span style="color: var(--coral)">Under 60 Seconds</span></h2>
+        <p class="section-subtitle reveal">No phone calls. No awkward texts. No waiting. Just tap, match, and relax.</p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-card reveal reveal-delay-1">
+          <div class="step-number">01</div>
+          <div class="step-icon">📋</div>
+          <h3>Tell Us What You Need</h3>
+          <p>Select your service — babysitter, pet sitter, transport, or home help. Set your date, time, and any special requirements.</p>
+        </div>
+
+        <div class="step-card reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <div class="step-icon">🤝</div>
+          <h3>Get Matched Instantly</h3>
+          <p>Our AI matches you with the best available, triple-verified provider based on your needs, location, and preferences.</p>
+        </div>
+
+        <div class="step-card reveal reveal-delay-3">
+          <div class="step-number">03</div>
+          <div class="step-icon">😌</div>
+          <h3>Relax & Track Live</h3>
+          <p>Monitor your provider's arrival in real-time with GPS tracking. Get photo updates and in-app messaging throughout.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRUST & SAFETY ==================== -->
+  <section class="trust section-padding" id="trust">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-image reveal">
+          <img src="trust.png" alt="KinCare trust and safety features — background checks, GPS tracking, verified identity, star ratings" loading="lazy">
+        </div>
+
+        <div class="trust-content">
+          <span class="section-label reveal">Trust & Safety</span>
+          <h2 class="section-title reveal">Your Family's Safety<br>Is <span class="gradient-text">Non-Negotiable</span></h2>
+          <p class="reveal" style="color: var(--text-secondary); margin-bottom: var(--space-2xl); line-height: 1.8;">Every KinCare provider goes through the most rigorous vetting process in the industry. Because when it comes to your loved ones, good enough isn't good enough.</p>
+
+          <div class="trust-features">
+            <div class="trust-feature reveal reveal-delay-1">
+              <div class="trust-feature-icon">🔍</div>
+              <div>
+                <h4>Multi-Layer Background Checks</h4>
+                <p>Criminal, sex offender registry, driving record, and reference verification — refreshed continuously, not just at sign-up.</p>
+              </div>
+            </div>
+
+            <div class="trust-feature reveal reveal-delay-2">
+              <div class="trust-feature-icon">🆔</div>
+              <div>
+                <h4>Biometric ID Verification</h4>
+                <p>Facial recognition at every shift start confirms the verified person is the one who shows up at your door.</p>
+              </div>
+            </div>
+
+            <div class="trust-feature reveal reveal-delay-3">
+              <div class="trust-feature-icon">📹</div>
+              <div>
+                <h4>Live Body Camera Streaming</h4>
+                <p>Every provider wears a body camera. Watch your children, pets, and loved ones in real-time HD from your phone. Full transparency, always.</p>
+              </div>
+            </div>
+
+            <div class="trust-feature reveal reveal-delay-4">
+              <div class="trust-feature-icon">📍</div>
+              <div>
+                <h4>Real-Time GPS Tracking</h4>
+                <p>See exactly where your provider is — from the moment they leave home to the second they arrive at yours.</p>
+              </div>
+            </div>
+
+            <div class="trust-feature reveal reveal-delay-4">
+              <div class="trust-feature-icon">🚨</div>
+              <div>
+                <h4>One-Tap Emergency Button</h4>
+                <p>Instant connection to our live safety team and local emergency services with one tap. Available 24/7/365.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== APP PREVIEW ==================== -->
+  <section class="app-preview section-padding" id="app-preview">
+    <div class="container">
+      <div class="app-preview-grid">
+        <div class="app-preview-image reveal">
+          <img src="app-mockup.png" alt="KinCare app interface showing map with nearby providers and booking cards" loading="lazy">
+        </div>
+
+        <div class="app-preview-content">
+          <span class="section-label reveal">The App Experience</span>
+          <h2 class="section-title reveal">Everything You Need,<br><span class="gradient-text">Right in Your Pocket</span></h2>
+          <p class="reveal" style="color: var(--text-secondary); margin-bottom: var(--space-2xl); line-height: 1.8;">Designed for real parents living real life. No clunky menus. No confusing flows. Just fast, intuitive care booking.</p>
+
+          <div class="app-features">
+            <div class="app-feature reveal reveal-delay-1">
+              <span class="app-feature-icon">🗺️</span>
+              <div class="app-feature-text">
+                <h4>Live Map View</h4>
+                <p>See available providers near you in real-time</p>
+              </div>
+            </div>
+
+            <div class="app-feature reveal reveal-delay-2">
+              <span class="app-feature-icon">⚡</span>
+              <div class="app-feature-text">
+                <h4>Instant or Scheduled</h4>
+                <p>Book right now or schedule days in advance</p>
+              </div>
+            </div>
+
+            <div class="app-feature reveal reveal-delay-3">
+              <span class="app-feature-icon">💬</span>
+              <div class="app-feature-text">
+                <h4>In-App Messaging</h4>
+                <p>Chat with your provider without sharing personal info</p>
+              </div>
+            </div>
+
+            <div class="app-feature reveal reveal-delay-4">
+              <span class="app-feature-icon">📸</span>
+              <div class="app-feature-text">
+                <h4>Live Photo Updates</h4>
+                <p>Get picture updates throughout the session</p>
+              </div>
+            </div>
+
+            <div class="app-feature reveal reveal-delay-5">
+              <span class="app-feature-icon">💳</span>
+              <div class="app-feature-text">
+                <h4>Cashless Payments</h4>
+                <p>Auto-pay when the session ends — no awkward cash exchange</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="testimonials section-padding" id="testimonials">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label reveal">Loved by Families</span>
+        <h2 class="section-title reveal">What <span class="gradient-text">Real Parents</span> Are Saying</h2>
+        <p class="section-subtitle reveal">Join 50,000+ families who trust KinCare with what matters most.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1" id="testimonial-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I used to spend 45 minutes texting around for a last-minute sitter. Now I open KinCare and have someone confirmed in 2 minutes. It's literally changed our marriage — we actually go on dates again."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MJ</div>
+            <div>
+              <div class="testimonial-name">Maria Johnson</div>
+              <div class="testimonial-role">Mom of 2 • Charlotte, NC</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2" id="testimonial-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The fact that I can book a dog walker AND a babysitter from the same app? Game changer. I was paying for Rover, Care.com, and TaskRabbit separately. KinCare replaced all three."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">DW</div>
+            <div>
+              <div class="testimonial-name">David Williams</div>
+              <div class="testimonial-role">Dad & Dog Owner • Atlanta, GA</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-3" id="testimonial-3">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"As a single mom, the GPS tracking and live photo updates give me so much peace of mind. I can see exactly where my kids are and what they're doing. The background checks are thorough too."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ST</div>
+            <div>
+              <div class="testimonial-name">Sasha Thompson</div>
+              <div class="testimonial-role">Single Mom • Houston, TX</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRICING ==================== -->
+  <section class="pricing section-padding" id="pricing">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label reveal">Simple Pricing</span>
+        <h2 class="section-title reveal">Plans That <span class="gradient-text">Fit Your Family</span></h2>
+        <p class="section-subtitle reveal">Start free, upgrade when you're ready. No hidden fees. Cancel anytime.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card reveal reveal-delay-1" id="pricing-free">
+          <div class="pricing-icon">🌱</div>
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-price">Free</div>
+          <div class="pricing-desc">Perfect for trying KinCare</div>
+          <ul class="pricing-features">
+            <li>Browse provider profiles</li>
+            <li>3 bookings per month</li>
+            <li>Standard matching</li>
+            <li>In-app messaging</li>
+            <li>Background-checked providers</li>
+          </ul>
+          <a href="#cta" class="btn btn-secondary" id="pricing-free-cta" style="width:100%; justify-content:center;">Get Started Free</a>
+        </div>
+
+        <div class="pricing-card featured reveal reveal-delay-2" id="pricing-family">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-icon">👨‍👩‍👧‍👦</div>
+          <div class="pricing-name">Family</div>
+          <div class="pricing-price">$14.99<span>/mo</span></div>
+          <div class="pricing-desc">For active, busy families</div>
+          <ul class="pricing-features">
+            <li>Unlimited bookings</li>
+            <li>Priority AI matching</li>
+            <li>Reduced service fees</li>
+            <li>GPS live tracking</li>
+            <li>Photo updates</li>
+            <li>Favorite providers list</li>
+            <li>Family profile (multi-kid/pet)</li>
+            <li>24/7 priority support</li>
+          </ul>
+          <a href="#cta" class="btn btn-primary" id="pricing-family-cta" style="width:100%; justify-content:center;">Start 14-Day Free Trial</a>
+        </div>
+
+        <div class="pricing-card reveal reveal-delay-3" id="pricing-pro">
+          <div class="pricing-icon">🏢</div>
+          <div class="pricing-name">KinCare Pro</div>
+          <div class="pricing-price">Custom</div>
+          <div class="pricing-desc">For employers & organizations</div>
+          <ul class="pricing-features">
+            <li>Employee care benefits</li>
+            <li>Custom provider pools</li>
+            <li>Admin dashboard & reporting</li>
+            <li>Bulk booking credits</li>
+            <li>Dedicated account manager</li>
+            <li>SSO & HR integration</li>
+            <li>Invoice billing</li>
+            <li>Branded employee portal</li>
+          </ul>
+          <a href="#cta" class="btn btn-gold" id="pricing-pro-cta" style="width:100%; justify-content:center;">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FRANCHISE CTA ==================== -->
+  <section class="franchise section-padding" id="franchise">
+    <div class="container">
+      <div class="franchise-content">
+        <span class="section-label reveal" style="color: var(--gold);">Franchise Opportunity</span>
+        <h2 class="section-title reveal">Own a KinCare<br>in Your City</h2>
+        <p class="reveal">Join the fastest-growing on-demand care franchise in America. Low startup costs, proven technology, and a market that never sleeps. Every city needs KinCare — be the one to bring it.</p>
+
+        <div class="franchise-stats reveal">
+          <div class="franchise-stat">
+            <div class="franchise-stat-number" data-count="150">0</div>
+            <div class="franchise-stat-label">Cities & Growing</div>
+          </div>
+          <div class="franchise-stat">
+            <div class="franchise-stat-number">$45K</div>
+            <div class="franchise-stat-label">Average Startup Cost</div>
+          </div>
+          <div class="franchise-stat">
+            <div class="franchise-stat-number">92%</div>
+            <div class="franchise-stat-label">Franchisee Retention</div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <a href="#cta" class="btn btn-gold" id="franchise-cta">
+            Learn About Franchising
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FINAL CTA ==================== -->
+  <section class="section-padding" id="cta" style="background: var(--bg-primary);">
+    <div class="container text-center">
+      <span class="section-label reveal">Ready?</span>
+      <h2 class="section-title reveal">Your Family Deserves<br><span class="gradient-text">KinCare</span></h2>
+      <p class="section-subtitle reveal">Join 50,000+ families who stopped juggling apps and started living. Sign up free — your first booking is on us.</p>
+
+      <form class="reveal" id="signupForm" style="max-width: 500px; margin: 0 auto; display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
+        <input type="email" id="signup-email" placeholder="Enter your email" required
+          style="flex: 1; min-width: 250px; padding: 14px 20px; border-radius: var(--radius-full); border: 2px solid var(--mist); background: var(--bg-card); color: var(--text-primary); font-family: var(--font-body); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+        <button type="submit" class="btn btn-primary" id="signup-submit">
+          Get Started Free
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+      <p class="reveal" style="color: var(--text-secondary); font-size: 0.85rem; margin-top: var(--space-md);">Free forever plan available. No credit card required.</p>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo-text" style="margin-bottom: var(--space-sm);">Kin<span>Care</span></div>
+          <p>Your kin. Our care. The all-in-one on-demand care platform for modern families. Babysitting, pet care, transport, and more — all triple-verified and GPS-tracked.</p>
+        </div>
+
+        <div>
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="#services">Babysitting</a></li>
+            <li><a href="#services">Pet Care</a></li>
+            <li><a href="#services">Kid Transport</a></li>
+            <li><a href="#services">Home Help</a></li>
+            <li><a href="#services">Senior Companion</a></li>
+            <li><a href="#services">Tutoring</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="#trust">Trust & Safety</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#franchise">Franchise</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Support</h4>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Provider FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 KinCare, Inc. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Instagram">📷</a>
+          <a href="#" class="footer-social" aria-label="Twitter / X">𝕏</a>
+          <a href="#" class="footer-social" aria-label="Facebook">📘</a>
+          <a href="#" class="footer-social" aria-label="TikTok">🎵</a>
+          <a href="#" class="footer-social" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

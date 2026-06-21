@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
