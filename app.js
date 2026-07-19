@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const html = document.documentElement;
 
-  // Remove any saved dark theme since we're using light mode now
-  html.removeAttribute('data-theme');
-  localStorage.removeItem('kincare-theme');
 
   if (themeToggle) {
     const saved = localStorage.getItem('kincare-theme');
@@ -46,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const navLinks = document.getElementById('navLinks');
 
+  if (mobileMenuBtn && navLinks) {
   mobileMenuBtn.addEventListener('click', () => {
     navLinks.classList.toggle('active');
     const spans = mobileMenuBtn.querySelectorAll('span');
@@ -70,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       spans[2].style.transform = '';
     });
   });
+  }
 
   // ---------- Scroll Reveal Animations ----------
   const reveals = document.querySelectorAll('.reveal');
@@ -151,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupForm = document.getElementById('signupForm');
   const signupEmail = document.getElementById('signup-email');
 
+  if (signupForm && signupEmail) {
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = signupEmail.value.trim();
@@ -183,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     signupEmail.style.borderColor = '';
     signupEmail.style.boxShadow = '';
   });
+  }
 
   // ---------- Service Cards Tilt Effect ----------
   const serviceCards = document.querySelectorAll('.service-card');
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 107, 107, 0.05), var(--bg-card) 50%)`;
+      card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(50, 205, 50, 0.05), var(--bg-card) 50%)`;
     });
 
     card.addEventListener('mouseleave', () => {

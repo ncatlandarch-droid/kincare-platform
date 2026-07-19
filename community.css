@@ -8,10 +8,9 @@
 
 /* ---------- Design Tokens ---------- */
 :root {
-  /* Primary Palette */
-  --coral:        #FF6B6B;
-  --coral-light:  #FF8585;
-  --coral-dark:   #E85D5D;
+  --coral:        #32CD32;
+  --coral-light:  #45E045;
+  --coral-dark:   #28A428;
   --navy:         #1A1A2E;
   --navy-light:   #2A2A45;
   --gold:         #FFD93D;

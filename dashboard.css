@@ -111,7 +111,7 @@ input, select { font-family: var(--font-body); }
 .topbar-search input:focus {
   border-color: var(--coral);
   background: var(--white);
-  box-shadow: 0 0 0 3px rgba(255,107,107,0.1);
+  box-shadow: 0 0 0 3px rgba(50,205,50,0.1);
 }
 .topbar-search .search-icon {
   position: absolute;
@@ -151,9 +151,9 @@ input, select { font-family: var(--font-body); }
   background: linear-gradient(135deg, var(--coral), var(--coral-dark));
   color: var(--white);
   border: none;
-  box-shadow: 0 2px 10px rgba(255,107,107,0.3);
+  box-shadow: 0 2px 10px rgba(50,205,50,0.3);
 }
-.btn-fill:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(255,107,107,0.4); }
+.btn-fill:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(50,205,50,0.4); }
 
 .topbar-avatar {
   width: 38px; height: 38px;
@@ -209,8 +209,8 @@ input, select { font-family: var(--font-body); }
 .category-pill:hover { border-color: var(--coral-light); transform: translateY(-3px); }
 .category-pill.active {
   border-color: var(--coral);
-  background: linear-gradient(135deg, rgba(255,107,107,0.08), rgba(255,107,107,0.02));
-  box-shadow: 0 4px 12px rgba(255,107,107,0.15);
+  background: linear-gradient(135deg, rgba(50,205,50,0.08), rgba(50,205,50,0.02));
+  box-shadow: 0 4px 12px rgba(50,205,50,0.15);
 }
 .category-pill .cat-icon { font-size: 1.5rem; }
 .category-pill .cat-label {
@@ -418,7 +418,7 @@ input, select { font-family: var(--font-body); }
   top: -50%; right: -20%;
   width: 300px; height: 300px;
   border-radius: 50%;
-  background: rgba(255,107,107,0.15);
+  background: rgba(50,205,50,0.15);
   filter: blur(60px);
 }
 .quick-book-text h3 { color: var(--white); font-size: 1.2rem; margin-bottom: 4px; }
@@ -435,7 +435,7 @@ input, select { font-family: var(--font-body); }
   position: relative;
   z-index: 1;
 }
-.quick-book-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(255,107,107,0.4); }
+.quick-book-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(50,205,50,0.4); }
 
 /* ===== RIGHT: MAP PANEL ===== */
 .map-panel {
@@ -743,11 +743,11 @@ input, select { font-family: var(--font-body); }
   font-size: 1.05rem;
   font-weight: 700;
   transition: all 0.2s var(--ease-spring);
-  box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+  box-shadow: 0 4px 15px rgba(50,205,50,0.4);
 }
 .drawer-book-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255,107,107,0.5);
+  box-shadow: 0 8px 25px rgba(50,205,50,0.5);
 }
 
 /* ===== BOOKING CONFIRMATION MODAL ===== */
@@ -833,7 +833,7 @@ input, select { font-family: var(--font-body); }
   align-items: center;
   gap: 6px;
 }
-.modal-success .track-btn:hover { background: rgba(255,107,107,0.05); }
+.modal-success .track-btn:hover { background: rgba(50,205,50,0.05); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
