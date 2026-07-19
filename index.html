@@ -400,62 +400,97 @@
   <section class="pricing section-padding" id="pricing">
     <div class="container">
       <div class="text-center">
-        <span class="section-label reveal">Simple Pricing</span>
+        <span class="section-label reveal">Transparent Pricing</span>
         <h2 class="section-title reveal">Plans That <span class="gradient-text">Fit Your Family</span></h2>
-        <p class="section-subtitle reveal">Start free, upgrade when you're ready. No hidden fees. Cancel anytime.</p>
+        <p class="section-subtitle reveal">No hidden fees. No surge surprises. Just honest, competitive pricing with body-cam transparency included.</p>
       </div>
+
+      <!-- Service Rate Cards -->
+      <div class="services-rate-bar reveal" style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:2rem 0; text-align:center;">
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Babysitting</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$22–35<span style="font-size:0.8rem; font-weight:500;">/hr</span></div>
+        </div>
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Pet Care</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$18–27<span style="font-size:0.8rem; font-weight:500;">/hr</span></div>
+        </div>
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Kid Transport</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$15–23<span style="font-size:0.8rem; font-weight:500;">/trip</span></div>
+        </div>
+      </div>
+      <div class="services-rate-bar reveal" style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:0 0 2.5rem; text-align:center;">
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Home Help</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$22–35<span style="font-size:0.8rem; font-weight:500;">/hr</span></div>
+        </div>
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Senior Companion</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$22–38<span style="font-size:0.8rem; font-weight:500;">/hr</span></div>
+        </div>
+        <div style="background:var(--cloud); border-radius:12px; padding:1.25rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:0.25rem;">Tutoring</div>
+          <div style="font-size:1.5rem; font-weight:800; color:var(--navy);">$31–50<span style="font-size:0.8rem; font-weight:500;">/hr</span></div>
+        </div>
+      </div>
+
+      <p class="text-center reveal" style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:2.5rem;">Rates include 20% platform fee + $4.99 booking fee. Body cam access $2.99/session or free with subscription. 2-hour minimum for babysitting &amp; senior care.</p>
 
       <div class="pricing-grid">
         <div class="pricing-card reveal reveal-delay-1" id="pricing-free">
-          <div class="pricing-icon">🌱</div>
-          <div class="pricing-name">Starter</div>
-          <div class="pricing-price">Free</div>
-          <div class="pricing-desc">Perfect for trying KinCare</div>
+          <div class="pricing-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="pricing-name">Pay As You Go</div>
+          <div class="pricing-price">$0<span>/mo</span></div>
+          <div class="pricing-desc">No commitment, pay per booking</div>
           <ul class="pricing-features">
-            <li>Browse provider profiles</li>
-            <li>3 bookings per month</li>
-            <li>Standard matching</li>
-            <li>In-app messaging</li>
+            <li>All 6 service categories</li>
             <li>Background-checked providers</li>
+            <li>GPS live tracking</li>
+            <li>$4.99 booking fee per session</li>
+            <li>$2.99 body cam access per session</li>
+            <li>Standard matching speed</li>
+            <li>In-app messaging</li>
+            <li>SD body cam streaming</li>
           </ul>
           <a href="#cta" class="btn btn-secondary" id="pricing-free-cta" style="width:100%; justify-content:center;">Get Started Free</a>
         </div>
 
         <div class="pricing-card featured reveal reveal-delay-2" id="pricing-family">
           <div class="pricing-badge">Most Popular</div>
-          <div class="pricing-icon">👨‍👩‍👧‍👦</div>
-          <div class="pricing-name">Family</div>
-          <div class="pricing-price">$14.99<span>/mo</span></div>
-          <div class="pricing-desc">For active, busy families</div>
+          <div class="pricing-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="pricing-name">KinCare+</div>
+          <div class="pricing-price">$19.99<span>/mo</span></div>
+          <div class="pricing-desc">Save $80+/month for active families</div>
           <ul class="pricing-features">
-            <li>Unlimited bookings</li>
-            <li>Priority AI matching</li>
-            <li>Reduced service fees</li>
-            <li>GPS live tracking</li>
-            <li>Photo updates</li>
+            <li>Everything in Pay As You Go</li>
+            <li style="font-weight:700; color:var(--lime-dark);">NO booking fees (save $4.99/session)</li>
+            <li style="font-weight:700; color:var(--lime-dark);">FREE body cam access (save $2.99/session)</li>
+            <li style="font-weight:700; color:var(--lime-dark);">15% off service fees</li>
+            <li>Priority matching (faster response)</li>
+            <li>HD body cam streaming</li>
             <li>Favorite providers list</li>
             <li>Family profile (multi-kid/pet)</li>
-            <li>24/7 priority support</li>
           </ul>
           <a href="#cta" class="btn btn-primary" id="pricing-family-cta" style="width:100%; justify-content:center;">Start 14-Day Free Trial</a>
         </div>
 
         <div class="pricing-card reveal reveal-delay-3" id="pricing-pro">
-          <div class="pricing-icon">🏢</div>
-          <div class="pricing-name">KinCare Pro</div>
-          <div class="pricing-price">Custom</div>
-          <div class="pricing-desc">For employers & organizations</div>
+          <div class="pricing-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD93D" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="pricing-name">KinCare Family</div>
+          <div class="pricing-price">$39.99<span>/mo</span></div>
+          <div class="pricing-desc">Unlimited care, total peace of mind</div>
           <ul class="pricing-features">
-            <li>Employee care benefits</li>
-            <li>Custom provider pools</li>
-            <li>Admin dashboard & reporting</li>
-            <li>Bulk booking credits</li>
-            <li>Dedicated account manager</li>
-            <li>SSO & HR integration</li>
-            <li>Invoice billing</li>
-            <li>Branded employee portal</li>
+            <li>Everything in KinCare+</li>
+            <li style="font-weight:700; color:var(--lime-dark);">Unlimited bookings</li>
+            <li style="font-weight:700; color:var(--lime-dark);">Dedicated care coordinator</li>
+            <li style="font-weight:700; color:var(--lime-dark);">50% off 2nd+ child rate</li>
+            <li>24/7 emergency support line</li>
+            <li>Rush bookings (under 2 hours)</li>
+            <li>30-day session recording access</li>
+            <li>Priority dispute resolution</li>
           </ul>
-          <a href="#cta" class="btn btn-gold" id="pricing-pro-cta" style="width:100%; justify-content:center;">Contact Sales</a>
+          <a href="#cta" class="btn btn-gold" id="pricing-pro-cta" style="width:100%; justify-content:center;">Start 14-Day Free Trial</a>
         </div>
       </div>
     </div>

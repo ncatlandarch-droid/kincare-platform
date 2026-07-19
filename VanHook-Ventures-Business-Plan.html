@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VanHook Ventures — Business Plans & Launch Strategy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #162038;
+      --lime: #32CD32;
+      --lime-dark: #28a428;
+      --lime-bg: #f0faf0;
+      --gold: #FFD93D;
+      --coral: #FF6B6B;
+      --white: #FFFFFF;
+      --cloud: #F8F9FC;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    @page {
+      margin: 0.6in 0.7in;
+      size: letter;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.7;
+      font-size: 10.5pt;
+      background: var(--white);
+    }
+
+    /* ===== COVER PAGE ===== */
+    .cover {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, #0f2240 50%, #132d54 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(50,205,50,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(50,205,50,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .cover-logo {
+      width: 180px;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover h1 span {
+      color: var(--lime);
+    }
+
+    .cover .subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 400;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-meta {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 2rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.85rem;
+      line-height: 2;
+    }
+
+    .cover-meta strong {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .cover-brands {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-brand-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 0.5rem 1.5rem;
+      color: var(--lime);
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== TOC ===== */
+    .toc {
+      page-break-after: always;
+      padding: 3rem 0;
+    }
+
+    .toc h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 3px solid var(--lime);
+      display: inline-block;
+    }
+
+    .toc-list {
+      list-style: none;
+    }
+
+    .toc-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .toc-list li a {
+      color: var(--gray-800);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .toc-section {
+      color: var(--lime-dark);
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      margin: 2.5rem 0 1.5rem;
+      position: relative;
+      overflow: hidden;
+      page-break-before: always;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 100%;
+      background: linear-gradient(135deg, transparent, rgba(50,205,50,0.15));
+    }
+
+    .section-header .section-number {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header .section-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== CONTENT STYLES ===== */
+    h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 1.75rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--lime-bg);
+    }
+
+    h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    p { margin-bottom: 0.75rem; }
+
+    /* ===== TABLES ===== */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.88rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+
+    thead th {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) { background: var(--gray-50); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* ===== CALLOUT BOXES ===== */
+    .callout {
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .callout-priority {
+      background: linear-gradient(135deg, #fef3c7, #fef9e7);
+      border-left: 4px solid var(--gold);
+    }
+
+    .callout-tip {
+      background: var(--lime-bg);
+      border-left: 4px solid var(--lime);
+    }
+
+    .callout-warning {
+      background: #fef2f2;
+      border-left: 4px solid var(--coral);
+    }
+
+    .callout-info {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .callout-label {
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .callout-priority .callout-label { color: #b45309; }
+    .callout-tip .callout-label { color: var(--lime-dark); }
+    .callout-warning .callout-label { color: #dc2626; }
+    .callout-info .callout-label { color: #2563eb; }
+
+    /* ===== FLOW DIAGRAM ===== */
+    .flow-box {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .flow-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .flow-col {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .flow-col h4 {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--lime-dark);
+      margin: 0 0 0.75rem;
+      border: none;
+    }
+
+    .flow-col ol {
+      padding-left: 1.25rem;
+      font-size: 0.85rem;
+    }
+
+    .flow-col ol li {
+      padding: 0.2rem 0;
+    }
+
+    /* ===== REVENUE SPLIT ===== */
+    .revenue-split {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.85rem;
+      line-height: 2;
+    }
+
+    .revenue-split .split-header {
+      color: var(--lime);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .revenue-split .split-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.15rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .revenue-split .split-line:last-child { border: none; }
+    .revenue-split .split-amount { color: var(--lime); font-weight: 700; }
+
+    /* ===== CHECKLIST ===== */
+    .checklist {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .checklist li {
+      padding: 0.5rem 0 0.5rem 1.75rem;
+      position: relative;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .checklist li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--lime);
+      border-radius: 3px;
+    }
+
+    .checklist .week-tag {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--navy);
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-left: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== ROADMAP ===== */
+    .roadmap-phase {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      align-items: flex-start;
+    }
+
+    .roadmap-marker {
+      min-width: 80px;
+      background: var(--navy);
+      color: var(--lime);
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-top: 0.1rem;
+    }
+
+    .roadmap-content {
+      flex: 1;
+      border-left: 2px solid var(--lime);
+      padding-left: 1rem;
+    }
+
+    .roadmap-content h4 {
+      margin: 0 0 0.25rem;
+      font-size: 0.95rem;
+      border: none;
+    }
+
+    .roadmap-content p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    /* ===== KPI CARDS ===== */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .kpi-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+    }
+
+    .kpi-card .kpi-value {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .kpi-card .kpi-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    /* ===== FOOTER ===== */
+    .doc-footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--gray-200);
+      text-align: center;
+      color: var(--gray-500);
+      font-size: 0.8rem;
+    }
+
+    .doc-footer strong { color: var(--navy); }
+
+    /* ===== PRINT ===== */
+    @media print {
+      body { font-size: 9.5pt; }
+      .cover { min-height: 100vh; }
+      .section-header { break-before: page; }
+      .no-break { break-inside: avoid; }
+      table { break-inside: avoid; }
+      .callout { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== COVER PAGE ===== -->
+  <div class="cover">
+    <img src="crisp line logo.png" alt="KinCare" class="cover-logo">
+    <h1>VanHook <span>Ventures</span></h1>
+    <p class="subtitle">Comprehensive Business Plans & Launch Strategy</p>
+    <div class="cover-brands">
+      <span class="cover-brand-pill">KinCare</span>
+      <span class="cover-brand-pill">Masterpiece / EBE</span>
+      <span class="cover-brand-pill">Sisters Happy Rentals</span>
+    </div>
+    <div class="cover-meta">
+      <strong>Prepared for:</strong> Nahama Green & the VanHook Family<br>
+      <strong>Prepared by:</strong> Think! Design & Planning, LLC<br>
+      <strong>Date:</strong> July 16, 2025<br>
+      <strong>Version:</strong> 1.0 — Confidential
+    </div>
+  </div>
+
+  <!-- ===== TABLE OF CONTENTS ===== -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <p class="toc-section">Executive Summary</p>
+    <ul class="toc-list">
+      <li><a>Priority Action Plan — What to Do First</a></li>
+      <li><a>90-Day Launch Roadmap</a></li>
+    </ul>
+    <p class="toc-section">Business Plan 1 — KinCare</p>
+    <ul class="toc-list">
+      <li><a>Company Overview & Mission</a></li>
+      <li><a>System Logistics — The Uber/DoorDash Model</a></li>
+      <li><a>Pricing Model & Revenue Split</a></li>
+      <li><a>Promo Codes & Tipping System</a></li>
+      <li><a>Dual App Strategy</a></li>
+      <li><a>Financial Projections (Year 1)</a></li>
+      <li><a>Action Items</a></li>
+    </ul>
+    <p class="toc-section">Business Plan 2 — Masterpiece / EBE</p>
+    <ul class="toc-list">
+      <li><a>Company Overview & Revenue Streams</a></li>
+      <li><a>EBE Merch Store</a></li>
+      <li><a>Video Content Strategy</a></li>
+      <li><a>Brand Protection (Trademark & Copyright)</a></li>
+      <li><a>Action Items</a></li>
+    </ul>
+    <p class="toc-section">Business Plan 3 — Sisters Happy Rentals</p>
+    <ul class="toc-list">
+      <li><a>Company Overview & Revenue Model</a></li>
+      <li><a>Social Media & Marketing Quick Wins</a></li>
+      <li><a>Action Items</a></li>
+    </ul>
+    <p class="toc-section">Operations</p>
+    <ul class="toc-list">
+      <li><a>Banking Setup — Both LLCs</a></li>
+      <li><a>Open Questions for Nahama</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== EXECUTIVE PRIORITY ===== -->
+  <div class="section-header">
+    <div class="section-number">Executive Summary</div>
+    <h2>What to Do FIRST to Start Making Money</h2>
+    <p class="section-desc">Priority actions ranked by speed-to-revenue</p>
+  </div>
+
+  <div class="callout callout-priority">
+    <div class="callout-label">Fastest Path to Cash Flow</div>
+    <strong>Sisters Happy Rentals is ALREADY operational.</strong> Fix the social media links and book events THIS WEEK while the other businesses get set up.
+  </div>
+
+  <div class="roadmap-phase">
+    <div class="roadmap-marker">WEEK 1-2</div>
+    <div class="roadmap-content">
+      <h4>Open Bank Accounts</h4>
+      <p>KinCare LLC + Masterpiece LLC — both need EINs and business checking accounts</p>
+    </div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-marker">WEEK 2-3</div>
+    <div class="roadmap-content">
+      <h4>Sisters Happy Rentals — Fix Social Links, Book Gigs</h4>
+      <p>Fix Facebook & Instagram links to business pages. Book 2-3 events. INSTANT REVENUE.</p>
+    </div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-marker">WEEK 3-4</div>
+    <div class="roadmap-content">
+      <h4>KinCare — Soft Launch with 5 Providers</h4>
+      <p>Recruit initial providers in Greensboro. Use PWA website as the "app". REVENUE IN 30 DAYS.</p>
+    </div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-marker">WEEK 4-6</div>
+    <div class="roadmap-content">
+      <h4>Masterpiece — Launch EBE Merch Store</h4>
+      <p>Design 5 products, connect Printful, launch on website. PASSIVE INCOME with $0 upfront.</p>
+    </div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-marker">WEEK 6-8</div>
+    <div class="roadmap-content">
+      <h4>KinCare Apps — Begin Dual-App MVP Development</h4>
+      <p>Family app + Provider app. React Native for iOS + Android from one codebase.</p>
+    </div>
+  </div>
+
+  <!-- ===== KINCARE ===== -->
+  <div class="section-header">
+    <div class="section-number">Business Plan 1</div>
+    <h2>KinCare</h2>
+    <p class="section-desc">Your Kin. Our Care. — On-demand family care platform</p>
+  </div>
+
+  <h3>Company Overview</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Business Name</strong></td><td>KinCare LLC</td></tr>
+      <tr><td><strong>Entity Type</strong></td><td>LLC (with future PBC + 501(c)(3) foundation arm)</td></tr>
+      <tr><td><strong>Industry</strong></td><td>On-demand family care services</td></tr>
+      <tr><td><strong>Tagline</strong></td><td>"Your Kin. Our Care."</td></tr>
+      <tr><td><strong>HQ</strong></td><td>Greensboro, NC</td></tr>
+      <tr><td><strong>Website</strong></td><td>kincare-platform.netlify.app</td></tr>
+      <tr><td><strong>Revenue Model</strong></td><td>Platform commission + subscription + booking fees</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Mission Statement</h3>
+  <p>KinCare connects families with vetted, body-cam verified caregivers for babysitting, pet care, transportation, senior companionship, home help, and tutoring — making quality care accessible, transparent, and affordable for every family.</p>
+
+  <h3>How the System Operates — The Uber/DoorDash Model</h3>
+
+  <div class="flow-columns">
+    <div class="flow-col">
+      <h4>Family (User App)</h4>
+      <ol>
+        <li>Opens app / website</li>
+        <li>Selects service type</li>
+        <li>Picks date / time / duration</li>
+        <li>Sees available providers</li>
+        <li>Books provider (instant or scheduled)</li>
+        <li>Gets provider ETA + GPS tracking</li>
+        <li>Provider arrives → body cam activates</li>
+        <li>Watches live feed (optional)</li>
+        <li>Session ends → auto-charged</li>
+        <li>Rates & reviews provider</li>
+      </ol>
+    </div>
+    <div class="flow-col">
+      <h4>Provider (Employee App)</h4>
+      <ol>
+        <li>Goes "online" (available)</li>
+        <li>Sets service area (5-25 mi radius)</li>
+        <li>Receives job notification</li>
+        <li>Sees job details + pay estimate</li>
+        <li>Accepts or declines (60s timer)</li>
+        <li>Navigates to family location</li>
+        <li>Starts session → body cam ON</li>
+        <li>Completes care tasks</li>
+        <li>Session ends → payment deposited</li>
+        <li>Rates family → earns tips</li>
+      </ol>
+    </div>
+  </div>
+
+  <h4>Job Distribution System</h4>
+  <table>
+    <thead><tr><th>Feature</th><th>How It Works</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Job Broadcast</strong></td><td>Nearby available providers get push notification with job details</td></tr>
+      <tr><td><strong>Matching Algorithm</strong></td><td>Prioritizes: proximity → rating → experience → response time</td></tr>
+      <tr><td><strong>Acceptance Window</strong></td><td>Provider has 60 seconds to accept. If declined, goes to next provider</td></tr>
+      <tr><td><strong>Scheduled Bookings</strong></td><td>Providers claim upcoming jobs from a "job board" (like DoorDash scheduling)</td></tr>
+      <tr><td><strong>Surge Pricing</strong></td><td>High-demand times (Fri/Sat nights, holidays) = 1.2x-1.5x rate multiplier</td></tr>
+      <tr><td><strong>Repeat Clients</strong></td><td>Families can "favorite" providers and request them directly</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pricing Model</h3>
+  <h4>What Families Pay</h4>
+  <table>
+    <thead><tr><th>Service</th><th>Base Rate/hr</th><th>Platform Fee</th><th>Booking Fee</th><th>Total Example (2hr)</th></tr></thead>
+    <tbody>
+      <tr><td>Babysitting</td><td>$20-30</td><td>Included</td><td>$2.99</td><td>$42.99 - $62.99</td></tr>
+      <tr><td>Pet Care</td><td>$15-25</td><td>Included</td><td>$2.99</td><td>$32.99 - $52.99</td></tr>
+      <tr><td>Kid Transport</td><td>$12-20/trip</td><td>Included</td><td>$1.99</td><td>$13.99 - $21.99</td></tr>
+      <tr><td>Home Help</td><td>$18-28</td><td>Included</td><td>$2.99</td><td>$38.99 - $58.99</td></tr>
+      <tr><td>Senior Companion</td><td>$20-32</td><td>Included</td><td>$2.99</td><td>$42.99 - $67.99</td></tr>
+      <tr><td>Tutoring</td><td>$25-45</td><td>Included</td><td>$2.99</td><td>$52.99 - $92.99</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Subscription Tiers</h4>
+  <table>
+    <thead><tr><th>Tier</th><th>Price</th><th>Benefits</th></tr></thead>
+    <tbody>
+      <tr><td><strong>KinCare Free</strong></td><td>$0/mo</td><td>Standard rates, $2.99 booking fee, SD body cam stream</td></tr>
+      <tr><td><strong>KinCare+</strong></td><td>$14.99/mo</td><td>No booking fees, priority matching, HD body cam, 10% off</td></tr>
+      <tr><td><strong>KinCare Pro</strong></td><td>$29.99/mo</td><td>All KinCare+ perks, unlimited bookings, dedicated manager, multi-child discount</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Revenue Split</h4>
+  <div class="revenue-split">
+    <div class="split-header">Family pays $25/hr for babysitting</div>
+    <div class="split-line"><span>Provider receives (80%)</span><span class="split-amount">$20.00</span></div>
+    <div class="split-line"><span>KinCare commission (15%)</span><span class="split-amount">$3.75</span></div>
+    <div class="split-line"><span>Insurance/safety fund (3%)</span><span class="split-amount">$0.75</span></div>
+    <div class="split-line"><span>Community care fund (2%)</span><span class="split-amount">$0.50</span></div>
+  </div>
+
+  <h3>Promo Codes Strategy</h3>
+  <table>
+    <thead><tr><th>Promo</th><th>Target</th><th>Offer</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>New User Signup</strong></td><td>Families</td><td>First booking FREE (up to $30)</td><td>KINCARE30</td></tr>
+      <tr><td><strong>New Provider</strong></td><td>Providers</td><td>$50 bonus after first 5 jobs</td><td>KINPROVIDER50</td></tr>
+      <tr><td><strong>Referral — User</strong></td><td>Existing families</td><td>Give $15, Get $15</td><td>REFER15</td></tr>
+      <tr><td><strong>Referral — Provider</strong></td><td>Existing providers</td><td>$25 per referred provider</td><td>KINREF25</td></tr>
+      <tr><td><strong>Launch Special</strong></td><td>Everyone</td><td>50% off first month KinCare+</td><td>LAUNCH50</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tipping System</h3>
+  <p>After each session ends, the family receives a tip prompt screen with options: <strong>15%, 20%, 25%, or Custom</strong>. The default is pre-selected at 20%. 100% of tips go directly to the provider — KinCare takes $0 from tips. Tipping is optional but prominently encouraged.</p>
+
+  <h3>Dual App Strategy</h3>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">Recommended Approach</div>
+    <strong>Phase 1 (NOW — $0 cost):</strong> Use the PWA website as the "app". Families and providers install it to their home screen.<br>
+    <strong>Phase 2 (Month 3-6 — $5K-15K):</strong> Build native apps using React Native (one codebase → iOS + Android).<br>
+    <strong>Phase 3 (Month 6-12):</strong> Full-featured apps with body cam streaming, real-time GPS, payment processing.
+  </div>
+
+  <h4>App 1: KinCare Family (User App)</h4>
+  <table>
+    <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Home screen</td><td>Service categories, nearby providers, "Book Now"</td></tr>
+      <tr><td>Search & filter</td><td>By service, availability, rating, price range, distance</td></tr>
+      <tr><td>Provider profiles</td><td>Photo, bio, ratings, certifications, body cam badge</td></tr>
+      <tr><td>Booking flow</td><td>Select service → pick time → choose provider → confirm → pay</td></tr>
+      <tr><td>Live tracking</td><td>GPS map of provider en route, body cam live stream</td></tr>
+      <tr><td>Payment</td><td>Stored cards, Apple Pay, Google Pay, promo codes</td></tr>
+      <tr><td>Messaging</td><td>In-app chat with provider (no personal numbers shared)</td></tr>
+    </tbody>
+  </table>
+
+  <h4>App 2: KinCare Provider (Employee App)</h4>
+  <table>
+    <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Go Online/Offline</td><td>Toggle availability status</td></tr>
+      <tr><td>Job alerts</td><td>Push notifications for nearby jobs, accept/decline</td></tr>
+      <tr><td>Earnings dashboard</td><td>Daily/weekly/monthly earnings, tips, bonuses</td></tr>
+      <tr><td>Body cam controls</td><td>Start/stop session recording, pause (max 5 min)</td></tr>
+      <tr><td>Navigation</td><td>Built-in directions to family location</td></tr>
+      <tr><td>Direct deposit</td><td>Bank setup, weekly auto-payout (or instant for $1.99)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Financial Projections — Year 1</h3>
+  <table>
+    <thead><tr><th>Quarter</th><th>Providers</th><th>Bookings/mo</th><th>Avg Booking</th><th>Revenue</th><th>Expenses</th><th>Net</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Q1</strong></td><td>10</td><td>80</td><td>$50</td><td>$600/mo</td><td>$500/mo</td><td>$100/mo</td></tr>
+      <tr><td><strong>Q2</strong></td><td>30</td><td>300</td><td>$55</td><td>$2,475/mo</td><td>$1,200/mo</td><td>$1,275/mo</td></tr>
+      <tr><td><strong>Q3</strong></td><td>75</td><td>900</td><td>$60</td><td>$8,100/mo</td><td>$3,500/mo</td><td>$4,600/mo</td></tr>
+      <tr><td><strong>Q4</strong></td><td>150</td><td>2,000</td><td>$60</td><td>$18,000/mo</td><td>$7,000/mo</td><td>$11,000/mo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-value">$29K+</div><div class="kpi-label">Year 1 Revenue</div></div>
+    <div class="kpi-card"><div class="kpi-value">150</div><div class="kpi-label">Providers by Q4</div></div>
+    <div class="kpi-card"><div class="kpi-value">2,000</div><div class="kpi-label">Monthly Bookings</div></div>
+    <div class="kpi-card"><div class="kpi-value">$11K</div><div class="kpi-label">Monthly Net by Q4</div></div>
+  </div>
+
+  <h3>KinCare — Action Items</h3>
+  <ul class="checklist">
+    <li>Open KinCare LLC bank account <span class="week-tag">WEEK 1</span></li>
+    <li>Soft-launch with 5-10 providers in Greensboro using the PWA <span class="week-tag">WEEK 2-3</span></li>
+    <li>Set up Stripe payment processing for real transactions <span class="week-tag">WEEK 2</span></li>
+    <li>Create and test promo codes in the system <span class="week-tag">WEEK 3</span></li>
+    <li>Test run both app experiences using the website as MVP <span class="week-tag">WEEK 3-4</span></li>
+    <li>Begin native app development once revenue covers costs <span class="week-tag">MONTH 3+</span></li>
+  </ul>
+
+  <!-- ===== MASTERPIECE / EBE ===== -->
+  <div class="section-header">
+    <div class="section-number">Business Plan 2</div>
+    <h2>Masterpiece / EBE</h2>
+    <p class="section-desc">Educated Black Entertainers — Entertainment, publishing, and merchandise</p>
+  </div>
+
+  <h3>Company Overview</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Business Name</strong></td><td>Masterpiece LLC (DBA: EBE — Educated Black Entertainers)</td></tr>
+      <tr><td><strong>Entity Type</strong></td><td>LLC</td></tr>
+      <tr><td><strong>Industry</strong></td><td>Entertainment, publishing, merch, media production</td></tr>
+      <tr><td><strong>Key Products</strong></td><td>Books, merch, live shows, video content, playwright productions</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Revenue Streams</h3>
+
+  <h4>1. EBE Merch Store (FASTEST MONEY)</h4>
+  <table>
+    <thead><tr><th>Product</th><th>Cost to Make</th><th>Sell Price</th><th>Profit/Unit</th></tr></thead>
+    <tbody>
+      <tr><td>T-Shirts</td><td>$12</td><td>$29.99</td><td>$17.99</td></tr>
+      <tr><td>Hoodies</td><td>$22</td><td>$49.99</td><td>$27.99</td></tr>
+      <tr><td>Hats</td><td>$10</td><td>$24.99</td><td>$14.99</td></tr>
+      <tr><td>Mugs</td><td>$6</td><td>$17.99</td><td>$11.99</td></tr>
+      <tr><td>Stickers</td><td>$2</td><td>$5.99</td><td>$3.99</td></tr>
+      <tr><td>Tote Bags</td><td>$8</td><td>$19.99</td><td>$11.99</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">Zero Risk</div>
+    <strong>Print-on-demand = $0 upfront inventory cost.</strong> Products are printed and shipped only when ordered via Printful. No warehousing, no minimum orders.
+  </div>
+
+  <h4>2. Video Content — Playwright Black Men Stand Up</h4>
+  <table>
+    <thead><tr><th>Deliverable</th><th>Revenue Source</th><th>Estimated Revenue</th></tr></thead>
+    <tbody>
+      <tr><td>Complete video with audio</td><td>YouTube monetization</td><td>$500-2,000/mo at scale</td></tr>
+      <tr><td>Social clips (30-60s)</td><td>TikTok/Instagram Reels</td><td>Brand awareness → merch sales</td></tr>
+      <tr><td>Full show recording</td><td>Paid streaming / Vimeo OTT</td><td>$5.99/view</td></tr>
+      <tr><td>DVD/Digital download</td><td>Direct sales on website</td><td>$14.99/download</td></tr>
+    </tbody>
+  </table>
+
+  <h3>EBE Brand Protection</h3>
+
+  <div class="callout callout-warning">
+    <div class="callout-label">Critical — Do Both</div>
+    <strong>Trademark</strong> protects the brand name "EBE" ($250-350/class, 8-12 months).<br>
+    <strong>Copyright</strong> protects the content — scripts, videos, designs ($45-65/work, 2-4 months).
+  </div>
+
+  <table>
+    <thead><tr><th>Protection</th><th>What It Covers</th><th>Cost</th><th>Timeline</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Trademark (USPTO)</strong></td><td>The name "EBE" and "Educated Black Entertainers" as a brand</td><td>$250-350/class</td><td>8-12 months</td></tr>
+      <tr><td><strong>Copyright</strong></td><td>Scripts, videos, merch designs, music</td><td>$45-65/work</td><td>2-4 months</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Masterpiece — Action Items</h3>
+  <ul class="checklist">
+    <li>Open Masterpiece LLC bank account <span class="week-tag">WEEK 1</span></li>
+    <li>Design EBE merch — 5 initial products using Printful <span class="week-tag">WEEK 2-3</span></li>
+    <li>Complete playwright video with audio <span class="week-tag">WEEK 3-4</span></li>
+    <li>File trademark for EBE brand <span class="week-tag">WEEK 2</span></li>
+    <li>Register copyright for script and recordings <span class="week-tag">WEEK 4</span></li>
+    <li>Launch merch store on website <span class="week-tag">WEEK 3</span></li>
+  </ul>
+
+  <!-- ===== SISTERS HAPPY RENTALS ===== -->
+  <div class="section-header">
+    <div class="section-number">Business Plan 3</div>
+    <h2>Sisters Happy Rentals</h2>
+    <p class="section-desc">Event décor, floral design, and rental services — Triad Area, NC</p>
+  </div>
+
+  <h3>Revenue Model</h3>
+  <table>
+    <thead><tr><th>Service</th><th>Price Range</th><th>Avg Revenue/Event</th></tr></thead>
+    <tbody>
+      <tr><td>Table/chair rentals</td><td>$150-500</td><td>$325</td></tr>
+      <tr><td>Floral arrangements</td><td>$200-800</td><td>$450</td></tr>
+      <tr><td>Full décor packages</td><td>$500-3,000</td><td>$1,500</td></tr>
+      <tr><td>Setup/teardown labor</td><td>$100-300</td><td>$200</td></tr>
+      <tr><td>Photo backdrop rentals</td><td>$150-400</td><td>$275</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-priority">
+    <div class="callout-label">Fastest Revenue Generator</div>
+    <strong>Sisters is already operational.</strong> These fixes can bring in bookings THIS WEEK. Fix the social media links, post event photos, and book events through updated channels.
+  </div>
+
+  <h3>Social Media Link Fixes</h3>
+  <table>
+    <thead><tr><th>Platform</th><th>Should Link To</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Facebook</strong></td><td>facebook.com/SistersHappyRentals</td><td>Update href in HTML</td></tr>
+      <tr><td><strong>Instagram</strong></td><td>instagram.com/sistershappyrentals</td><td>Update href in HTML</td></tr>
+      <tr><td><strong>TikTok</strong></td><td>tiktok.com/@sistershappyrentals</td><td>Add if exists</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Marketing Quick Wins</h3>
+  <ul class="checklist">
+    <li>Claim and optimize Google Business Profile (FREE) <span class="week-tag">WEEK 1</span></li>
+    <li>Post 3x/week on Instagram with event photos <span class="week-tag">ONGOING</span></li>
+    <li>Add "Book Now" button on Instagram profile <span class="week-tag">TODAY</span></li>
+    <li>Partner with local wedding venues for referrals <span class="week-tag">WEEK 3</span></li>
+  </ul>
+
+  <h3>Sisters — Action Items</h3>
+  <ul class="checklist">
+    <li>Fix Facebook link to business page <span class="week-tag">TODAY</span></li>
+    <li>Fix Instagram link to business profile <span class="week-tag">TODAY</span></li>
+    <li>Verify website URL is accessible on other devices <span class="week-tag">TODAY</span></li>
+    <li>Claim Google Business Profile <span class="week-tag">WEEK 1</span></li>
+    <li>Book 2-3 events through updated channels <span class="week-tag">WEEK 2</span></li>
+  </ul>
+
+  <!-- ===== BANKING ===== -->
+  <div class="section-header">
+    <div class="section-number">Operations</div>
+    <h2>Banking Setup — Both LLCs</h2>
+    <p class="section-desc">What you need to open business bank accounts</p>
+  </div>
+
+  <h3>Requirements</h3>
+  <table>
+    <thead><tr><th>Requirement</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>EIN (Tax ID)</strong></td><td>Apply at IRS.gov — FREE, instant online</td></tr>
+      <tr><td><strong>Articles of Organization</strong></td><td>From NC Secretary of State when LLC was filed</td></tr>
+      <tr><td><strong>Operating Agreement</strong></td><td>Template available — we can draft this</td></tr>
+      <tr><td><strong>Business Address</strong></td><td>Can use home address or registered agent</td></tr>
+      <tr><td><strong>Initial Deposit</strong></td><td>$25-100 depending on bank</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Recommended Banks</h3>
+  <table>
+    <thead><tr><th>Bank</th><th>Monthly Fee</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Novo</strong> (online)</td><td>$0</td><td>Free, integrates with Stripe, great for startups</td></tr>
+      <tr><td><strong>Mercury</strong> (online)</td><td>$0</td><td>Built for tech companies, excellent dashboard</td></tr>
+      <tr><td><strong>Chase Business</strong></td><td>$15/mo (waivable)</td><td>Physical branches in Greensboro</td></tr>
+      <tr><td><strong>Relay</strong> (online)</td><td>$0</td><td>Multiple sub-accounts for each revenue stream</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">Recommendation</div>
+    Open <strong>Novo</strong> or <strong>Relay</strong> accounts for both LLCs. $0 monthly fees, instant online setup, and they integrate directly with Stripe for KinCare payment processing.
+  </div>
+
+  <!-- ===== OPEN QUESTIONS ===== -->
+  <h3>Open Questions for Nahama</h3>
+  <div class="callout callout-info">
+    <div class="callout-label">Decisions Needed</div>
+    <ol style="padding-left: 1.25rem; line-height: 2.2;">
+      <li><strong>KinCare LLC</strong> — Is the LLC already filed with NC Secretary of State?</li>
+      <li><strong>Masterpiece LLC</strong> — Same question — filed yet?</li>
+      <li><strong>EBE brand</strong> — Is "EBE" short for "Educated Black Entertainers"? Need exact wording for trademark.</li>
+      <li><strong>Sisters social links</strong> — What are the correct Facebook business page URL and Instagram handle?</li>
+      <li><strong>Playwright video</strong> — Do you have raw footage/audio, or does it need to be recorded?</li>
+      <li><strong>KinCare launch city</strong> — Greensboro only, or multiple NC cities?</li>
+      <li><strong>Budget</strong> — Startup budget for app development, or bootstrap with PWA first?</li>
+    </ol>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="doc-footer">
+    <strong>VanHook Ventures — Business Plans & Launch Strategy</strong><br>
+    Prepared by Think! Design & Planning, LLC — July 2025<br>
+    Confidential — For Internal Use Only
+  </div>
+
+</body>
+</html>
