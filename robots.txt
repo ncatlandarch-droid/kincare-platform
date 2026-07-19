@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kincare-platform.netlify.app/sitemap.xml
+
+# Block admin and internal pages
+Disallow: /admin.html
+Disallow: /live-tracker.html
+Disallow: /VanHook-Ventures-Business-Plan.html
