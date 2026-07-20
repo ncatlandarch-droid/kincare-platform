@@ -173,7 +173,9 @@
       <h2 class="section-title reveal">Apply for <span class="gradient-text-green">Assistance</span></h2>
       <p class="section-subtitle reveal">Our application is simple and confidential. We'll connect you with the right program within 48 hours.</p>
 
-      <form class="apply-form reveal" id="assistanceForm" novalidate>
+      <form class="apply-form reveal" id="assistanceForm" name="assistance-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+        <input type="hidden" name="form-name" value="assistance-application">
         <div class="form-row">
           <div class="form-group">
             <label for="apply-name">Full Name <span class="required">*</span></label>
@@ -569,7 +571,7 @@
     const form = document.getElementById('assistanceForm');
     const formSuccess = document.getElementById('formSuccess');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       let isValid = true;
 
@@ -597,9 +599,31 @@
       }
 
       if (isValid) {
-        form.style.display = 'none';
-        formSuccess.style.display = 'block';
-        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled = true;
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          });
+
+          if (response.ok) {
+            form.style.display = 'none';
+            formSuccess.style.display = 'block';
+            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            throw new Error('Server error');
+          }
+        } catch (err) {
+          submitBtn.textContent = 'Error — Try Again';
+          submitBtn.disabled = false;
+          setTimeout(() => { submitBtn.textContent = originalText; }, 3000);
+        }
       }
     });
 

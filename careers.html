@@ -448,22 +448,129 @@
   </section>
 
 
-  <!-- ==================== APPLICATION CTA ==================== -->
+  <!-- ==================== PROVIDER APPLICATION ==================== -->
   <section class="apply-cta-section section-padding" id="apply">
-    <div class="container text-center">
+    <div class="container">
       <div class="apply-cta-content">
         <span class="section-label reveal">Start Today</span>
-        <h2 class="section-title reveal">Ready to Join the <span class="gradient-text">KinCare Team</span>?</h2>
-        <p class="section-subtitle reveal">Enter your email to start your application. We'll guide you through every step — most providers are booked within a week.</p>
+        <h2 class="section-title reveal" style="text-align:center;">Join the <span class="gradient-text">KinCare Team</span></h2>
+        <p class="section-subtitle reveal" style="text-align:center;max-width:600px;margin:0 auto 2rem;">Fill out the application below. Most providers are approved within 48 hours and booked within a week.</p>
 
-        <form class="apply-form reveal" id="applyForm">
-          <input type="email" id="apply-email" placeholder="Enter your email address" required aria-label="Email address">
-          <button type="submit" class="btn btn-primary" id="apply-submit-btn">
-            Start Your Application
+        <form class="reveal" id="applyForm" name="provider-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:700px;margin:0 auto;">
+          <!-- Honeypot for spam -->
+          <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+          <input type="hidden" name="form-name" value="provider-application">
+
+          <!-- Row 1: Name + Email -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label for="apply-name" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Full Name *</label>
+              <input type="text" id="apply-name" name="full-name" placeholder="Your full name" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+            </div>
+            <div>
+              <label for="apply-email" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Email *</label>
+              <input type="email" id="apply-email" name="email" placeholder="your@email.com" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+            </div>
+          </div>
+
+          <!-- Row 2: Phone + City -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label for="apply-phone" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Phone *</label>
+              <input type="tel" id="apply-phone" name="phone" placeholder="(336) 555-0000" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+            </div>
+            <div>
+              <label for="apply-city" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">City *</label>
+              <input type="text" id="apply-city" name="city" placeholder="Greensboro, NC" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+            </div>
+          </div>
+
+          <!-- Row 3: Service Type + Experience -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label for="apply-service" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Service Type *</label>
+              <select id="apply-service" name="service-type" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%239CA3AF%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 1rem center;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+                <option value="" disabled selected style="color:#666;">Select a service</option>
+                <option value="Babysitting">Babysitting</option>
+                <option value="Pet Care">Pet Care / Dog Walking</option>
+                <option value="Kid Transport">Kid Transport</option>
+                <option value="Home Help">Home Help / Cleaning</option>
+                <option value="Senior Companion">Senior Companion Care</option>
+                <option value="Tutoring">Tutoring</option>
+                <option value="Multiple">Multiple Services</option>
+              </select>
+            </div>
+            <div>
+              <label for="apply-experience" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Experience *</label>
+              <select id="apply-experience" name="experience" required
+                style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;transition:border-color 0.3s;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%239CA3AF%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 1rem center;"
+                onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'">
+                <option value="" disabled selected style="color:#666;">Years of experience</option>
+                <option value="No experience">No experience (will train)</option>
+                <option value="Less than 1 year">Less than 1 year</option>
+                <option value="1-3 years">1–3 years</option>
+                <option value="3-5 years">3–5 years</option>
+                <option value="5+ years">5+ years</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 4: Availability -->
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Availability *</label>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;" id="availability-group">
+              <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid #333;border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--gray-300);transition:all 0.2s;">
+                <input type="checkbox" name="availability" value="Mornings" style="accent-color:#32CD32;"> Mornings
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid #333;border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--gray-300);transition:all 0.2s;">
+                <input type="checkbox" name="availability" value="Afternoons" style="accent-color:#32CD32;"> Afternoons
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid #333;border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--gray-300);transition:all 0.2s;">
+                <input type="checkbox" name="availability" value="Evenings" style="accent-color:#32CD32;"> Evenings
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid #333;border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--gray-300);transition:all 0.2s;">
+                <input type="checkbox" name="availability" value="Weekends" style="accent-color:#32CD32;"> Weekends
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid #333;border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--gray-300);transition:all 0.2s;">
+                <input type="checkbox" name="availability" value="Flexible" style="accent-color:#32CD32;"> Flexible / Anytime
+              </label>
+            </div>
+          </div>
+
+          <!-- Row 5: Why KinCare -->
+          <div style="margin-bottom:1rem;">
+            <label for="apply-why" style="display:block;font-size:0.75rem;font-weight:600;color:var(--gray-300);margin-bottom:0.4rem;letter-spacing:1px;text-transform:uppercase;font-family:'Space Grotesk',monospace;">Why do you want to join KinCare?</label>
+            <textarea id="apply-why" name="why-kincare" rows="3" placeholder="Tell us about yourself and why you'd be a great fit..."
+              style="width:100%;padding:0.85rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--gray-700,#333);border-radius:8px;color:var(--white);font-size:0.9rem;resize:vertical;transition:border-color 0.3s;"
+              onfocus="this.style.borderColor='#32CD32'" onblur="this.style.borderColor='#333'"></textarea>
+          </div>
+
+          <!-- Row 6: Agreements -->
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:flex;align-items:flex-start;gap:0.5rem;cursor:pointer;font-size:0.82rem;color:var(--gray-400);line-height:1.4;">
+              <input type="checkbox" name="background-check-consent" required style="accent-color:#32CD32;margin-top:0.2rem;flex-shrink:0;">
+              I understand KinCare requires a background check and body camera usage during all sessions. *
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary" id="apply-submit-btn" style="width:100%;padding:1rem;font-size:1rem;">
+            Submit Application
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
-        <p class="apply-note reveal">By applying, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+
+        <p class="apply-note reveal" style="text-align:center;margin-top:1rem;">We respond within 48 hours. By applying, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
       </div>
     </div>
   </section>
@@ -618,25 +725,59 @@
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // ---- Application form handler ----
+    // ---- Application form handler (Netlify Forms AJAX) ----
     const applyForm = document.getElementById('applyForm');
-    applyForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('apply-email').value;
-      const btn = document.getElementById('apply-submit-btn');
-      const originalHTML = btn.innerHTML;
+    if (applyForm) {
+      applyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('apply-submit-btn');
+        const originalHTML = btn.innerHTML;
 
-      btn.innerHTML = '✓ Application Started!';
-      btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
-      btn.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.4)';
+        // Loading state
+        btn.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;gap:0.5rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="31.42" stroke-dashoffset="10"/></svg> Submitting...</span>';
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
 
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.style.background = '';
-        btn.style.boxShadow = '';
-        applyForm.reset();
-      }, 3000);
-    });
+        try {
+          const formData = new FormData(applyForm);
+          const response = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          });
+
+          if (response.ok) {
+            // Success — replace form with confirmation
+            const formContainer = applyForm.parentElement;
+            applyForm.style.transition = 'opacity 0.3s, transform 0.3s';
+            applyForm.style.opacity = '0';
+            applyForm.style.transform = 'translateY(-10px)';
+
+            setTimeout(() => {
+              applyForm.innerHTML = `
+                <div style="text-align:center;padding:3rem 1rem;">
+                  <div style="width:80px;height:80px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;animation:scaleIn 0.4s ease;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.5rem;margin-bottom:0.5rem;color:var(--white);">Application Received!</h3>
+                  <p style="color:var(--gray-400);font-size:0.95rem;max-width:400px;margin:0 auto 1rem;">Thank you for applying to KinCare. We'll review your application and reach out within <strong style="color:var(--white);">48 hours</strong>.</p>
+                  <p style="color:var(--gray-500);font-size:0.82rem;">Check your email for a confirmation.</p>
+                </div>
+              `;
+              applyForm.style.opacity = '1';
+              applyForm.style.transform = 'translateY(0)';
+            }, 300);
+          } else {
+            throw new Error('Server error');
+          }
+        } catch (err) {
+          btn.innerHTML = '<span style="color:#EF4444;">Submission failed — please try again</span>';
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          setTimeout(() => { btn.innerHTML = originalHTML; }, 3000);
+        }
+      });
+    }
   </script>
 
   <script src="nahama-chat.js"></script>
