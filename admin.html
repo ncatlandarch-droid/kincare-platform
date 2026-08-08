@@ -1481,11 +1481,57 @@
         </section>
 
         <section class="view" id="view-providers">
-            <div class="coming-soon">
-                <div class="coming-soon-icon">🧑‍💼</div>
-                <h2>Providers</h2>
-                <p>View provider profiles, availability, ratings, certifications, and payout history.</p>
-                <span class="coming-soon-badge">Coming Soon</span>
+            <!-- Automated Provider Vetting & Categorization Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;">Automated Provider Screening & Categorization</h2>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Checkr API Background Screening, Auto-Categorization, and Provider Roster Management.</p>
+                </div>
+                <div style="display:flex;gap:0.75rem;">
+                    <button class="btn btn-primary" onclick="triggerBatchCheckrScreening()" style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;font-size:0.85rem;">
+                        <span>⚡ Run Batch Checkr API Scan</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Provider Filter Bar -->
+            <div class="table-card" style="margin-bottom:1.5rem;padding:1rem 1.25rem;">
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;" id="provider-category-filters">
+                        <button class="filter-tab active" onclick="filterProviders('all', this)">All Applicants (<span id="count-all">0</span>)</button>
+                        <button class="filter-tab" onclick="filterProviders('pending_review', this)">Pending Screening (<span id="count-pending">0</span>)</button>
+                        <button class="filter-tab" onclick="filterProviders('approved', this)">Checkr Clear / Roster (<span id="count-approved">0</span>)</button>
+                    </div>
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                        <input type="text" id="provider-search" placeholder="Search applicant name, email, city..." onkeyup="renderProviders()" style="padding:0.45rem 0.8rem;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-main);font-size:0.85rem;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applicants & Providers Table -->
+            <div class="table-card">
+                <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;">
+                    <h3>Applicant Screening Queue</h3>
+                    <span style="font-size:0.8rem;color:var(--text-muted);">Checkr API Connected • Auto-Categorized</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Contact & City</th>
+                                <th>Auto-Categorized Services</th>
+                                <th>Suggested Rate</th>
+                                <th>Checkr Status</th>
+                                <th>MVR Driver Check</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="provider-table-body">
+                            <!-- Populated dynamically by KinCareAutomator -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -1711,14 +1757,114 @@ document.querySelectorAll('.chart-period-btn').forEach(btn => {
 });
 
 /* ═══════════════════════════════════════════
+   AUTOMATED PROVIDER VETTING & SCREENING UI
+   ═══════════════════════════════════════════ */
+let currentProviderFilter = 'all';
+
+function renderProviders() {
+    if (!window.KinCareAutomator) return;
+    const applicants = window.KinCareAutomator.getApplicants();
+    const search = (document.getElementById('provider-search')?.value || '').toLowerCase();
+    const tbody = document.getElementById('provider-table-body');
+    if (!tbody) return;
+
+    // Counts
+    document.getElementById('count-all').textContent = applicants.length;
+    document.getElementById('count-pending').textContent = applicants.filter(a => a.status === 'pending_review').length;
+    document.getElementById('count-approved').textContent = applicants.filter(a => a.status === 'approved').length;
+
+    let filtered = applicants;
+    if (currentProviderFilter !== 'all') {
+        filtered = filtered.filter(a => a.status === currentProviderFilter);
+    }
+    if (search) {
+        filtered = filtered.filter(a =>
+            a.fullName.toLowerCase().includes(search) ||
+            a.email.toLowerCase().includes(search) ||
+            a.city.toLowerCase().includes(search) ||
+            a.serviceType.toLowerCase().includes(search)
+        );
+    }
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">No applicants found matching filter criteria.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(a => {
+        const categoryBadges = a.categories.map(c => `<span style="display:inline-block;padding:0.15rem 0.45rem;border-radius:4px;font-size:0.7rem;font-family:'Space Grotesk',monospace;margin-right:0.25rem;margin-bottom:0.25rem;background:rgba(50,205,50,0.12);color:#32CD32;border:1px solid rgba(50,205,50,0.3);">${c}</span>`).join('');
+        
+        let checkrBadge = `<span class="status-badge scheduled"><span class="status-dot"></span>Checkr Pending</span>`;
+        if (a.checkrStatus === 'processing') checkrBadge = `<span class="status-badge in-progress"><span class="status-dot"></span>Checkr Scanning...</span>`;
+        if (a.checkrStatus === 'passed') checkrBadge = `<span class="status-badge completed"><span class="status-dot"></span>Checkr Clear ✓</span>`;
+
+        let mvrBadge = `<span style="font-size:0.75rem;color:var(--text-muted);">N/A</span>`;
+        if (a.mvrStatus === 'pending') mvrBadge = `<span class="status-badge scheduled">MVR Pending</span>`;
+        if (a.mvrStatus === 'passed') mvrBadge = `<span class="status-badge completed">MVR Clear ✓</span>`;
+
+        return `
+            <tr>
+                <td style="font-weight:600;color:var(--text-main);">
+                    ${a.fullName}
+                    <div style="font-size:0.72rem;color:var(--text-muted);font-weight:400;">Exp: ${a.experience}</div>
+                </td>
+                <td>
+                    <div style="font-size:0.85rem;color:var(--text-main);">${a.email}</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">${a.phone} • ${a.city}</div>
+                </td>
+                <td>${categoryBadges}</td>
+                <td style="font-family:'Space Grotesk',monospace;font-weight:700;color:#32CD32;">${a.suggestedRate}</td>
+                <td>${checkrBadge}</td>
+                <td>${mvrBadge}</td>
+                <td>
+                    ${a.checkrStatus !== 'passed' ? 
+                        `<button onclick="runCheckrForApplicant('${a.id}')" style="padding:0.35rem 0.65rem;font-size:0.72rem;background:#32CD32;color:#0A1628;border:none;border-radius:4px;font-weight:700;cursor:pointer;">⚡ Run Checkr API</button>` : 
+                        `<span style="color:#10B981;font-size:0.75rem;font-weight:600;">✓ Active Roster</span>`
+                    }
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function filterProviders(status, btn) {
+    currentProviderFilter = status;
+    document.querySelectorAll('#provider-category-filters .filter-tab').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderProviders();
+}
+
+function runCheckrForApplicant(id) {
+    if (!window.KinCareAutomator) return;
+    window.KinCareAutomator.triggerCheckrScreening(id, () => {
+        renderProviders();
+    });
+}
+
+function triggerBatchCheckrScreening() {
+    if (!window.KinCareAutomator) return;
+    const applicants = window.KinCareAutomator.getApplicants();
+    applicants.filter(a => a.checkrStatus !== 'passed').forEach(a => {
+        window.KinCareAutomator.triggerCheckrScreening(a.id);
+    });
+    renderProviders();
+}
+
+window.onCheckrUpdate = function() {
+    renderProviders();
+};
+
+/* ═══════════════════════════════════════════
    INITIALIZATION
    ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
     animateCounters();
     setTimeout(animateBars, 300);
     renderBookings('all', '');
+    renderProviders();
 });
 </script>
 
+<script src="kincare-automation.js"></script>
 </body>
 </html>

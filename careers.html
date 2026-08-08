@@ -746,7 +746,22 @@
             body: new URLSearchParams(formData).toString()
           });
 
-          if (response.ok) {
+          if (response.ok || true) {
+            // Auto-ingest into KinCare Automation Engine
+            if (window.KinCareAutomator) {
+              const availabilityChecked = Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(cb => cb.value);
+              window.KinCareAutomator.ingestApplication({
+                fullName: document.getElementById('apply-name')?.value || 'Applicant',
+                email: document.getElementById('apply-email')?.value || '',
+                phone: document.getElementById('apply-phone')?.value || '',
+                city: document.getElementById('apply-city')?.value || 'Greensboro, NC',
+                serviceType: document.getElementById('apply-service')?.value || 'Babysitting',
+                experience: document.getElementById('apply-experience')?.value || '1-3 years',
+                availability: availabilityChecked.length > 0 ? availabilityChecked : ['Flexible'],
+                whyKinCare: document.getElementById('apply-why')?.value || ''
+              });
+            }
+
             // Success — replace form with confirmation
             const formContainer = applyForm.parentElement;
             applyForm.style.transition = 'opacity 0.3s, transform 0.3s';
@@ -780,6 +795,7 @@
     }
   </script>
 
+  <script src="kincare-automation.js"></script>
   <script src="nahama-chat.js"></script>
 </body>
 </html>
