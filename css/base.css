@@ -1,0 +1,101 @@
+/**
+ * KinCare Central Design System — Tokens, Typography & Base Styles
+ * Clean Build Architecture: Design System Core
+ */
+
+:root {
+  /* Brand Palette */
+  --navy: #0A1628;
+  --navy-light: #142236;
+  --navy-card: #111E33;
+  --navy-border: rgba(255, 255, 255, 0.08);
+
+  /* Primary Accent: Lime Green */
+  --primary: #32CD32;
+  --primary-glow: rgba(50, 205, 50, 0.25);
+  --primary-dark: #28A428;
+
+  /* Secondary Accents */
+  --coral: #32CD32; /* Legacy mapping */
+  --gold: #FFD93D;
+  --purple: #7C5CFC;
+  --blue: #3B82F6;
+  --green: #10B981;
+  --cloud: #F8F9FC;
+  --white: #FFFFFF;
+
+  /* Text & Muted Colors */
+  --text-main: #FFFFFF;
+  --text-muted: #9CA3AF;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-700: #374151;
+
+  /* Fonts */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
+
+  /* Shadows */
+  --shadow-glow: 0 0 30px rgba(50, 205, 50, 0.3);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Reset & Box Model */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--navy);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reusable Components */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--navy);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: #39e639;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(50, 205, 50, 0.4);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.status-badge.completed { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.status-badge.in-progress { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+.status-badge.scheduled { background: rgba(255, 217, 61, 0.15); color: #FFD93D; }
