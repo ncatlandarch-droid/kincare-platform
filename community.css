@@ -1398,3 +1398,16 @@ ul { list-style: none; }
     align-items: center;
   }
 }
+
+/* Mobile Landscape Optimization */
+@media (max-height: 550px) and (orientation: landscape) {
+  .hero-community {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+  .apply-form {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+}
+

@@ -697,12 +697,35 @@
       .brand-logo__text { font-size: 1.6rem; }
     }
 
-    /* ── Mobile brand panel collapse ───────────────────── */
+    /* ── Mobile brand panel collapse & Landscape ────────── */
     @media (max-width: 900px) {
       .brand-panel {
         padding: 2.5rem 1.5rem 2rem;
       }
       .orb { display: none; }
+    }
+
+    @media (max-height: 550px) and (orientation: landscape) {
+      .login-wrapper {
+        flex-direction: row !important;
+        align-items: stretch;
+        max-height: 94vh;
+        margin: 10px auto;
+      }
+      .brand-panel {
+        padding: 1.2rem !important;
+        justify-content: center;
+      }
+      .brand-tagline { font-size: 0.95rem !important; margin-bottom: 0.8rem !important; }
+      .trust-badges { display: none !important; }
+      .form-panel {
+        padding: 1rem !important;
+        overflow-y: auto;
+        max-height: 90vh;
+      }
+      .glass-card { padding: 1.2rem !important; }
+      .form-header { margin-bottom: 0.8rem !important; }
+      .signup-scroll { max-height: 220px; }
     }
 
     /* ── Smooth scroll for views ────────────────────────── */

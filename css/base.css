@@ -99,3 +99,42 @@ body {
 .status-badge.completed { background: rgba(16, 185, 129, 0.15); color: #10B981; }
 .status-badge.in-progress { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
 .status-badge.scheduled { background: rgba(255, 217, 61, 0.15); color: #FFD93D; }
+
+/* Responsive & Touch Optimization */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Touch Targets for Mobile */
+@media (max-width: 768px) {
+  button, .btn, input, select, textarea, a.nav-item, .filter-tab {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+}
+
+/* Landscape Mode Adjustments for Short Viewports (e.g. mobile phones in landscape) */
+@media (max-height: 550px) and (orientation: landscape) {
+  .section-padding {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  .modal-content, .drawer-content, .card {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  header, nav, .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+}
+
+/* Table Responsive Wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+

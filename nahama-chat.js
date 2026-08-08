@@ -448,7 +448,7 @@
   letter-spacing: .3px;
 }
 
-/* mobile responsive */
+/* mobile responsive (portrait & landscape) */
 @media (max-width: 480px) {
   #nahama-widget { bottom: 0; right: 0; }
   .nahama-panel {
@@ -463,6 +463,18 @@
     bottom: 16px;
     right: 16px;
     position: fixed;
+  }
+}
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .nahama-panel {
+    height: 94vh;
+    max-height: 94vh;
+    width: 380px;
+    max-width: 90vw;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 12px;
   }
 }
 `;

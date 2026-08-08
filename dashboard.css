@@ -855,3 +855,12 @@ input, select { font-family: var(--font-body); }
   .drawer { width: 100%; }
   .quick-book { flex-direction: column; text-align: center; gap: 16px; }
 }
+
+/* Mobile Landscape Optimization */
+@media (max-height: 550px) and (orientation: landscape) {
+  .topbar { height: 52px; padding: 0 16px; }
+  .map-panel { height: 220px; }
+  .drawer { max-height: 94vh; overflow-y: auto; }
+  .modal-card { max-height: 90vh; overflow-y: auto; }
+}
+
