@@ -9,7 +9,7 @@
 
     const STORAGE_KEY_APPLICANTS = 'kincare_provider_applicants';
 
-    // Default Seed Applicants if local storage is empty
+    // Default Seed Applicants with Tiers, Ratings, Tips, and Strike Status
     const DEFAULT_APPLICANTS = [
         {
             id: 'APP-1001',
@@ -25,7 +25,12 @@
             checkrStatus: 'passed',
             mvrStatus: 'not_required',
             categories: ['Babysitting', 'Tutoring'],
-            suggestedRate: '$22/hr',
+            baseRate: 22.00,
+            tier: 'Gold',
+            rating: 4.92,
+            jobsCompleted: 38,
+            tipsEarned: 345.50,
+            strikes: 0,
             status: 'approved'
         },
         {
@@ -42,7 +47,12 @@
             checkrStatus: 'passed',
             mvrStatus: 'passed',
             categories: ['Kid Transport', 'Pet Care'],
-            suggestedRate: '$25/hr',
+            baseRate: 25.00,
+            tier: 'Platinum',
+            rating: 4.98,
+            jobsCompleted: 62,
+            tipsEarned: 580.00,
+            strikes: 0,
             status: 'approved'
         },
         {
@@ -59,7 +69,12 @@
             checkrStatus: 'pending',
             mvrStatus: 'pending',
             categories: ['Babysitting', 'Pet Care', 'Home Help'],
-            suggestedRate: '$20/hr',
+            baseRate: 18.00,
+            tier: 'Bronze',
+            rating: 4.75,
+            jobsCompleted: 6,
+            tipsEarned: 45.00,
+            strikes: 0,
             status: 'pending_review'
         },
         {
@@ -76,7 +91,12 @@
             checkrStatus: 'pending',
             mvrStatus: 'not_required',
             categories: ['Senior Companion', 'Home Help'],
-            suggestedRate: '$28/hr',
+            baseRate: 28.00,
+            tier: 'Platinum',
+            rating: 4.96,
+            jobsCompleted: 54,
+            tipsEarned: 490.00,
+            strikes: 0,
             status: 'pending_review'
         }
     ];
@@ -141,31 +161,56 @@
         },
 
         ingestApplication(formData) {
-            const applicants = this.getApplicants();
-            const categories = this.autoCategorize(formData.serviceType, formData.whyKinCare);
-            const needsMvr = categories.includes('Kid Transport');
-
+            const list = this.getApplicants();
+            const categories = this.autoCategorize(formData.serviceType || '', formData.whyKinCare || '');
+            const requiresMvr = formData.serviceType === 'Kid Transport' || categories.includes('Kid Transport');
+            
             const newApplicant = {
-                id: 'APP-' + Math.floor(1000 + Math.random() * 9000),
-                fullName: formData.fullName,
-                email: formData.email,
-                phone: formData.phone,
-                city: formData.city,
-                serviceType: formData.serviceType,
-                experience: formData.experience,
+                id: 'APP-' + (1000 + list.length + 1),
+                fullName: formData.fullName || 'Anonymous Applicant',
+                email: formData.email || '',
+                phone: formData.phone || '',
+                city: formData.city || 'Greensboro, NC',
+                serviceType: formData.serviceType || 'Babysitting',
+                experience: formData.experience || '1-3 years',
                 availability: formData.availability || ['Flexible'],
                 whyKinCare: formData.whyKinCare || '',
                 submittedAt: new Date().toISOString(),
                 checkrStatus: 'pending',
-                mvrStatus: needsMvr ? 'pending' : 'not_required',
+                mvrStatus: requiresMvr ? 'pending' : 'not_required',
                 categories: categories,
-                suggestedRate: this.calculateSuggestedRate(categories, formData.experience),
+                baseRate: Math.max(17.00, parseFloat(formData.requestedRate || 18.00)), // Baseline pay $17.00/hr guarantee
+                tier: 'Bronze',
+                rating: 5.00,
+                jobsCompleted: 0,
+                tipsEarned: 0.00,
+                strikes: 0,
                 status: 'pending_review'
             };
 
-            applicants.unshift(newApplicant);
-            this.saveApplicants(applicants);
+            list.unshift(newApplicant);
+            this.saveApplicants(list);
             return newApplicant;
+        },
+
+        recordStrike(applicantId, reason) {
+            const list = this.getApplicants();
+            const target = list.find(a => a.id === applicantId);
+            if (!target) return null;
+
+            target.strikes = (target.strikes || 0) + 1;
+            if (target.strikes >= 3) {
+                target.status = 'banned_3_strikes';
+            }
+            this.saveApplicants(list);
+            return target;
+        },
+
+        calculateTier(jobsCompleted, rating) {
+            if (jobsCompleted >= 50 && rating >= 4.90) return 'Platinum';
+            if (jobsCompleted >= 25 && rating >= 4.80) return 'Gold';
+            if (jobsCompleted >= 10 && rating >= 4.60) return 'Silver';
+            return 'Bronze';
         },
 
         triggerCheckrScreening(applicantId, callback) {
