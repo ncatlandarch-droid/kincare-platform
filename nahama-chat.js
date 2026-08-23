@@ -78,61 +78,61 @@
 
 /* ── Floating trigger button ── */
 .nahama-fab {
-  position: relative;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  border: 4px solid ${LIME};
-  cursor: pointer;
-  background: ${NAVY};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,.45);
-  transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s;
-  overflow: visible;
-  outline: none;
+  position: relative !important;
+  width: 140px !important;
+  height: 140px !important;
+  border-radius: 50% !important;
+  border: 4px solid ${LIME} !important;
+  cursor: pointer !important;
+  background: ${NAVY} !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 10px 36px rgba(0,0,0,.55) !important;
+  transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s !important;
+  overflow: visible !important;
+  outline: none !important;
 }
 .nahama-fab:hover {
-  transform: scale(1.06);
-  box-shadow: 0 12px 40px rgba(50,205,50,.35);
+  transform: scale(1.06) !important;
+  box-shadow: 0 14px 44px rgba(50,205,50,.45) !important;
 }
-.nahama-fab:active { transform: scale(.96); }
+.nahama-fab:active { transform: scale(.96) !important; }
 
 /* avatar inside fab — 3x larger display */
 .nahama-fab__avatar {
-  width: 118px;
-  height: 118px;
-  border-radius: 50%;
-  object-fit: cover;
-  pointer-events: none;
-  transition: opacity .25s;
+  width: 126px !important;
+  height: 126px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  pointer-events: none !important;
+  transition: opacity .25s !important;
 }
 .nahama-fab__close {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${WHITE};
+  position: absolute !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: ${WHITE} !important;
   opacity: 0;
   transition: opacity .25s;
   pointer-events: none;
   background: ${NAVY};
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
 }
 .nahama-fab.is-open .nahama-fab__avatar { opacity: 0; }
 .nahama-fab.is-open .nahama-fab__close  { opacity: 1; }
 
 /* pulsing ring */
 .nahama-fab::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 4px solid ${LIME};
-  animation: nahamaPulse 2s ease-in-out infinite;
+  content: '' !important;
+  position: absolute !important;
+  inset: -8px !important;
+  border-radius: 50% !important;
+  border: 4px solid ${LIME} !important;
+  animation: nahamaPulse 2s ease-in-out infinite !important;
 }
 .nahama-fab.is-open::before { animation: none; opacity: 0; }
 
@@ -178,9 +178,9 @@
 
 /* ── Chat panel ── */
 .nahama-panel {
-  position: absolute;
-  bottom: 80px;
-  right: 0;
+  position: absolute !important;
+  bottom: 155px !important;
+  right: 0 !important;
   width: 380px;
   height: 520px;
   border-radius: 20px;
