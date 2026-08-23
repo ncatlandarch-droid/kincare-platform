@@ -76,33 +76,37 @@
   z-index: 10000;
 }
 
-/* ── Floating trigger button ── */
+/* ── Floating trigger button (3x enlarged: 200px) ── */
 .nahama-fab {
   position: relative !important;
-  width: 140px !important;
-  height: 140px !important;
+  width: 200px !important;
+  height: 200px !important;
   border-radius: 50% !important;
-  border: 4px solid ${LIME} !important;
+  border: 5px solid ${LIME} !important;
   cursor: pointer !important;
   background: ${NAVY} !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 10px 36px rgba(0,0,0,.55) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,.6) !important;
   transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s !important;
   overflow: visible !important;
   outline: none !important;
 }
 .nahama-fab:hover {
   transform: scale(1.06) !important;
-  box-shadow: 0 14px 44px rgba(50,205,50,.45) !important;
+  box-shadow: 0 16px 56px rgba(50,205,50,.5) !important;
 }
 .nahama-fab:active { transform: scale(.96) !important; }
 
-/* avatar inside fab — 3x larger display */
+/* avatar inside fab — 3x larger display (184px) */
 .nahama-fab__avatar {
-  width: 126px !important;
-  height: 126px !important;
+  width: 184px !important;
+  height: 184px !important;
+  min-width: 184px !important;
+  min-height: 184px !important;
+  max-width: 184px !important;
+  max-height: 184px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   pointer-events: none !important;
@@ -129,9 +133,9 @@
 .nahama-fab::before {
   content: '' !important;
   position: absolute !important;
-  inset: -8px !important;
+  inset: -10px !important;
   border-radius: 50% !important;
-  border: 4px solid ${LIME} !important;
+  border: 5px solid ${LIME} !important;
   animation: nahamaPulse 2s ease-in-out infinite !important;
 }
 .nahama-fab.is-open::before { animation: none; opacity: 0; }
@@ -179,7 +183,7 @@
 /* ── Chat panel ── */
 .nahama-panel {
   position: absolute !important;
-  bottom: 155px !important;
+  bottom: 215px !important;
   right: 0 !important;
   width: 380px;
   height: 520px;
@@ -488,9 +492,9 @@
   const widget = document.createElement('div');
   widget.id = 'nahama-widget';
   widget.innerHTML = `
-    <!-- Floating Action Button -->
-    <button class="nahama-fab" aria-label="Chat with Nahama">
-      <img class="nahama-fab__avatar" src="${AVATAR}" alt="Nahama" />
+    <!-- Floating Action Button (200px Giant Display) -->
+    <button class="nahama-fab" aria-label="Chat with Nahama" style="width:200px !important; height:200px !important;">
+      <img class="nahama-fab__avatar" src="${AVATAR}" alt="Nahama" style="width:184px !important; height:184px !important; min-width:184px !important; min-height:184px !important;" />
       <span class="nahama-fab__close">${ICON_CLOSE}</span>
       <span class="nahama-fab__tip">Chat with Nahama</span>
     </button>
