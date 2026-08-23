@@ -79,30 +79,30 @@
 /* ── Floating trigger button ── */
 .nahama-fab {
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  border: none;
+  border: 4px solid ${LIME};
   cursor: pointer;
   background: ${NAVY};
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,.45);
   transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s;
   overflow: visible;
   outline: none;
 }
 .nahama-fab:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 30px rgba(0,0,0,.45);
+  transform: scale(1.06);
+  box-shadow: 0 12px 40px rgba(50,205,50,.35);
 }
 .nahama-fab:active { transform: scale(.96); }
 
-/* avatar inside fab */
+/* avatar inside fab — 3x larger display */
 .nahama-fab__avatar {
-  width: 56px;
-  height: 56px;
+  width: 118px;
+  height: 118px;
   border-radius: 50%;
   object-fit: cover;
   pointer-events: none;
@@ -117,6 +117,10 @@
   opacity: 0;
   transition: opacity .25s;
   pointer-events: none;
+  background: ${NAVY};
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 .nahama-fab.is-open .nahama-fab__avatar { opacity: 0; }
 .nahama-fab.is-open .nahama-fab__close  { opacity: 1; }
@@ -125,9 +129,9 @@
 .nahama-fab::before {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: -8px;
   border-radius: 50%;
-  border: 3px solid ${LIME};
+  border: 4px solid ${LIME};
   animation: nahamaPulse 2s ease-in-out infinite;
 }
 .nahama-fab.is-open::before { animation: none; opacity: 0; }

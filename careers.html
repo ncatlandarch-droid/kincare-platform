@@ -17,8 +17,9 @@
   <!-- ==================== NAVIGATION ==================== -->
   <nav class="nav nav--dark" id="navbar">
     <div class="container nav-inner">
-      <a href="index.html" class="nav-logo" id="nav-logo">
-        <img src="crisp line logo.png" alt="KinCare" style="height: 64px; width: auto;">
+      <a href="index.html" class="nav-logo" id="nav-logo" style="display:inline-flex;align-items:center;gap:8px;">
+        <img src="crisp line logo.png" alt="KinCare, LLC" style="height: 64px; width: auto;">
+        <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.25rem;color:var(--white,#fff);letter-spacing:-0.02em;">KinCare<span style="color:#32CD32;font-size:0.9rem;font-weight:600;margin-left:3px;">, LLC</span></span>
       </a>
 
       <ul class="nav-links" id="navLinks">
@@ -773,13 +774,26 @@
 
             setTimeout(() => {
               applyForm.innerHTML = `
-                <div style="text-align:center;padding:3rem 1rem;">
-                  <div style="width:80px;height:80px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;animation:scaleIn 0.4s ease;">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <div style="text-align:center;padding:3rem 1.5rem;background:rgba(10,22,40,0.85);border:1px solid rgba(50,205,50,0.3);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.5);">
+                  <div style="width:80px;height:80px;border-radius:50%;background:rgba(50,205,50,0.15);border:2px solid #32CD32;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;animation:scaleIn 0.4s ease;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
-                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.5rem;margin-bottom:0.5rem;color:var(--white);">Application Received!</h3>
-                  <p style="color:var(--gray-400);font-size:0.95rem;max-width:400px;margin:0 auto 1rem;">Thank you for applying to KinCare. We'll review your application and reach out within <strong style="color:var(--white);">48 hours</strong>.</p>
-                  <p style="color:var(--gray-500);font-size:0.82rem;">Check your email for a confirmation.</p>
+                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.75rem;margin-bottom:0.5rem;color:var(--white);">Application Submitted!</h3>
+                  <p style="color:var(--gray-300);font-size:1rem;max-width:440px;margin:0 auto 1.25rem;line-height:1.5;">Your application is filed with KinCare Agency LLC. To fast-track your Checkr background check and join the dispatch queue, complete your screening fee payment below:</p>
+                  
+                  <div style="background:rgba(255,255,255,0.04);border:1px dashed rgba(50,205,50,0.4);border-radius:12px;padding:1.25rem;margin:0 auto 1.5rem;max-width:400px;text-align:left;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                      <span style="font-weight:600;color:var(--white);font-size:0.95rem;">🛡️ Checkr Background Screening</span>
+                      <span style="font-family:'Space Grotesk',monospace;font-weight:700;color:#32CD32;font-size:1.1rem;">$35.00</span>
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--gray-400);line-height:1.4;">Includes national criminal record search, sex offender registry, SSN trace &amp; MVR driving record (if applicable).</p>
+                  </div>
+
+                  <a href="https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35" target="_blank" onclick="alert('Redirecting to KinCare Agency LLC Secure Stripe Payment ($35)...');" class="btn btn-primary" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;max-width:400px;padding:1rem;font-size:1.05rem;margin-bottom:1rem;background:#32CD32;color:#0A1628;font-weight:700;border:none;">
+                    💳 Pay $35 Screening Fee &amp; Start Checkr
+                  </a>
+                  
+                  <p style="color:var(--gray-500);font-size:0.82rem;">Or check your email inbox for a direct payment link sent to your email.</p>
                 </div>
               `;
               applyForm.style.opacity = '1';
