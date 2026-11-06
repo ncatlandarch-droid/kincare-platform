@@ -393,7 +393,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="#mission">Our Mission</a></li>
             <li><a href="#impact">Impact</a></li>
-            <li><a href="#">Careers</a></li>
+            <li><a href="careers.html">Careers</a></li>
             <li><a href="#">Press</a></li>
             <li><a href="#">Blog</a></li>
           </ul>
@@ -403,7 +403,7 @@
           <h4>Support</h4>
           <ul class="footer-links">
             <li><a href="#cta">Help Center</a></li>
-            <li><a href="mailto:sistershappyrentals@gmail.com">Contact Us</a></li>
+            <li><a href="mailto:KinCare@gmail.com">Contact Us</a></li>
             <li><a href="careers.html">Provider FAQ</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms of Service</a></li>
@@ -413,7 +413,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 KinCare, Inc. All rights reserved.</span>
+        <span>© 2026 KinCare Agency LLC. All rights reserved.</span>
         <div class="footer-socials">
           <a href="#" class="footer-social" aria-label="Instagram">📷</a>
           <a href="#" class="footer-social" aria-label="Twitter / X">𝕏</a>
@@ -565,7 +565,12 @@
       if (amount === 'custom') {
         amount = customInput.value || '0';
       }
-      alert(`Thank you for your generous donation of $${amount}! (This is a demo — payment processing would be integrated here.)`);
+      const donateUrl = (window.KinCareAutomator && window.KinCareAutomator.getConfig().stripeDonateLink) || '';
+      if (donateUrl) {
+        window.open(donateUrl, '_blank');
+      } else {
+        window.location.href = `mailto:KinCare@gmail.com?subject=${encodeURIComponent('KinCare Community Care Fund Sponsorship ($' + amount + ')')}&body=${encodeURIComponent('Hi Nahama,\n\nI would like to contribute $' + amount + ' to the KinCare Community Care Fund to help local families access vetted care.\n\nPlease send me the invoice or Stripe payment link.\n\nThank you!')}`;
+      }
     });
 
     /* ========== Form Validation ========== */
@@ -638,6 +643,7 @@
   })();
   </script>
 
+  <script src="kincare-automation.js"></script>
   <script src="nahama-chat.js"></script>
 </body>
 </html>

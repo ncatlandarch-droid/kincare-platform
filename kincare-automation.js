@@ -8,6 +8,20 @@
     'use strict';
 
     const STORAGE_KEY_APPLICANTS = 'kincare_provider_applicants';
+    const STORAGE_KEY_CONFIG = 'kincare_agency_config';
+
+    const DEFAULT_CONFIG = {
+        companyName: 'KinCare Agency LLC',
+        ein: '42-4337623',
+        ownerName: 'Nahama Green',
+        contactEmail: 'KinCare@gmail.com',
+        articlesUrl: 'https://drive.google.com/file/d/1TUl8ghMYeKCj2c6dV_nzEa2Ts26EXTn7/view?usp=sharing',
+        stripeScreeningLink: 'https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35',
+        stripeDonateLink: '',
+        checkrPortalUrl: 'https://dashboard.checkr.com',
+        screeningFee: 35.00,
+        minHourlyWage: 17.00
+    };
 
     // Default Seed Applicants with Tiers, Ratings, Tips, and Strike Status
     const DEFAULT_APPLICANTS = [
@@ -102,6 +116,56 @@
     ];
 
     const KinCareAutomator = {
+        getConfig() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY_CONFIG);
+                return stored ? Object.assign({}, DEFAULT_CONFIG, JSON.parse(stored)) : Object.assign({}, DEFAULT_CONFIG);
+            } catch (e) {
+                return Object.assign({}, DEFAULT_CONFIG);
+            }
+        },
+
+        saveConfig(newConfig) {
+            try {
+                const merged = Object.assign({}, this.getConfig(), newConfig);
+                localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(merged));
+                return merged;
+            } catch (e) {
+                console.error('Failed to save config:', e);
+                return DEFAULT_CONFIG;
+            }
+        },
+
+        exportApplicantsCSV() {
+            const list = this.getApplicants();
+            const headers = ['ID', 'Full Name', 'Email', 'Phone', 'City', 'Categories', 'Tier', 'Base Rate ($/hr)', 'Checkr Status', 'MVR Status', 'Jobs Completed', 'Rating', 'Tips Earned ($)', 'Strikes', 'Status'];
+            const rows = list.map(a => [
+                a.id,
+                `"${(a.fullName || '').replace(/"/g, '""')}"`,
+                a.email || '',
+                a.phone || '',
+                `"${(a.city || '').replace(/"/g, '""')}"`,
+                `"${(a.categories || []).join('; ')}"`,
+                a.tier || 'Bronze',
+                (a.baseRate || 17).toFixed(2),
+                a.checkrStatus || 'pending',
+                a.mvrStatus || 'not_required',
+                a.jobsCompleted || 0,
+                a.rating || 5.0,
+                (a.tipsEarned || 0).toFixed(2),
+                a.strikes || 0,
+                a.status || 'pending_review'
+            ]);
+            const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `KinCare_Providers_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+
         getApplicants() {
             try {
                 const stored = localStorage.getItem(STORAGE_KEY_APPLICANTS);

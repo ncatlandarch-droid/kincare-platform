@@ -617,7 +617,7 @@
           <h4>Support</h4>
           <ul class="footer-links">
             <li><a href="#cta">Help Center</a></li>
-            <li><a href="mailto:sistershappyrentals@gmail.com">Contact Us</a></li>
+            <li><a href="mailto:KinCare@gmail.com">Contact Us</a></li>
             <li><a href="careers.html">Provider FAQ</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms of Service</a></li>
@@ -627,7 +627,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 KinCare, Inc. All rights reserved.</span>
+        <span>© 2026 KinCare Agency LLC. All rights reserved.</span>
         <div class="footer-socials">
           <a href="#" class="footer-social" aria-label="Instagram">📷</a>
           <a href="#" class="footer-social" aria-label="Twitter / X">𝕏</a>
@@ -669,7 +669,7 @@
     const earningsMid = document.getElementById('earningsMid');
     const earningsHigh = document.getElementById('earningsHigh');
 
-    const LOW_RATE = 18;
+    const LOW_RATE = 17;
     const MID_RATE = 26;
     const HIGH_RATE = 35;
 
@@ -789,7 +789,7 @@
                     <p style="font-size:0.8rem;color:var(--gray-400);line-height:1.4;">Includes national criminal record search, sex offender registry, SSN trace &amp; MVR driving record (if applicable).</p>
                   </div>
 
-                  <a href="https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35" target="_blank" onclick="alert('Redirecting to KinCare Agency LLC Secure Stripe Payment ($35)...');" class="btn btn-primary" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;max-width:400px;padding:1rem;font-size:1.05rem;margin-bottom:1rem;background:#32CD32;color:#0A1628;font-weight:700;border:none;">
+                  <a href="${(window.KinCareAutomator && window.KinCareAutomator.getConfig().stripeScreeningLink) || 'https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35'}" target="_blank" class="btn btn-primary" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;max-width:400px;padding:1rem;font-size:1.05rem;margin-bottom:1rem;background:#32CD32;color:#0A1628;font-weight:700;border:none;">
                     💳 Pay $35 Screening Fee &amp; Start Checkr
                   </a>
                   

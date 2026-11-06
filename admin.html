@@ -1145,10 +1145,10 @@
     </nav>
 
     <div class="sidebar-footer">
-        <div class="sidebar-avatar">CD</div>
+        <div class="sidebar-avatar">NG</div>
         <div class="sidebar-user">
-            <div class="sidebar-user-name">Chris D.</div>
-            <div class="sidebar-user-role">Super Admin</div>
+            <div class="sidebar-user-name">Nahama Green</div>
+            <div class="sidebar-user-role">Founder & CEO</div>
         </div>
         <button class="sidebar-collapse-btn" onclick="toggleSidebar()" title="Toggle sidebar">
             ‹
@@ -1164,7 +1164,7 @@
     <header class="topbar">
         <div class="topbar-left">
             <h1 class="topbar-title" id="topbar-title">Dashboard</h1>
-            <p class="topbar-subtitle" id="topbar-subtitle">Welcome back, Chris. Here's today's overview.</p>
+            <p class="topbar-subtitle" id="topbar-subtitle">Welcome back, Nahama. Here's today's KinCare Agency LLC overview.</p>
         </div>
         <div class="topbar-actions">
             <div class="topbar-search">
@@ -1493,10 +1493,16 @@
             <!-- Automated Provider Vetting & Categorization Header -->
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
                 <div>
-                    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;">Automated Provider Screening & Categorization</h2>
-                    <p style="color:var(--text-muted);font-size:0.9rem;">Checkr API Background Screening, Auto-Categorization, and Provider Roster Management.</p>
+                    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;">Automated Provider Screening, Tiers & 3-Strike Roster</h2>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Checkr API Background Screening, $17/hr+ Tier Management, 100% Tips Tracking & 3-Strike Safety Enforcement.</p>
                 </div>
-                <div style="display:flex;gap:0.75rem;">
+                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                    <button class="table-btn" onclick="window.KinCareAutomator && window.KinCareAutomator.exportApplicantsCSV()" style="display:flex;align-items:center;gap:0.4rem;padding:0.6rem 1rem;font-size:0.85rem;">
+                        <span>🔽 Export Providers CSV</span>
+                    </button>
+                    <button class="table-btn" onclick="openAddProviderModal()" style="display:flex;align-items:center;gap:0.4rem;padding:0.6rem 1rem;font-size:0.85rem;">
+                        <span>➕ Add Applicant Manually</span>
+                    </button>
                     <button class="btn btn-primary" onclick="triggerBatchCheckrScreening()" style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;font-size:0.85rem;">
                         <span>⚡ Run Batch Checkr API Scan</span>
                     </button>
@@ -1510,6 +1516,7 @@
                         <button class="filter-tab active" onclick="filterProviders('all', this)">All Applicants (<span id="count-all">0</span>)</button>
                         <button class="filter-tab" onclick="filterProviders('pending_review', this)">Pending Screening (<span id="count-pending">0</span>)</button>
                         <button class="filter-tab" onclick="filterProviders('approved', this)">Checkr Clear / Roster (<span id="count-approved">0</span>)</button>
+                        <button class="filter-tab" onclick="filterProviders('banned_3_strikes', this)">Banned (3 Strikes)</button>
                     </div>
                     <div style="display:flex;gap:0.5rem;align-items:center;">
                         <input type="text" id="provider-search" placeholder="Search applicant name, email, city..." onkeyup="renderProviders()" style="padding:0.45rem 0.8rem;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-main);font-size:0.85rem;">
@@ -1520,19 +1527,20 @@
             <!-- Applicants & Providers Table -->
             <div class="table-card">
                 <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;">
-                    <h3>Applicant Screening Queue</h3>
-                    <span style="font-size:0.8rem;color:var(--text-muted);">Checkr API Connected • Auto-Categorized</span>
+                    <h3>Applicant & Active Provider Queue</h3>
+                    <span style="font-size:0.8rem;color:var(--text-muted);">Checkr API Connected • $17/hr Base Guarantee • 100% Tips to Provider</span>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Applicant</th>
+                                <th>Applicant / Rating</th>
                                 <th>Contact & City</th>
-                                <th>Auto-Categorized Services</th>
-                                <th>Suggested Rate</th>
-                                <th>Checkr Status</th>
-                                <th>MVR Driver Check</th>
+                                <th>Services</th>
+                                <th>Tier & Base Pay</th>
+                                <th>Jobs & Tips (100%)</th>
+                                <th>Checkr & MVR</th>
+                                <th>Strikes (Max 3)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -1581,11 +1589,77 @@
         </section>
 
         <section class="view" id="view-settings">
-            <div class="coming-soon">
-                <div class="coming-soon-icon">⚙️</div>
-                <h2>Settings</h2>
-                <p>Configure platform preferences, notifications, security, and integrations.</p>
-                <span class="coming-soon-badge">Coming Soon</span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(380px, 1fr));gap:1.5rem;margin-bottom:2rem;">
+                <!-- Official Entity & Legal Records Card -->
+                <div class="table-card" style="padding:1.5rem;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                        <div>
+                            <h3 style="font-size:1.15rem;font-weight:700;">🏢 Official Corporate & Tax Records</h3>
+                            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem;">Registered North Carolina LLC & IRS Federal Tax ID</p>
+                        </div>
+                        <span class="status-badge completed"><span class="status-dot"></span>Active Entity</span>
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:0.85rem;font-size:0.9rem;">
+                        <div style="display:flex;justify-content:space-between;padding:0.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;">
+                            <span style="color:var(--text-muted);">Legal Entity Name:</span>
+                            <strong style="color:var(--text-main);">KinCare Agency LLC (NC)</strong>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:0.75rem;background:rgba(50,205,50,0.08);border:1px solid rgba(50,205,50,0.3);border-radius:8px;">
+                            <span style="color:var(--text-muted);">IRS Federal EIN:</span>
+                            <strong style="font-family:'Space Grotesk',monospace;color:#32CD32;font-size:1rem;">42-4337623</strong>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:0.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;">
+                            <span style="color:var(--text-muted);">Founder & CEO:</span>
+                            <strong style="color:var(--text-main);">Nahama Green</strong>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:0.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;">
+                            <span style="color:var(--text-muted);">Official Company Email:</span>
+                            <strong style="color:var(--text-main);">KinCare@gmail.com</strong>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;">
+                        <a href="https://drive.google.com/file/d/1TUl8ghMYeKCj2c6dV_nzEa2Ts26EXTn7/view?usp=sharing" target="_blank" class="table-btn primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;">
+                            📄 View NC Articles of Organization (PDF)
+                        </a>
+                        <a href="https://dashboard.stripe.com" target="_blank" class="table-btn" style="text-decoration:none;">💳 Open Stripe</a>
+                        <a href="https://dashboard.checkr.com" target="_blank" class="table-btn" style="text-decoration:none;">🛡️ Open Checkr</a>
+                    </div>
+                </div>
+
+                <!-- No-Code Payment & Screening Link Configuration -->
+                <div class="table-card" style="padding:1.5rem;">
+                    <div style="margin-bottom:1.25rem;">
+                        <h3 style="font-size:1.15rem;font-weight:700;">🔗 Payment & Screening Links (No-Code Setup)</h3>
+                        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem;">Paste your live Stripe $35 Background Check Payment Link here to update your Careers page automatically.</p>
+                    </div>
+
+                    <form id="agency-config-form" onsubmit="saveAgencySettings(event)" style="display:flex;flex-direction:column;gap:1rem;">
+                        <div>
+                            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">Stripe $35 Background Check Payment Link</label>
+                            <input type="url" id="cfg-stripe-link" placeholder="https://buy.stripe.com/..." required style="width:100%;padding:0.65rem 0.85rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);font-size:0.88rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">Community Fund / Donation Stripe Link (Optional)</label>
+                            <input type="url" id="cfg-donate-link" placeholder="https://donate.stripe.com/..." style="width:100%;padding:0.65rem 0.85rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);font-size:0.88rem;">
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                            <div>
+                                <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">Support Email</label>
+                                <input type="email" id="cfg-contact-email" value="KinCare@gmail.com" style="width:100%;padding:0.65rem 0.85rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);font-size:0.88rem;">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">Min Base Pay ($/hr)</label>
+                                <input type="number" id="cfg-min-wage" value="17.00" step="0.50" min="17" style="width:100%;padding:0.65rem 0.85rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);font-size:0.88rem;">
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;">
+                            <span id="cfg-save-status" style="font-size:0.82rem;color:#32CD32;font-weight:600;"></span>
+                            <button type="submit" class="table-btn primary" style="padding:0.65rem 1.25rem;font-size:0.9rem;">💾 Save Platform Settings</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -1597,15 +1671,15 @@
    VIEW NAVIGATION
    ═══════════════════════════════════════════ */
 const viewTitles = {
-    dashboard: { title: 'Dashboard', sub: 'Welcome back, Chris. Here\'s today\'s overview.' },
+    dashboard: { title: 'Dashboard', sub: 'Welcome back, Nahama. Here\'s today\'s KinCare Agency LLC overview.' },
     bookings: { title: 'Bookings', sub: 'Manage and track all service bookings.' },
     customers: { title: 'Customers', sub: 'Your customer database and profiles.' },
-    providers: { title: 'Providers', sub: 'Service providers and their availability.' },
+    providers: { title: 'Providers', sub: 'Service providers, Checkr screening, $17/hr+ tiers, and 3-Strike policy.' },
     financials: { title: 'Financials', sub: 'Revenue, expenses, and financial overview.' },
     invoices: { title: 'Invoices', sub: 'Create and manage billing invoices.' },
     analytics: { title: 'Analytics', sub: 'Business performance and growth metrics.' },
     community: { title: 'Community Fund', sub: 'Community care and assistance programs.' },
-    settings: { title: 'Settings', sub: 'Platform configuration and preferences.' }
+    settings: { title: 'Settings & Entity Records', sub: 'KinCare Agency LLC (EIN: 42-4337623) configuration and Stripe payment links.' }
 };
 
 function switchView(viewId, navEl) {
@@ -1796,44 +1870,127 @@ function renderProviders() {
     }
 
     if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">No applicants found matching filter criteria.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">No applicants found matching filter criteria.</td></tr>`;
         return;
     }
 
+    const tierColors = {
+        Bronze: '#CD7F32',
+        Silver: '#C0C0C0',
+        Gold: '#F59E0B',
+        Platinum: '#38BDF8'
+    };
+
     tbody.innerHTML = filtered.map(a => {
-        const categoryBadges = a.categories.map(c => `<span style="display:inline-block;padding:0.15rem 0.45rem;border-radius:4px;font-size:0.7rem;font-family:'Space Grotesk',monospace;margin-right:0.25rem;margin-bottom:0.25rem;background:rgba(50,205,50,0.12);color:#32CD32;border:1px solid rgba(50,205,50,0.3);">${c}</span>`).join('');
+        const categoryBadges = (a.categories || []).map(c => `<span style="display:inline-block;padding:0.15rem 0.45rem;border-radius:4px;font-size:0.7rem;font-family:'Space Grotesk',monospace;margin-right:0.25rem;margin-bottom:0.25rem;background:rgba(50,205,50,0.12);color:#32CD32;border:1px solid rgba(50,205,50,0.3);">${c}</span>`).join('');
         
         let checkrBadge = `<span class="status-badge scheduled"><span class="status-dot"></span>Checkr Pending</span>`;
         if (a.checkrStatus === 'processing') checkrBadge = `<span class="status-badge in-progress"><span class="status-dot"></span>Checkr Scanning...</span>`;
         if (a.checkrStatus === 'passed') checkrBadge = `<span class="status-badge completed"><span class="status-dot"></span>Checkr Clear ✓</span>`;
 
-        let mvrBadge = `<span style="font-size:0.75rem;color:var(--text-muted);">N/A</span>`;
-        if (a.mvrStatus === 'pending') mvrBadge = `<span class="status-badge scheduled">MVR Pending</span>`;
-        if (a.mvrStatus === 'passed') mvrBadge = `<span class="status-badge completed">MVR Clear ✓</span>`;
+        let mvrBadge = `<span style="font-size:0.72rem;color:var(--text-muted);">MVR: N/A</span>`;
+        if (a.mvrStatus === 'pending') mvrBadge = `<span style="font-size:0.72rem;color:#F59E0B;">MVR: Pending</span>`;
+        if (a.mvrStatus === 'passed') mvrBadge = `<span style="font-size:0.72rem;color:#10B981;">MVR: Clear ✓</span>`;
+
+        const rateVal = a.baseRate ? `$${Number(a.baseRate).toFixed(2)}/hr` : (a.suggestedRate || '$17.00/hr');
+        const tierName = a.tier || 'Bronze';
+        const tierColor = tierColors[tierName] || '#32CD32';
+        const strikes = a.strikes || 0;
+        const strikeDots = [0,1,2].map(i => `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:${i < strikes ? '#EF4444' : 'rgba(255,255,255,0.15)'};border:1px solid ${i < strikes ? '#EF4444' : 'rgba(255,255,255,0.3)'};"></span>`).join('');
 
         return `
-            <tr>
+            <tr style="${a.status === 'banned_3_strikes' ? 'opacity:0.55;' : ''}">
                 <td style="font-weight:600;color:var(--text-main);">
                     ${a.fullName}
-                    <div style="font-size:0.72rem;color:var(--text-muted);font-weight:400;">Exp: ${a.experience}</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);font-weight:400;">⭐ ${(a.rating || 5.0).toFixed(2)} • Exp: ${a.experience}</div>
                 </td>
                 <td>
                     <div style="font-size:0.85rem;color:var(--text-main);">${a.email}</div>
                     <div style="font-size:0.75rem;color:var(--text-muted);">${a.phone} • ${a.city}</div>
                 </td>
                 <td>${categoryBadges}</td>
-                <td style="font-family:'Space Grotesk',monospace;font-weight:700;color:#32CD32;">${a.suggestedRate}</td>
-                <td>${checkrBadge}</td>
-                <td>${mvrBadge}</td>
                 <td>
-                    ${a.checkrStatus !== 'passed' ? 
-                        `<button onclick="runCheckrForApplicant('${a.id}')" style="padding:0.35rem 0.65rem;font-size:0.72rem;background:#32CD32;color:#0A1628;border:none;border-radius:4px;font-weight:700;cursor:pointer;">⚡ Run Checkr API</button>` : 
+                    <div style="font-family:'Space Grotesk',monospace;font-weight:700;color:#32CD32;font-size:0.95rem;">${rateVal}</div>
+                    <span style="display:inline-block;font-size:0.68rem;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,0.06);color:${tierColor};border:1px solid ${tierColor};margin-top:2px;">${tierName} Tier</span>
+                </td>
+                <td>
+                    <div style="font-size:0.82rem;font-weight:600;color:var(--text-main);">${a.jobsCompleted || 0} jobs</div>
+                    <div style="font-size:0.72rem;color:#10B981;">+$${(a.tipsEarned || 0).toFixed(2)} tips</div>
+                </td>
+                <td>
+                    <div>${checkrBadge}</div>
+                    <div style="margin-top:3px;">${mvrBadge}</div>
+                </td>
+                <td>
+                    <div style="display:flex;align-items:center;">${strikeDots}<span style="font-size:0.75rem;color:${strikes >= 3 ? '#EF4444' : 'var(--text-muted)'};margin-left:4px;">${strikes}/3</span></div>
+                    ${strikes < 3 ? `<button onclick="addProviderStrike('${a.id}')" style="margin-top:4px;padding:2px 6px;font-size:0.68rem;background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.35);border-radius:4px;cursor:pointer;">+ Strike</button>` : `<span style="font-size:0.68rem;color:#EF4444;font-weight:700;">BANNED</span>`}
+                </td>
+                <td>
+                    ${a.status === 'banned_3_strikes' ? `<span style="color:#EF4444;font-size:0.75rem;font-weight:700;">🚫 Banned</span>` :
+                      a.checkrStatus !== 'passed' ? 
+                        `<button onclick="runCheckrForApplicant('${a.id}')" style="padding:0.35rem 0.65rem;font-size:0.72rem;background:#32CD32;color:#0A1628;border:none;border-radius:4px;font-weight:700;cursor:pointer;">⚡ Verify Checkr</button>` : 
                         `<span style="color:#10B981;font-size:0.75rem;font-weight:600;">✓ Active Roster</span>`
                     }
                 </td>
             </tr>
         `;
     }).join('');
+}
+
+function addProviderStrike(id) {
+    if (!window.KinCareAutomator) return;
+    if (confirm('Record a policy violation strike for this provider? (3 strikes = automatic permanent ban)')) {
+        window.KinCareAutomator.recordStrike(id, 'Admin recorded violation');
+        renderProviders();
+    }
+}
+
+function openAddProviderModal() {
+    const fullName = prompt('Enter Provider Full Name:');
+    if (!fullName) return;
+    const email = prompt('Enter Provider Email:', '');
+    const phone = prompt('Enter Provider Phone:', '(336) ');
+    const serviceType = prompt('Primary Service (Babysitting, Pet Care, Kid Transport, Senior Companion, Home Help, Tutoring):', 'Babysitting');
+    if (window.KinCareAutomator) {
+        window.KinCareAutomator.ingestApplication({
+            fullName,
+            email: email || 'applicant@wearekincare.com',
+            phone: phone || '(336) 555-0100',
+            city: 'Greensboro, NC',
+            serviceType: serviceType || 'Babysitting',
+            experience: '1-3 years'
+        });
+        renderProviders();
+    }
+}
+
+function loadAgencySettings() {
+    if (!window.KinCareAutomator) return;
+    const cfg = window.KinCareAutomator.getConfig();
+    const stripeEl = document.getElementById('cfg-stripe-link');
+    const donateEl = document.getElementById('cfg-donate-link');
+    const emailEl = document.getElementById('cfg-contact-email');
+    const wageEl = document.getElementById('cfg-min-wage');
+    if (stripeEl) stripeEl.value = cfg.stripeScreeningLink || '';
+    if (donateEl) donateEl.value = cfg.stripeDonateLink || '';
+    if (emailEl) emailEl.value = cfg.contactEmail || 'KinCare@gmail.com';
+    if (wageEl) wageEl.value = cfg.minHourlyWage || 17.00;
+}
+
+function saveAgencySettings(e) {
+    if (e) e.preventDefault();
+    if (!window.KinCareAutomator) return;
+    window.KinCareAutomator.saveConfig({
+        stripeScreeningLink: document.getElementById('cfg-stripe-link')?.value.trim() || 'https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35',
+        stripeDonateLink: document.getElementById('cfg-donate-link')?.value.trim() || '',
+        contactEmail: document.getElementById('cfg-contact-email')?.value.trim() || 'KinCare@gmail.com',
+        minHourlyWage: Math.max(17, parseFloat(document.getElementById('cfg-min-wage')?.value || 17))
+    });
+    const statusEl = document.getElementById('cfg-save-status');
+    if (statusEl) {
+        statusEl.textContent = '✓ Saved! Live across Careers & Community pages.';
+        setTimeout(() => { statusEl.textContent = ''; }, 4000);
+    }
 }
 
 function filterProviders(status, btn) {
@@ -1871,6 +2028,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(animateBars, 300);
     renderBookings('all', '');
     renderProviders();
+    loadAgencySettings();
 });
 </script>
 

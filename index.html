@@ -727,8 +727,9 @@
       <h2 class="section-title reveal">Your Family Deserves<br><span class="gradient-text">KinCare</span></h2>
       <p class="section-subtitle reveal">Join 50,000+ families who stopped juggling apps and started living. Sign up free — your first booking is on us.</p>
 
-      <form class="reveal" id="signupForm" style="max-width: 500px; margin: 0 auto; display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
-        <input type="email" id="signup-email" placeholder="Enter your email" required
+      <form class="reveal" id="signupForm" name="family-waitlist" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
+        <input type="hidden" name="form-name" value="family-waitlist">
+        <input type="email" name="email" id="signup-email" placeholder="Enter your email" required
           style="flex: 1; min-width: 250px; padding: 14px 20px; border-radius: var(--radius-full); border: 2px solid var(--mist); background: var(--bg-card); color: var(--text-primary); font-family: var(--font-body); font-size: 1rem; outline: none; transition: border-color 0.3s;">
         <button type="submit" class="btn btn-primary" id="signup-submit">
           Get Started Free
@@ -776,7 +777,7 @@
           <h4>Support</h4>
           <ul class="footer-links">
             <li><a href="#cta">Help Center</a></li>
-            <li><a href="mailto:sistershappyrentals@gmail.com">Contact Us</a></li>
+            <li><a href="mailto:KinCare@gmail.com">Contact Us</a></li>
             <li><a href="careers.html">Provider FAQ</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms of Service</a></li>
@@ -786,7 +787,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 KinCare, Inc. All rights reserved.</span>
+        <span>© 2026 KinCare Agency LLC. All rights reserved.</span>
         <div class="footer-socials">
           <a href="#" class="footer-social" aria-label="Instagram">📷</a>
           <a href="#" class="footer-social" aria-label="Twitter / X">𝕏</a>
