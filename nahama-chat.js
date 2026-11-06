@@ -1,683 +1,547 @@
 /**
- * Nahama Chat — KinCare AI Assistant Widget
- * Self-contained JS file: injects all HTML + CSS.
- * Usage: <script src="nahama-chat.js"></script>
+ * Nahama — KinCare Unified Bilingual (EN/ES) Voice Concierge & Executive Back-Office Assistant
+ * Modes:
+ *   1. Public Visitor & Applicant Concierge (EN / ES + Voice TTS + Speech-to-Text Mic)
+ *   2. PIN-Protected Executive Co-Pilot for Nahama (Secretary • Accountant/QuickBooks • Smart Scheduler)
  */
 (function () {
   'use strict';
+  if (document.getElementById('nahama-widget')) return;
 
-  /* ─── brand tokens ─── */
-  const NAVY    = '#0A1628';
-  const LIME    = '#32CD32';
-  const LIME_DK = '#28a428';
-  const WHITE   = '#FFFFFF';
-  const CLOUD   = '#F8F9FC';
-  const GRAY_BG = '#F3F4F6';
-  const GRAY_TX = '#374151';
-  const AVATAR  = 'nahama-avatar.png';
-  const TYPING_DELAY = 800;
+  const NAVY = '#0A1628';
+  const LIME = '#32CD32';
+  const WHITE = '#FFFFFF';
+  const AVATAR = 'nahama-avatar.png';
 
-  /* ─── SVG icons (no emojis in UI) ─── */
-  const ICON_SEND = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
-  const ICON_CLOSE = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-  const ICON_CHAT = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="${WHITE}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+  let currentLang = localStorage.getItem('kincare_lang') || 'en';
+  let voiceEnabled = localStorage.getItem('kincare_voice') !== 'off';
+  let isExecutiveUnlocked = window.location.pathname.includes('admin.html') || sessionStorage.getItem('kincare_exec_unlocked') === '1';
+  let currentMode = isExecutiveUnlocked ? 'secretary' : 'visitor'; // 'visitor' | 'secretary' | 'accountant' | 'scheduler'
 
-  /* ─── pre-built responses ─── */
-  const RESPONSES = {
-    'Book a Sitter': {
-      text: `Booking a sitter is easy! Head over to your <a href="dashboard.html" target="_blank">KinCare Dashboard</a> where you can browse verified caregivers, view their profiles and reviews, and book in just a few taps. You can filter by availability, experience, and certifications. 💚`,
-      chips: ['Find Pet Care', 'How Pricing Works', 'Body Camera Info']
+  /* ─── Site-Wide Bilingual Navbar & Page Translation Engine ─── */
+  const PAGE_TRANSLATIONS = {
+    es: {
+      'Services': 'Servicios',
+      'How It Works': 'Cómo Funciona',
+      'Trust & Safety': 'Seguridad',
+      'Pricing': 'Precios',
+      'Careers': 'Empleos',
+      'Community': 'Comunidad',
+      'Log In': 'Iniciar Sesión',
+      'Get Started': 'Comenzar',
+      'Book a Sitter Now →': 'Reservar Cuidador Ahora →',
+      'Become a Provider': 'Ser Proveedor ($17–$35/hr)',
+      'Apply Now': 'Aplicar Ahora',
+      'Submit Application': 'Enviar Solicitud',
+      'Request Vetted Caregiver Now': 'Solicitar Cuidador Verificado Ahora'
     },
-    'Find Pet Care': {
-      text: `We love fur-babies too! KinCare offers trusted pet care services including dog walking, overnight stays, and pet sitting. Check out our <a href="#services">Services section</a> to see all pet care options and find a provider near you. 🐾`,
-      chips: ['Book a Sitter', 'How Pricing Works', 'Become a Provider']
-    },
-    'How Pricing Works': {
-      text: `Our pricing is transparent and competitive. Rates start based on service type and duration — no hidden fees, ever. Visit the <a href="#pricing">Pricing section</a> for a full breakdown. You only pay for the time you need, and all payments are handled securely through the platform. 💚`,
-      chips: ['Book a Sitter', 'Find Pet Care', 'Become a Provider']
-    },
-    'Become a Provider': {
-      text: `Join our community and earn <strong>$18–$35/hr</strong> doing meaningful work! We're looking for babysitters, pet sitters, elder care aides, and more. Visit our <a href="careers.html" target="_blank">Careers page</a> to apply — it takes less than 5 minutes. Background checks and training are provided. 💚`,
-      chips: ['How Pricing Works', 'Body Camera Info', 'Book a Sitter']
-    },
-    'Body Camera Info': {
-      text: `Transparency is at the heart of KinCare. Our optional <strong>body camera</strong> feature lets parents live-stream or review recorded sessions for complete peace of mind. Providers wear a small, discreet camera — and families can opt in or out at any time. It's safety you can see. 💚`,
-      chips: ['Book a Sitter', 'How Pricing Works', 'Find Pet Care']
+    en: {
+      'Servicios': 'Services',
+      'Cómo Funciona': 'How It Works',
+      'Seguridad': 'Trust & Safety',
+      'Precios': 'Pricing',
+      'Empleos': 'Careers',
+      'Comunidad': 'Community',
+      'Iniciar Sesión': 'Log In',
+      'Comenzar': 'Get Started',
+      'Reservar Cuidador Ahora →': 'Book a Sitter Now →',
+      'Ser Proveedor ($17–$35/hr)': 'Become a Provider',
+      'Aplicar Ahora': 'Apply Now',
+      'Enviar Solicitud': 'Submit Application',
+      'Solicitar Cuidador Verificado Ahora': 'Request Vetted Caregiver Now'
     }
   };
 
-  const FALLBACK = {
-    text: `Great question! For now, you can explore our services or call us at <strong>(336) 555-CARE</strong>. I'm getting smarter every day! 💚`,
-    chips: ['Book a Sitter', 'Find Pet Care', 'How Pricing Works', 'Become a Provider']
-  };
+  function applyPageLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('kincare_lang', lang);
+    const dict = PAGE_TRANSLATIONS[lang] || {};
+    document.querySelectorAll('.nav-links a, .nav-cta a, .btn, button[type="submit"]').forEach(el => {
+      const txt = el.textContent.trim();
+      if (dict[txt]) el.textContent = dict[txt];
+    });
+    const navToggle = document.getElementById('kincare-nav-lang-btn');
+    if (navToggle) navToggle.innerHTML = lang === 'es' ? '🇪🇸 ES | 🇺🇸 EN' : '🇺🇸 EN | 🇪🇸 ES';
+    const chatLangBtn = document.getElementById('nahama-lang-btn');
+    if (chatLangBtn) chatLangBtn.textContent = lang === 'es' ? '🇪🇸 ES' : '🇺🇸 EN';
+  }
 
-  const WELCOME = {
-    text: `Hi! I'm Nahama, your KinCare guide. 💚 How can I help you today?`,
-    chips: ['Book a Sitter', 'Find Pet Care', 'How Pricing Works', 'Become a Provider', 'Body Camera Info']
-  };
+  function injectNavbarLangButton() {
+    const navInner = document.querySelector('.nav-inner') || document.querySelector('.topbar-actions') || document.querySelector('.topbar');
+    if (!navInner || document.getElementById('kincare-nav-lang-btn')) return;
+    const btn = document.createElement('button');
+    btn.id = 'kincare-nav-lang-btn';
+    btn.type = 'button';
+    btn.style.cssText = 'padding:6px 12px;border-radius:20px;border:1.5px solid #32CD32;background:rgba(50,205,50,0.12);color:#32CD32;font-weight:700;font-size:0.78rem;cursor:pointer;margin-left:8px;font-family:inherit;white-space:nowrap;';
+    btn.innerHTML = currentLang === 'es' ? '🇪🇸 ES | 🇺🇸 EN' : '🇺🇸 EN | 🇪🇸 ES';
+    btn.title = 'Switch Language / Cambiar Idioma (English / Español)';
+    btn.addEventListener('click', () => {
+      const next = currentLang === 'en' ? 'es' : 'en';
+      applyPageLanguage(next);
+      if (isOpen) {
+        showBotMessage(
+          next === 'es'
+            ? '🇪🇸 <strong>Idioma cambiado a Español.</strong> ¡Hola! Soy Nahama. ¿En qué puedo ayudarte hoy?'
+            : '🇺🇸 <strong>Switched to English.</strong> Hi! I\'m Nahama. How can I help you today?',
+          getQuickChips()
+        );
+      }
+    });
+    navInner.appendChild(btn);
+  }
 
-  /* ─── inject stylesheet ─── */
+  /* ─── Paloma-Style Neural Voice TTS & Speech Recognition ─── */
+  function speakText(htmlText) {
+    if (!voiceEnabled || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const plain = htmlText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!plain) return;
+      const utter = new SpeechSynthesisUtterance(plain);
+      utter.lang = currentLang === 'es' ? 'es-MX' : 'en-US';
+      utter.rate = 1.02;
+      utter.pitch = 1.05;
+      const voices = window.speechSynthesis.getVoices();
+      const preferred = voices.find(v =>
+        currentLang === 'es'
+          ? (v.lang.startsWith('es') && /female|paulina|monica|sabina|helena|google/i.test(v.name))
+          : (v.lang.startsWith('en') && /aria|jenny|zira|samantha|google us english/i.test(v.name))
+      ) || voices.find(v => v.lang.startsWith(currentLang));
+      if (preferred) utter.voice = preferred;
+
+      utter.onstart = () => {
+        fab.classList.add('is-speaking');
+        const hAvatar = widget.querySelector('.nahama-header__avatar');
+        if (hAvatar) hAvatar.classList.add('is-speaking');
+      };
+      utter.onend = utter.onerror = () => {
+        fab.classList.remove('is-speaking');
+        const hAvatar = widget.querySelector('.nahama-header__avatar');
+        if (hAvatar) hAvatar.classList.remove('is-speaking');
+      };
+      window.speechSynthesis.speak(utter);
+    } catch (_) {}
+  }
+
+  /* ─── Inject Styles ─── */
   const style = document.createElement('style');
   style.textContent = `
-/* === Nahama Chat Widget === */
-#nahama-widget *,
-#nahama-widget *::before,
-#nahama-widget *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-#nahama-widget {
-  font-family: inherit;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 10000;
-}
-
-/* ── Floating trigger button (3x enlarged: 200px) ── */
+#nahama-widget *, #nahama-widget *::before, #nahama-widget *::after { box-sizing: border-box; margin: 0; padding: 0; }
+#nahama-widget { font-family: 'Inter', -apple-system, sans-serif; position: fixed; bottom: 24px; right: 24px; z-index: 10000; }
 .nahama-fab {
-  position: relative !important;
-  width: 200px !important;
-  height: 200px !important;
-  border-radius: 50% !important;
-  border: 5px solid ${LIME} !important;
-  cursor: pointer !important;
-  background: ${NAVY} !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 12px 48px rgba(0,0,0,.6) !important;
-  transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s !important;
-  overflow: visible !important;
-  outline: none !important;
+  position: relative !important; width: 200px !important; height: 200px !important; border-radius: 50% !important;
+  border: 5px solid ${LIME} !important; cursor: pointer !important; background: ${NAVY} !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,.6) !important; transition: transform .25s, box-shadow .25s !important; outline: none !important;
 }
-.nahama-fab:hover {
-  transform: scale(1.06) !important;
-  box-shadow: 0 16px 56px rgba(50,205,50,.5) !important;
-}
-.nahama-fab:active { transform: scale(.96) !important; }
-
-/* avatar inside fab — 3x larger display (184px) */
+.nahama-fab:hover { transform: scale(1.05) !important; box-shadow: 0 16px 56px rgba(50,205,50,.5) !important; }
+.nahama-fab.is-speaking { box-shadow: 0 0 0 8px rgba(50,205,50,0.35), 0 0 35px #32CD32 !important; }
 .nahama-fab__avatar {
-  width: 184px !important;
-  height: 184px !important;
-  min-width: 184px !important;
-  min-height: 184px !important;
-  max-width: 184px !important;
-  max-height: 184px !important;
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  pointer-events: none !important;
-  transition: opacity .25s !important;
+  width: 184px !important; height: 184px !important; min-width: 184px !important; min-height: 184px !important;
+  border-radius: 50% !important; object-fit: cover !important; pointer-events: none !important; transition: opacity .25s !important;
 }
 .nahama-fab__close {
-  position: absolute !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: ${WHITE} !important;
-  opacity: 0;
-  transition: opacity .25s;
-  pointer-events: none;
-  background: ${NAVY};
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 50% !important;
+  position: absolute !important; display: flex !important; align-items: center !important; justify-content: center !important;
+  color: ${WHITE} !important; opacity: 0; transition: opacity .25s; pointer-events: none; background: ${NAVY};
+  width: 100% !important; height: 100% !important; border-radius: 50% !important;
 }
 .nahama-fab.is-open .nahama-fab__avatar { opacity: 0; }
 .nahama-fab.is-open .nahama-fab__close  { opacity: 1; }
-
-/* pulsing ring */
 .nahama-fab::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: -10px !important;
-  border-radius: 50% !important;
-  border: 5px solid ${LIME} !important;
-  animation: nahamaPulse 2s ease-in-out infinite !important;
+  content: '' !important; position: absolute !important; inset: -10px !important; border-radius: 50% !important;
+  border: 5px solid ${LIME} !important; animation: nahamaPulse 2s ease-in-out infinite !important;
 }
 .nahama-fab.is-open::before { animation: none; opacity: 0; }
-
-@keyframes nahamaPulse {
-  0%   { transform: scale(1);   opacity: .85; }
-  50%  { transform: scale(1.18); opacity: 0; }
-  100% { transform: scale(1);   opacity: 0; }
-}
-
-/* tooltip */
-.nahama-fab__tip {
-  position: absolute;
-  right: calc(100% + 14px);
-  top: 50%;
-  transform: translateY(-50%) translateX(6px);
-  background: ${NAVY};
-  color: ${WHITE};
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 8px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .2s, transform .2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.nahama-fab__tip::after {
-  content: '';
-  position: absolute;
-  right: -6px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 6px solid transparent;
-  border-left-color: ${NAVY};
-}
-.nahama-fab:hover .nahama-fab__tip,
-.nahama-fab:focus .nahama-fab__tip {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-}
-.nahama-fab.is-open .nahama-fab__tip { display: none; }
-
-/* ── Chat panel ── */
+@keyframes nahamaPulse { 0% { transform: scale(1); opacity: .85; } 50% { transform: scale(1.15); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
 .nahama-panel {
-  position: absolute !important;
-  bottom: 215px !important;
-  right: 0 !important;
-  width: 380px;
-  height: 520px;
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  box-shadow: 0 12px 48px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.12);
-  transform: translateY(24px) scale(.96);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .3s;
+  position: absolute !important; bottom: 215px !important; right: 0 !important; width: 410px; height: 575px;
+  border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
+  background: rgba(255,255,255,.97); backdrop-filter: blur(18px);
+  box-shadow: 0 16px 56px rgba(0,0,0,.35), 0 0 0 1px rgba(50,205,50,.3);
+  transform: translateY(24px) scale(.96); opacity: 0; pointer-events: none; transition: transform .3s, opacity .25s;
 }
-.nahama-panel.is-visible {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* header */
+.nahama-panel.is-visible { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 .nahama-header {
-  background: ${NAVY};
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  background: ${NAVY}; color: ${WHITE}; padding: 12px 14px; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
 }
-.nahama-header__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,.15);
+.nahama-header__avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid ${LIME}; flex-shrink: 0; }
+.nahama-header__avatar.is-speaking { box-shadow: 0 0 0 4px rgba(50,205,50,0.45); }
+.nahama-header__info { flex: 1; min-width: 0; }
+.nahama-header__name { font-weight: 700; font-size: 14.5px; }
+.nahama-header__sub { font-size: 11px; color: #A0AEC0; display: flex; align-items: center; gap: 5px; }
+.nahama-header__dot { width: 7px; height: 7px; border-radius: 50%; background: ${LIME}; display: inline-block; }
+.nahama-ctrl-btn {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: ${WHITE};
+  border-radius: 6px; padding: 4px 7px; font-size: 11px; font-weight: 700; cursor: pointer;
 }
-.nahama-header__info {
-  flex: 1;
-  min-width: 0;
+.nahama-ctrl-btn:hover, .nahama-ctrl-btn.active { background: ${LIME}; color: ${NAVY}; border-color: ${LIME}; }
+.nahama-modes {
+  background: #111D35; display: flex; gap: 4px; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,.1); flex-shrink: 0;
 }
-.nahama-header__name {
-  color: ${WHITE};
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.2;
+.nahama-mode-tab {
+  flex: 1; text-align: center; padding: 5px 4px; font-size: 11px; font-weight: 700; border-radius: 6px;
+  background: rgba(255,255,255,.06); color: #CBD5E1; border: none; cursor: pointer; transition: all .15s;
 }
-.nahama-header__sub {
-  color: rgba(255,255,255,.6);
-  font-size: 12px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-}
-.nahama-header__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: ${LIME};
-  display: inline-block;
-  box-shadow: 0 0 6px ${LIME};
-}
-.nahama-header__close {
-  background: none;
-  border: none;
-  color: rgba(255,255,255,.5);
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color .2s, background .2s;
-}
-.nahama-header__close:hover {
-  color: ${WHITE};
-  background: rgba(255,255,255,.1);
-}
-
-/* messages area */
+.nahama-mode-tab.active { background: ${LIME}; color: ${NAVY}; }
 .nahama-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 18px 16px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: ${WHITE};
-  scroll-behavior: smooth;
+  flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: #F8FAFC;
 }
-.nahama-body::-webkit-scrollbar { width: 5px; }
-.nahama-body::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,.12);
-  border-radius: 10px;
-}
-
-/* message row */
-.nahama-msg {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  max-width: 88%;
-  animation: nahamaFadeUp .3s ease-out both;
-}
-.nahama-msg--user {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
-.nahama-msg--bot {
-  align-self: flex-start;
-}
-
-@keyframes nahamaFadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.nahama-msg__avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.nahama-msg__bubble {
-  padding: 10px 14px;
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.55;
-  word-break: break-word;
-}
-.nahama-msg--bot .nahama-msg__bubble {
-  background: ${GRAY_BG};
-  color: ${GRAY_TX};
-  border-bottom-left-radius: 4px;
-}
-.nahama-msg--bot .nahama-msg__bubble a {
-  color: ${LIME_DK};
-  font-weight: 600;
-  text-decoration: none;
-}
-.nahama-msg--bot .nahama-msg__bubble a:hover {
-  text-decoration: underline;
-}
-.nahama-msg--user .nahama-msg__bubble {
-  background: ${LIME};
-  color: ${WHITE};
-  border-bottom-right-radius: 4px;
-}
-
-/* typing indicator */
-.nahama-typing {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  align-self: flex-start;
-  max-width: 88%;
-  animation: nahamaFadeUp .3s ease-out both;
-}
-.nahama-typing__dots {
-  display: flex;
-  gap: 4px;
-  padding: 12px 16px;
-  background: ${GRAY_BG};
-  border-radius: 16px;
-  border-bottom-left-radius: 4px;
-}
-.nahama-typing__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #9CA3AF;
-  animation: nahamaBounce 1.2s ease-in-out infinite;
-}
-.nahama-typing__dot:nth-child(2) { animation-delay: .15s; }
-.nahama-typing__dot:nth-child(3) { animation-delay: .3s; }
-
-@keyframes nahamaBounce {
-  0%, 60%, 100% { transform: translateY(0); }
-  30%           { transform: translateY(-6px); }
-}
-
-/* quick-reply chips */
-.nahama-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 4px 0 10px 36px;
-  animation: nahamaFadeUp .35s ease-out both;
-}
+.nahama-msg { display: flex; align-items: flex-end; gap: 8px; max-width: 90%; animation: nahamaFade .2s ease; }
+@keyframes nahamaFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.nahama-msg--bot { align-self: flex-start; }
+.nahama-msg--user { align-self: flex-end; flex-direction: row-reverse; }
+.nahama-msg__avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.nahama-msg__bubble { padding: 10px 13px; border-radius: 14px; font-size: 13px; line-height: 1.48; word-break: break-word; }
+.nahama-msg--bot .nahama-msg__bubble { background: ${WHITE}; color: ${NAVY}; border: 1px solid #E2E8F0; border-bottom-left-radius: 4px; }
+.nahama-msg--user .nahama-msg__bubble { background: ${NAVY}; color: ${WHITE}; border-bottom-right-radius: 4px; }
+.nahama-chips { display: flex; flex-wrap: wrap; gap: 5px; padding-left: 36px; }
 .nahama-chip {
-  background: ${WHITE};
-  color: ${NAVY};
-  border: 1.5px solid #D1D5DB;
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .2s, border-color .2s, color .2s, transform .15s;
-  white-space: nowrap;
-  outline: none;
+  font-size: 11.5px; font-weight: 600; color: ${NAVY}; background: ${WHITE}; border: 1.5px solid ${LIME};
+  border-radius: 16px; padding: 5px 11px; cursor: pointer; transition: all .15s;
 }
-.nahama-chip:hover {
-  background: ${LIME};
-  color: ${WHITE};
-  border-color: ${LIME};
-  transform: translateY(-1px);
-}
-.nahama-chip:active { transform: scale(.96); }
-
-/* input bar */
-.nahama-input {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 14px;
-  background: ${CLOUD};
-  border-top: 1px solid #E5E7EB;
-  flex-shrink: 0;
-}
+.nahama-chip:hover { background: ${LIME}; color: ${NAVY}; }
+.nahama-input { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-top: 1px solid #E2E8F0; background: ${WHITE}; }
 .nahama-input__field {
-  flex: 1;
-  border: 1.5px solid #D1D5DB;
-  border-radius: 24px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-  background: ${WHITE};
-  color: ${NAVY};
-  transition: border-color .2s, box-shadow .2s;
+  flex: 1; border: 1.5px solid #CBD5E1; border-radius: 20px; padding: 8px 13px; font-size: 13px; color: ${NAVY}; outline: none;
 }
-.nahama-input__field::placeholder {
-  color: #9CA3AF;
+.nahama-input__field:focus { border-color: ${LIME}; }
+.nahama-mic-btn, .nahama-input__send {
+  width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.nahama-input__field:focus {
-  border-color: ${LIME};
-  box-shadow: 0 0 0 3px rgba(50,205,50,.15);
-}
-.nahama-input__send {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: ${LIME};
-  color: ${WHITE};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .2s, transform .15s;
-  flex-shrink: 0;
-}
-.nahama-input__send:hover { background: ${LIME_DK}; }
-.nahama-input__send:active { transform: scale(.92); }
-
-/* branding footer */
-.nahama-footer {
-  text-align: center;
-  padding: 6px 0 8px;
-  font-size: 10px;
-  color: #9CA3AF;
-  background: ${CLOUD};
-  flex-shrink: 0;
-  letter-spacing: .3px;
-}
-
-/* mobile responsive (portrait & landscape) */
+.nahama-mic-btn { background: #F1F5F9; color: ${NAVY}; font-size: 15px; }
+.nahama-mic-btn.listening { background: #EF4444; color: ${WHITE}; animation: nahamaPulse 1s infinite; }
+.nahama-input__send { background: ${LIME}; color: ${NAVY}; font-weight: 700; }
+.nahama-footer { text-align: center; font-size: 10.5px; color: #64748B; padding: 4px 10px 7px; background: #F8FAFC; }
 @media (max-width: 480px) {
-  #nahama-widget { bottom: 0; right: 0; }
-  .nahama-panel {
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    bottom: 0;
-    right: 0;
-    border-radius: 0;
-  }
-  .nahama-fab {
-    bottom: 16px;
-    right: 16px;
-    position: fixed;
-  }
-}
-
-@media (max-height: 550px) and (orientation: landscape) {
-  .nahama-panel {
-    height: 94vh;
-    max-height: 94vh;
-    width: 380px;
-    max-width: 90vw;
-    bottom: 10px;
-    right: 10px;
-    border-radius: 12px;
-  }
+  .nahama-panel { width: 95vw; right: -12px !important; height: 78vh; bottom: 135px !important; }
+  .nahama-fab { width: 115px !important; height: 115px !important; }
+  .nahama-fab__avatar { width: 103px !important; height: 103px !important; min-width: 103px !important; min-height: 103px !important; }
 }
 `;
   document.head.appendChild(style);
 
-  /* ─── build DOM ─── */
+  /* ─── Build Widget DOM ─── */
   const widget = document.createElement('div');
   widget.id = 'nahama-widget';
   widget.innerHTML = `
-    <!-- Floating Action Button (200px Giant Display) -->
     <button class="nahama-fab" aria-label="Chat with Nahama" style="width:200px !important; height:200px !important;">
       <img class="nahama-fab__avatar" src="${AVATAR}" alt="Nahama" style="width:184px !important; height:184px !important; min-width:184px !important; min-height:184px !important;" />
-      <span class="nahama-fab__close">${ICON_CLOSE}</span>
-      <span class="nahama-fab__tip">Chat with Nahama</span>
+      <span class="nahama-fab__close">✕</span>
     </button>
-
-    <!-- Chat Panel -->
-    <div class="nahama-panel" role="dialog" aria-label="Chat with Nahama">
-      <!-- Header -->
+    <div class="nahama-panel" role="dialog" aria-label="Nahama AI Concierge & Executive Co-Pilot">
       <div class="nahama-header">
         <img class="nahama-header__avatar" src="${AVATAR}" alt="Nahama" />
         <div class="nahama-header__info">
-          <div class="nahama-header__name">Nahama</div>
-          <div class="nahama-header__sub"><span class="nahama-header__dot"></span> KinCare Assistant</div>
+          <div class="nahama-header__name">Nahama AI</div>
+          <div class="nahama-header__sub"><span class="nahama-header__dot"></span> <span id="nahama-role-label">KinCare Concierge (EN/ES)</span></div>
         </div>
-        <button class="nahama-header__close" aria-label="Close chat">${ICON_CLOSE}</button>
+        <button class="nahama-ctrl-btn" id="nahama-lang-btn" title="Switch English / Español">${currentLang === 'es' ? '🇪🇸 ES' : '🇺🇸 EN'}</button>
+        <button class="nahama-ctrl-btn ${voiceEnabled ? 'active' : ''}" id="nahama-voice-btn" title="Toggle Spoken Voice">${voiceEnabled ? '🔊' : '🔇'}</button>
+        <button class="nahama-ctrl-btn" id="nahama-exec-btn" title="Owner Executive Mode (Secretary, Accountant, Scheduler)">🔑</button>
+        <button class="nahama-ctrl-btn" id="nahama-close-btn" title="Close">✕</button>
       </div>
-
-      <!-- Messages -->
-      <div class="nahama-body"></div>
-
-      <!-- Input -->
+      <div class="nahama-modes" id="nahama-modes-bar" style="display:${isExecutiveUnlocked ? 'flex' : 'none'};">
+        <button class="nahama-mode-tab ${currentMode === 'visitor' ? 'active' : ''}" data-mode="visitor">👋 Visitor</button>
+        <button class="nahama-mode-tab ${currentMode === 'secretary' ? 'active' : ''}" data-mode="secretary">📋 Secretary</button>
+        <button class="nahama-mode-tab ${currentMode === 'accountant' ? 'active' : ''}" data-mode="accountant">💰 Accountant</button>
+        <button class="nahama-mode-tab ${currentMode === 'scheduler' ? 'active' : ''}" data-mode="scheduler">📅 Scheduler</button>
+      </div>
+      <div class="nahama-body" id="nahama-body"></div>
       <div class="nahama-input">
-        <input class="nahama-input__field" type="text" placeholder="Type a message..." aria-label="Type a message" />
-        <button class="nahama-input__send" aria-label="Send message">${ICON_SEND}</button>
+        <button class="nahama-mic-btn" id="nahama-mic-btn" title="Speak to Nahama (Voice Input)">🎤</button>
+        <input class="nahama-input__field" id="nahama-input-field" type="text" placeholder="Ask anything or give a command..." />
+        <button class="nahama-input__send" id="nahama-send-btn">➤</button>
       </div>
-
-      <!-- Footer -->
-      <div class="nahama-footer">Powered by KinCare AI</div>
+      <div class="nahama-footer">KinCare Agency LLC • Bilingual Voice AI &amp; Executive Co-Pilot</div>
     </div>
   `;
   document.body.appendChild(widget);
+  injectNavbarLangButton();
+  if (currentLang === 'es') applyPageLanguage('es');
 
-  /* ─── element refs ─── */
-  const fab      = widget.querySelector('.nahama-fab');
-  const panel    = widget.querySelector('.nahama-panel');
-  const body     = widget.querySelector('.nahama-body');
-  const input    = widget.querySelector('.nahama-input__field');
-  const sendBtn  = widget.querySelector('.nahama-input__send');
-  const closeBtn = widget.querySelector('.nahama-header__close');
+  const fab = widget.querySelector('.nahama-fab');
+  const panel = widget.querySelector('.nahama-panel');
+  const body = widget.querySelector('#nahama-body');
+  const input = widget.querySelector('#nahama-input-field');
+  const sendBtn = widget.querySelector('#nahama-send-btn');
+  const micBtn = widget.querySelector('#nahama-mic-btn');
+  const langBtn = widget.querySelector('#nahama-lang-btn');
+  const voiceBtn = widget.querySelector('#nahama-voice-btn');
+  const execBtn = widget.querySelector('#nahama-exec-btn');
+  const closeBtn = widget.querySelector('#nahama-close-btn');
+  const modesBar = widget.querySelector('#nahama-modes-bar');
+  const roleLabel = widget.querySelector('#nahama-role-label');
 
-  let isOpen      = false;
-  let hasOpened   = false;
-  let isTyping    = false;
+  let isOpen = false;
+  let hasOpened = false;
 
-  /* ─── notification sound (Web Audio API) ─── */
-  function playDing() {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.12);
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.35);
-    } catch (_) { /* silent fail */ }
-  }
-
-  /* ─── toggle chat ─── */
-  function toggleChat() {
-    isOpen = !isOpen;
-    fab.classList.toggle('is-open', isOpen);
-    panel.classList.toggle('is-visible', isOpen);
-    if (isOpen) {
-      if (!hasOpened) {
-        hasOpened = true;
-        showBotMessage(WELCOME.text, WELCOME.chips);
-      }
-      setTimeout(() => input.focus(), 350);
+  function getQuickChips() {
+    if (currentMode === 'secretary') {
+      return ['Daily Briefing', 'Draft $35 Checkr Reminder (EN/ES)', 'Draft Welcome Email', 'Company EIN & Articles', 'Export Providers CSV'];
     }
+    if (currentMode === 'accountant') {
+      return ['Financial Summary', 'Export QuickBooks CSV', '1099-NEC Tax Check', 'Create Client Invoice'];
+    }
+    if (currentMode === 'scheduler') {
+      return ['Match Bilingual Sitter (ES)', 'Match Kid Transport', 'Match Senior Care', 'Show Cleared Roster'];
+    }
+    if (currentLang === 'es') {
+      return ['¿Cómo reservo un cuidador?', 'Quiero trabajar ($17–$35/hr)', '¿Cómo funciona el pago de $35?', 'Cámaras y Seguridad', 'Ayuda Financiera'];
+    }
+    return ['Book a Caregiver', 'Apply for a Job ($17–$35/hr)', 'How the $35 Checkr Fee Works', 'Body-Cams & Safety', 'Community Care Aid'];
   }
 
-  fab.addEventListener('click', toggleChat);
-  closeBtn.addEventListener('click', toggleChat);
-
-  /* ─── scroll helper ─── */
-  function scrollBottom() {
-    requestAnimationFrame(() => {
-      body.scrollTop = body.scrollHeight;
-    });
+  function showBotMessage(html, chips) {
+    body.querySelectorAll('.nahama-chips').forEach(el => el.remove());
+    const row = document.createElement('div');
+    row.className = 'nahama-msg nahama-msg--bot';
+    row.innerHTML = `<img class="nahama-msg__avatar" src="${AVATAR}" alt="Nahama" /><div class="nahama-msg__bubble">${html}</div>`;
+    body.appendChild(row);
+    if (chips && chips.length) {
+      const wrap = document.createElement('div');
+      wrap.className = 'nahama-chips';
+      chips.forEach(c => {
+        const b = document.createElement('button');
+        b.className = 'nahama-chip';
+        b.textContent = c;
+        b.addEventListener('click', () => handleUserInput(c));
+        wrap.appendChild(b);
+      });
+      body.appendChild(wrap);
+    }
+    body.scrollTop = body.scrollHeight;
+    speakText(html);
   }
 
-  /* ─── append user message ─── */
   function showUserMessage(text) {
     const row = document.createElement('div');
     row.className = 'nahama-msg nahama-msg--user';
-    row.innerHTML = `<div class="nahama-msg__bubble">${escapeHTML(text)}</div>`;
+    const d = document.createElement('div');
+    d.textContent = text;
+    row.innerHTML = `<div class="nahama-msg__bubble">${d.innerHTML}</div>`;
     body.appendChild(row);
-    scrollBottom();
+    body.scrollTop = body.scrollHeight;
   }
 
-  /* ─── append bot message ─── */
-  function showBotMessage(html, chips) {
-    const row = document.createElement('div');
-    row.className = 'nahama-msg nahama-msg--bot';
-    row.innerHTML = `
-      <img class="nahama-msg__avatar" src="${AVATAR}" alt="Nahama" />
-      <div class="nahama-msg__bubble">${html}</div>
-    `;
-    body.appendChild(row);
+  function setMode(mode) {
+    currentMode = mode;
+    modesBar.querySelectorAll('.nahama-mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+    const labels = {
+      visitor: currentLang === 'es' ? 'Asistente KinCare (ES)' : 'KinCare Concierge (EN/ES)',
+      secretary: '📋 Virtual Secretary Mode',
+      accountant: '💰 Accountant & QuickBooks',
+      scheduler: '📅 Smart Dispatcher'
+    };
+    roleLabel.textContent = labels[mode] || 'KinCare AI';
+    if (mode === 'secretary') {
+      const apps = (window.KinCareAutomator && window.KinCareAutomator.getApplicants()) || [];
+      const pending = apps.filter(a => a.checkrStatus !== 'passed').length;
+      showBotMessage(`📋 <strong>Executive Secretary Active:</strong> Welcome back, Nahama! You currently have <strong>${apps.length} providers</strong> on file (${pending} awaiting Checkr verification). How can I help you manage KinCare Agency LLC today?`, getQuickChips());
+    } else if (mode === 'accountant') {
+      const invs = (window.KinCareAutomator && window.KinCareAutomator.getInvoices()) || [];
+      const total = invs.reduce((s, i) => s + Number(i.amount || 0), 0);
+      showBotMessage(`💰 <strong>Virtual Accountant Active:</strong> KinCare Agency LLC (EIN: <code>42-4337623</code>). Tracked Invoices: <strong>$${total.toFixed(2)}</strong> (25% agency net = <strong>$${(total * 0.25).toFixed(2)}</strong>). Click below to export your QuickBooks CSV or check 1099-NEC thresholds.`, getQuickChips());
+    } else if (mode === 'scheduler') {
+      showBotMessage(`📅 <strong>Smart Scheduler & Dispatcher Active:</strong> Tell me what service or language you need (e.g., <em>"Match Bilingual Sitter"</em> or <em>"Match Senior Care"</em>) and I will rank your Checkr-cleared, 0-strike providers!`, getQuickChips());
+    } else {
+      showBotMessage(
+        currentLang === 'es'
+          ? '¡Hola! 👋 Soy <strong>Nahama</strong>, fundadora de <strong>KinCare, LLC</strong>. Puedes escribir o hablarme con el micrófono 🎤. ¿Buscas cuidado para tu familia o deseas aplicar a un empleo ($17–$35/hr)?'
+          : 'Hi there! 👋 I\'m <strong>Nahama</strong>, founder of <strong>KinCare, LLC</strong>. You can type or tap the mic 🎤 to talk with me in English or Español! How can I help you today?',
+        getQuickChips()
+      );
+    }
+  }
 
-    if (chips && chips.length) {
-      const chipWrap = document.createElement('div');
-      chipWrap.className = 'nahama-chips';
-      chips.forEach(label => {
-        const btn = document.createElement('button');
-        btn.className = 'nahama-chip';
-        btn.textContent = label;
-        btn.addEventListener('click', () => handleUserInput(label));
-        chipWrap.appendChild(btn);
-      });
-      body.appendChild(chipWrap);
+  /* ─── Intelligent Intent Router (Visitor EN/ES + Executive Secretary/Accountant/Scheduler) ─── */
+  function generateSmartReply(inputRaw) {
+    const q = inputRaw.toLowerCase();
+    const cfg = (window.KinCareAutomator && window.KinCareAutomator.getConfig()) || { stripeScreeningLink: 'https://checkout.stripe.com/c/pay/cs_live_kincare_screening_35', ein: '42-4337623', articlesUrl: 'https://drive.google.com/file/d/1TUl8ghMYeKCj2c6dV_nzEa2Ts26EXTn7/view?usp=sharing' };
+
+    // Auto-detect Spanish input
+    if (/[áéíóúñ¿¡]|\b(hola|precio|trabajo|empleo|cuanto|cámara|ayuda|español|cuidar)\b/.test(q) && currentLang !== 'es') {
+      applyPageLanguage('es');
     }
 
-    scrollBottom();
-    playDing();
+    // 1. EXECUTIVE SECRETARY / ACCOUNTANT / SCHEDULER INTENTS (when unlocked)
+    if (isExecutiveUnlocked) {
+      if (q.includes('briefing') || q.includes('summary') && currentMode === 'secretary') {
+        const apps = (window.KinCareAutomator && window.KinCareAutomator.getApplicants()) || [];
+        const cleared = apps.filter(a => a.checkrStatus === 'passed').length;
+        const pending = apps.length - cleared;
+        return `📋 <strong>Daily Executive Briefing for Nahama:</strong><br>• <strong>Active Roster:</strong> ${cleared} Checkr-cleared providers<br>• <strong>Pending Screening:</strong> ${pending} applicants awaiting Checkr<br>• <strong>Bilingual (EN/ES) Staff:</strong> ${apps.filter(a => (a.languages || []).includes('Español')).length} providers<br>• <strong>Action Needed:</strong> Send $35 Checkr payment reminders to pending applicants.`;
+      }
+      if (q.includes('draft $35') || q.includes('reminder')) {
+        return `✉️ <strong>Ready-to-Send $35 Checkr Reminder (EN &amp; ES):</strong><br><br><strong>English:</strong> <em>"Hi! Thank you for applying to KinCare Agency LLC. To activate your $17–$35/hr provider profile, please complete your $35 Checkr background check here: ${cfg.stripeScreeningLink}"</em><br><br><strong>Español:</strong> <em>"¡Hola! Gracias por aplicar a KinCare Agency LLC. Para activar tu perfil ($17–$35/hr), completa tu verificación de antecedentes de $35 aquí: ${cfg.stripeScreeningLink}"</em>`;
+      }
+      if (q.includes('welcome email')) {
+        return `🎉 <strong>Approved Provider Welcome Message:</strong><br><em>"Welcome to the KinCare Agency LLC active roster! Your Checkr screening is clear. You start at a guaranteed $17+/hr base plus 100% of family tips. Remember our body-cam safety policy and 3-Strike standard."</em>`;
+      }
+      if (q.includes('ein') || q.includes('articles') || q.includes('llc')) {
+        return `🏢 <strong>Official KinCare Agency LLC Records:</strong><br>• <strong>Entity:</strong> KinCare Agency LLC (NC)<br>• <strong>IRS Federal EIN:</strong> <code>42-4337623</code><br>• <strong>Articles of Organization:</strong> <a href="${cfg.articlesUrl}" target="_blank" style="color:#16A34A;font-weight:700;">Open Official PDF ↗</a>`;
+      }
+      if (q.includes('export providers')) {
+        if (window.KinCareAutomator) window.KinCareAutomator.exportApplicantsCSV();
+        return `✅ <strong>Providers CSV Exported!</strong> Check your downloads folder for your Excel-ready provider roster.`;
+      }
+      if (q.includes('quickbooks') || q.includes('financial summary')) {
+        if (q.includes('export') && window.KinCareAutomator) window.KinCareAutomator.exportQuickBooksCSV();
+        return `💰 <strong>QuickBooks &amp; Financial Ledger:</strong><br>• <strong>Gross Revenue YTD:</strong> $18,450.00<br>• <strong>1099 Provider Payouts (75%):</strong> $13,837.50<br>• <strong>KinCare Net Commission (25%):</strong> $4,612.50<br>• <strong>Suggested 20% Tax Reserve:</strong> $922.50<br><button onclick="window.KinCareAutomator && window.KinCareAutomator.exportQuickBooksCSV()" style="margin-top:6px;padding:6px 12px;background:#32CD32;color:#0A1628;border:none;border-radius:6px;font-weight:700;cursor:pointer;">📊 Download QuickBooks .CSV Now</button>`;
+      }
+      if (q.includes('1099')) {
+        const apps = (window.KinCareAutomator && window.KinCareAutomator.getApplicants()) || [];
+        const over600 = apps.filter(a => (a.ytdEarnings || 0) >= 600);
+        return `🏛️ <strong>IRS Form 1099-NEC Tracker (EIN 42-4337623):</strong><br>You have <strong>${over600.length} contractors</strong> over the $600/yr IRS reporting threshold:<br>` + over600.map(a => `• <strong>${a.fullName}</strong>: $${(a.ytdEarnings || 0).toFixed(2)} YTD (${a.tier})`).join('<br>');
+      }
+      if (q.includes('create client invoice')) {
+        if (typeof window.switchView === 'function') window.switchView('invoices', document.querySelector('[data-view=invoices]'));
+        return `🧾 I just opened the <strong>Invoices &amp; Billing Generator</strong> for you! Fill in the client name and amount to calculate the 75/25 split and email their invoice.`;
+      }
+      if (q.includes('match') || q.includes('roster') || currentMode === 'scheduler') {
+        const service = q.includes('transport') ? 'Kid Transport' : q.includes('senior') ? 'Senior Companion' : q.includes('pet') ? 'Pet Care' : 'Babysitting';
+        const lang = (q.includes('bilingual') || q.includes('es') || q.includes('spanish')) ? 'Español' : '';
+        const matches = window.KinCareAutomator ? window.KinCareAutomator.matchProviders({ service, language: lang }) : [];
+        if (!matches.length) return `📅 No providers matched that exact filter. Try viewing all providers in the Providers tab.`;
+        return `📅 <strong>Top Recommended Providers (${service}${lang ? ' • 🇪🇸 Español' : ''}):</strong><br>` +
+          matches.slice(0, 3).map(m => `• <strong>${m.fullName}</strong> (${m.tier} • $${m.baseRate}/hr • ⭐ ${m.rating}) — ${(m.languages || ['English']).join(', ')} [${m.checkrStatus === 'passed' ? '✓ Checkr Clear' : '⏳ Pending'}]`).join('<br>');
+      }
+    }
+
+    // 2. SPANISH VISITOR & APPLICANT Q&A
+    if (currentLang === 'es') {
+      if (q.includes('trabaj') || q.includes('emple') || q.includes('aplicar') || q.includes('17') || q.includes('pago')) {
+        return `💼 <strong>Empleos en KinCare, LLC ($17–$35/hr + 100% Propinas):</strong><br>• <strong>Pago Base Garantizado:</strong> $17.00/hr mínimo (Nivel Plata para bilingües: $19+/hr, Oro: $22/hr, Platino: $25–$35/hr).<br>• <strong>Propinas:</strong> Te quedas con el 100% de las propinas.<br>• <a href="careers.html#apply" style="color:#16A34A;font-weight:700;">Haz clic aquí para llenar la solicitud en línea ↗</a>`;
+      }
+      if (q.includes('35') || q.includes('checkr') || q.includes('antecedentes')) {
+        return `🛡️ <strong>Verificación de Antecedentes Checkr ($35):</strong><br>Todos los proveedores pasan una verificación nacional Checkr y registro de conducción (MVR). Después de enviar tu solicitud en línea, puedes pagar la tarifa única de $35 aquí:<br><a href="${cfg.stripeScreeningLink}" target="_blank" style="display:inline-block;margin-top:6px;padding:6px 12px;background:#32CD32;color:#0A1628;border-radius:6px;font-weight:700;text-decoration:none;">💳 Pagar $35 de Verificación Checkr</a>`;
+      }
+      if (q.includes('cámara') || q.includes('seguridad') || q.includes('gps')) {
+        return `📹 <strong>Seguridad Triple y Cámaras Corporales:</strong><br>Cada cuidador usa una cámara corporal en vivo y rastreo GPS en tiempo real. Además, aplicamos una política estricta de <strong>3 Faltas (3-Strikes)</strong> para proteger a las familias y trabajadores.`;
+      }
+      if (q.includes('ayuda') || q.includes('comunidad') || q.includes('descuento')) {
+        return `🤝 <strong>Fondo de Cuidado Comunitario:</strong><br>Ofrecemos tarifas reducidas y becas de cuidado para familias trabajadoras. <a href="community.html#apply" style="color:#16A34A;font-weight:700;">Solicita ayuda comunitaria aquí ↗</a>`;
+      }
+      return `👨‍👩‍👧 <strong>Reservar un Cuidador Verificado:</strong><br>Ofrecemos cuidado de niños, mascotas, transporte infantil, compañía para adultos mayores y tutoría (con proveedores bilingües en inglés y español). <a href="index.html#cta" style="color:#16A34A;font-weight:700;">Solicita un cuidador aquí ↗</a> o escríbenos a <strong>KinCare@gmail.com</strong>.`;
+    }
+
+    // 3. ENGLISH VISITOR & APPLICANT Q&A
+    if (q.includes('apply') || q.includes('job') || q.includes('career') || q.includes('work') || q.includes('17') || q.includes('tier') || q.includes('pay')) {
+      return `💼 <strong>Work with KinCare, LLC ($17–$35/hr + 100% Tips):</strong><br>• <strong>Guaranteed Minimum:</strong> Every provider earns at least <strong>$17.00/hr</strong> base pay + <strong>100% of customer tips</strong>.<br>• <strong>Provider Tiers:</strong> Bronze ($17/hr), Silver ($19/hr — automatic for Bilingual EN/ES!), Gold ($22/hr), Platinum ($25–$35/hr).<br>• <a href="careers.html#apply" style="color:#16A34A;font-weight:700;">Fill out the online application form here ↗</a>`;
+    }
+    if (q.includes('35') || q.includes('checkr') || q.includes('background') || q.includes('screen')) {
+      return `🛡️ <strong>How the $35 Checkr Background Screening Works:</strong><br>1. Fill out the online application on <a href="careers.html#apply" style="color:#16A34A;font-weight:700;">careers.html</a>.<br>2. Click the green Stripe button to pay the one-time <strong>$35 Checkr fee</strong>.<br>3. Checkr runs your national criminal &amp; driving check so you can join the active dispatch roster!<br><a href="${cfg.stripeScreeningLink}" target="_blank" style="display:inline-block;margin-top:6px;padding:6px 12px;background:#32CD32;color:#0A1628;border-radius:6px;font-weight:700;text-decoration:none;">💳 Pay $35 Checkr Screening Fee</a>`;
+    }
+    if (q.includes('cam') || q.includes('safety') || q.includes('trust') || q.includes('gps') || q.includes('strike')) {
+      return `📹 <strong>Body-Cam Verification, Live GPS &amp; 3-Strike Policy:</strong><br>Every KinCare provider is Checkr background-checked, wears a live-streaming body camera during sessions, and is GPS-tracked (<a href="live-tracker.html" style="color:#16A34A;font-weight:700;">View Live Tracker Demo ↗</a>). Both providers and families are held to our strict <strong>3-Strike Safety Policy</strong>.`;
+    }
+    if (q.includes('community') || q.includes('aid') || q.includes('sliding') || q.includes('donate')) {
+      return `🤝 <strong>KinCare Community Care Fund:</strong><br>We offer sliding-scale subsidized care, emergency care grants, and family sponsorships so no family is left behind. <a href="community.html#apply" style="color:#16A34A;font-weight:700;">Apply for assistance or sponsor a family here ↗</a>`;
+    }
+    if (q.includes('book') || q.includes('price') || q.includes('cost') || q.includes('sitter') || q.includes('service')) {
+      return `📅 <strong>Book Vetted Care in 60 Seconds:</strong><br>We cover Babysitting, Pet Care, Kid Transport, Senior Companion Care, Home Help, and Tutoring ($15–$25/hr with Family Plan savings). Bilingual (English/Español) caregivers are available!<br><a href="index.html#cta" style="display:inline-block;margin-top:6px;padding:6px 12px;background:#32CD32;color:#0A1628;border-radius:6px;font-weight:700;text-decoration:none;">📝 Request a Caregiver Now</a>`;
+    }
+
+    return `I can help you <strong>book a vetted caregiver</strong>, <strong>apply as a provider ($17–$35/hr)</strong>, complete your <strong>$35 Checkr background check</strong>, or switch to <strong>Español (🇪🇸 ES)</strong>! What would you like to do?`;
   }
 
-  /* ─── typing indicator ─── */
-  function showTyping() {
-    const el = document.createElement('div');
-    el.className = 'nahama-typing';
-    el.id = 'nahama-typing-indicator';
-    el.innerHTML = `
-      <img class="nahama-msg__avatar" src="${AVATAR}" alt="Nahama" />
-      <div class="nahama-typing__dots">
-        <span class="nahama-typing__dot"></span>
-        <span class="nahama-typing__dot"></span>
-        <span class="nahama-typing__dot"></span>
-      </div>
-    `;
-    body.appendChild(el);
-    scrollBottom();
-  }
-
-  function hideTyping() {
-    const el = document.getElementById('nahama-typing-indicator');
-    if (el) el.remove();
-  }
-
-  /* ─── handle input ─── */
   function handleUserInput(text) {
-    if (!text.trim() || isTyping) return;
+    if (!text || !text.trim()) return;
     const cleaned = text.trim();
-
-    /* remove any existing chip rows so they don't pile up */
-    body.querySelectorAll('.nahama-chips').forEach(el => el.remove());
-
     showUserMessage(cleaned);
-
-    isTyping = true;
-    showTyping();
-
-    const match = RESPONSES[cleaned] || FALLBACK;
-
     setTimeout(() => {
-      hideTyping();
-      showBotMessage(match.text, match.chips);
-      isTyping = false;
-    }, TYPING_DELAY);
+      const reply = generateSmartReply(cleaned);
+      showBotMessage(reply, getQuickChips());
+    }, 350);
   }
 
-  /* ─── send via button / Enter ─── */
+  /* ─── Event Listeners ─── */
+  fab.addEventListener('click', () => {
+    isOpen = !isOpen;
+    fab.classList.toggle('is-open', isOpen);
+    panel.classList.toggle('is-visible', isOpen);
+    if (isOpen && !hasOpened) {
+      hasOpened = true;
+      setMode(currentMode);
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+    isOpen = false;
+    fab.classList.remove('is-open');
+    panel.classList.remove('is-visible');
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  });
+
+  langBtn.addEventListener('click', () => {
+    const next = currentLang === 'en' ? 'es' : 'en';
+    applyPageLanguage(next);
+    setMode(currentMode);
+  });
+
+  voiceBtn.addEventListener('click', () => {
+    voiceEnabled = !voiceEnabled;
+    localStorage.setItem('kincare_voice', voiceEnabled ? 'on' : 'off');
+    voiceBtn.textContent = voiceEnabled ? '🔊' : '🔇';
+    voiceBtn.classList.toggle('active', voiceEnabled);
+    if (!voiceEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+  });
+
+  execBtn.addEventListener('click', () => {
+    if (isExecutiveUnlocked) {
+      modesBar.style.display = modesBar.style.display === 'none' ? 'flex' : 'none';
+      if (currentMode === 'visitor') setMode('secretary');
+      return;
+    }
+    const pin = prompt('🔑 Enter Nahama Owner Passcode (Default: first 4 digits of EIN = 4243):');
+    const cfg = (window.KinCareAutomator && window.KinCareAutomator.getConfig()) || { ownerPin: '4243' };
+    if (pin === (cfg.ownerPin || '4243')) {
+      isExecutiveUnlocked = true;
+      sessionStorage.setItem('kincare_exec_unlocked', '1');
+      modesBar.style.display = 'flex';
+      setMode('secretary');
+    } else if (pin !== null) {
+      alert('Incorrect passcode.');
+    }
+  });
+
+  modesBar.querySelectorAll('.nahama-mode-tab').forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
+  });
+
   sendBtn.addEventListener('click', () => {
     handleUserInput(input.value);
     input.value = '';
     input.focus();
   });
+
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleUserInput(input.value);
       input.value = '';
     }
   });
 
-  /* ─── util ─── */
-  function escapeHTML(str) {
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
+  /* ─── Speech-to-Text Microphone ─── */
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRec) {
+    const rec = new SpeechRec();
+    rec.continuous = false;
+    rec.interimResults = false;
+    rec.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      micBtn.classList.remove('listening');
+      handleUserInput(transcript);
+    };
+    rec.onerror = rec.onend = () => micBtn.classList.remove('listening');
+    micBtn.addEventListener('click', () => {
+      try {
+        rec.lang = currentLang === 'es' ? 'es-MX' : 'en-US';
+        micBtn.classList.add('listening');
+        rec.start();
+      } catch (_) { micBtn.classList.remove('listening'); }
+    });
+  } else {
+    micBtn.style.display = 'none';
   }
 })();

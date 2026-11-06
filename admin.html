@@ -1553,20 +1553,123 @@
         </section>
 
         <section class="view" id="view-financials">
-            <div class="coming-soon">
-                <div class="coming-soon-icon">💰</div>
-                <h2>Financials</h2>
-                <p>Track revenue, expenses, profit margins, and financial forecasts in real time.</p>
-                <span class="coming-soon-badge">Coming Soon</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;">💰 QuickBooks Accounting, Splits & 1099 Tax Hub</h2>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">KinCare Agency LLC (EIN: 42-4337623) — Live Revenue Splits, 1099-NEC Tracker & QuickBooks Online CSV Sync.</p>
+                </div>
+                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                    <a href="https://qbo.intuit.com" target="_blank" class="table-btn" style="text-decoration:none;">🟢 Open QuickBooks Online</a>
+                    <a href="https://dashboard.stripe.com" target="_blank" class="table-btn" style="text-decoration:none;">💳 Open Stripe</a>
+                    <button class="table-btn primary" onclick="window.KinCareAutomator && window.KinCareAutomator.exportQuickBooksCSV()">📊 Export QuickBooks (.CSV)</button>
+                </div>
+            </div>
+
+            <div class="stat-grid" style="margin-bottom:1.5rem;">
+                <div class="stat-card">
+                    <div class="stat-card-top"><span class="stat-label">Gross Bookings YTD</span><div class="stat-icon">💵</div></div>
+                    <div class="stat-value" style="font-size:1.75rem;color:#32CD32;">$18,450</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">100% processed via Stripe</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top"><span class="stat-label">1099 Provider Payouts (75%)</span><div class="stat-icon">👩‍⚕️</div></div>
+                    <div class="stat-value" style="font-size:1.75rem;">$13,837</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">+$1,460.50 in 100% provider tips</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top"><span class="stat-label">KinCare Net Agency Commission (25%)</span><div class="stat-icon">🏦</div></div>
+                    <div class="stat-value" style="font-size:1.75rem;color:#10B981;">$4,613</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">After provider base pay</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top"><span class="stat-label">Est. IRS Tax Reserve (20%)</span><div class="stat-icon">🏛️</div></div>
+                    <div class="stat-value" style="font-size:1.75rem;color:#F59E0B;">$923</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted);">Set aside in PNC Business Checking</div>
+                </div>
+            </div>
+
+            <div class="table-card" style="padding:1.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+                    <div>
+                        <h3 style="font-size:1.1rem;font-weight:700;">📋 IRS 1099-NEC Contractor Threshold Tracker ($600+ YTD)</h3>
+                        <p style="font-size:0.8rem;color:var(--text-muted);">Any independent contractor paid $600 or more in a calendar year requires a Form 1099-NEC under EIN 42-4337623.</p>
+                    </div>
+                    <button class="table-btn" onclick="window.KinCareAutomator && window.KinCareAutomator.exportApplicantsCSV()">🔽 Export 1099 CSV</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Contractor Name</th>
+                                <th>Email & City</th>
+                                <th>Tier & Rate</th>
+                                <th>Jobs Completed</th>
+                                <th>Tips (100%)</th>
+                                <th>YTD Total Paid</th>
+                                <th>IRS 1099-NEC Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tax-1099-tbody"></tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
         <section class="view" id="view-invoices">
-            <div class="coming-soon">
-                <div class="coming-soon-icon">🧾</div>
-                <h2>Invoices</h2>
-                <p>Generate, send, and track invoices with automated payment reminders.</p>
-                <span class="coming-soon-badge">Coming Soon</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;">🧾 Client Billing & Invoice Generator</h2>
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Create branded KinCare Agency LLC invoices, calculate 75/25 provider splits automatically, and email payment links.</p>
+                </div>
+                <div style="display:flex;gap:0.75rem;">
+                    <button class="table-btn" onclick="window.KinCareAutomator && window.KinCareAutomator.exportQuickBooksCSV()">📊 Export to QuickBooks</button>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:1.5rem;margin-bottom:1.5rem;">
+                <div class="table-card" style="padding:1.5rem;">
+                    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;">➕ Create New Client Invoice</h3>
+                    <form onsubmit="handleCreateInvoice(event)" style="display:flex;flex-direction:column;gap:0.85rem;">
+                        <div>
+                            <label style="display:block;font-size:0.78rem;color:var(--text-muted);margin-bottom:0.25rem;">Client / Parent Name *</label>
+                            <input type="text" id="inv-client-name" required placeholder="e.g. Sarah Mitchell" style="width:100%;padding:0.6rem 0.8rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.78rem;color:var(--text-muted);margin-bottom:0.25rem;">Client Email *</label>
+                            <input type="email" id="inv-client-email" required placeholder="parent@email.com" style="width:100%;padding:0.6rem 0.8rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);">
+                        </div>
+                        <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.75rem;">
+                            <div>
+                                <label style="display:block;font-size:0.78rem;color:var(--text-muted);margin-bottom:0.25rem;">Service Description *</label>
+                                <input type="text" id="inv-service" required placeholder="Babysitting (4 hrs)" style="width:100%;padding:0.6rem 0.8rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);">
+                            </div>
+                            <div>
+                                <label style="display:block;font-size:0.78rem;color:var(--text-muted);margin-bottom:0.25rem;">Total ($)</label>
+                                <input type="number" id="inv-amount" required value="100" min="17" step="1" style="width:100%;padding:0.6rem 0.8rem;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);">
+                            </div>
+                        </div>
+                        <button type="submit" class="table-btn primary" style="padding:0.7rem;font-size:0.9rem;margin-top:0.25rem;">🧾 Generate Invoice & Calculate Split</button>
+                    </form>
+                </div>
+
+                <div class="table-card" style="padding:1.5rem;">
+                    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;">📑Recent Invoices & Provider Splits</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Client & Service</th>
+                                    <th>Total</th>
+                                    <th>Provider (75%)</th>
+                                    <th>KinCare (25%)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoices-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1897,12 +2000,14 @@ function renderProviders() {
         const tierColor = tierColors[tierName] || '#32CD32';
         const strikes = a.strikes || 0;
         const strikeDots = [0,1,2].map(i => `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:${i < strikes ? '#EF4444' : 'rgba(255,255,255,0.15)'};border:1px solid ${i < strikes ? '#EF4444' : 'rgba(255,255,255,0.3)'};"></span>`).join('');
+        const langBadges = (a.languages || ['English']).map(l => `<span style="display:inline-block;padding:1px 5px;border-radius:4px;font-size:0.65rem;background:rgba(56,189,248,0.12);color:#38BDF8;border:1px solid rgba(56,189,248,0.3);margin-right:3px;margin-top:2px;">🌐 ${l}</span>`).join('');
 
         return `
             <tr style="${a.status === 'banned_3_strikes' ? 'opacity:0.55;' : ''}">
                 <td style="font-weight:600;color:var(--text-main);">
                     ${a.fullName}
                     <div style="font-size:0.72rem;color:var(--text-muted);font-weight:400;">⭐ ${(a.rating || 5.0).toFixed(2)} • Exp: ${a.experience}</div>
+                    <div>${langBadges}</div>
                 </td>
                 <td>
                     <div style="font-size:0.85rem;color:var(--text-main);">${a.email}</div>
@@ -2020,6 +2125,58 @@ window.onCheckrUpdate = function() {
     renderProviders();
 };
 
+function renderFinancialsAndInvoices() {
+    if (!window.KinCareAutomator) return;
+    const taxBody = document.getElementById('tax-1099-tbody');
+    if (taxBody) {
+        const applicants = window.KinCareAutomator.getApplicants();
+        taxBody.innerHTML = applicants.map(a => {
+            const ytd = a.ytdEarnings !== undefined ? a.ytdEarnings : ((a.jobsCompleted || 0) * 3 * (a.baseRate || 17) + (a.tipsEarned || 0));
+            const needs1099 = ytd >= 600;
+            return `
+                <tr>
+                    <td style="font-weight:600;">${a.fullName}</td>
+                    <td>${a.email} • ${a.city}</td>
+                    <td><span style="color:#32CD32;font-weight:700;">$${(a.baseRate || 17).toFixed(2)}/hr</span> (${a.tier || 'Bronze'})</td>
+                    <td>${a.jobsCompleted || 0}</td>
+                    <td style="color:#10B981;">+$${(a.tipsEarned || 0).toFixed(2)}</td>
+                    <td style="font-family:'Space Grotesk',monospace;font-weight:700;">$${ytd.toFixed(2)}</td>
+                    <td>${needs1099 ? '<span class="status-badge in-progress"><span class="status-dot"></span>1099-NEC Required ($600+)</span>' : '<span class="status-badge completed">Under $600 Threshold</span>'}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    const invBody = document.getElementById('invoices-tbody');
+    if (invBody) {
+        const invoices = window.KinCareAutomator.getInvoices();
+        invBody.innerHTML = invoices.map(inv => `
+            <tr>
+                <td class="td-id">${inv.id}<div style="font-size:0.7rem;color:var(--text-muted);">${inv.date}</div></td>
+                <td><strong style="color:var(--text-main);">${inv.clientName}</strong><div style="font-size:0.75rem;color:var(--text-muted);">${inv.service}</div></td>
+                <td style="font-family:'Space Grotesk',monospace;font-weight:700;color:#32CD32;">$${Number(inv.amount).toFixed(2)}</td>
+                <td style="font-family:'Space Grotesk',monospace;">$${Number(inv.providerPayout).toFixed(2)}</td>
+                <td style="font-family:'Space Grotesk',monospace;color:#10B981;font-weight:600;">$${Number(inv.agencyFee).toFixed(2)}</td>
+                <td>
+                    <a href="mailto:${inv.clientEmail}?subject=${encodeURIComponent('KinCare Agency LLC Invoice ' + inv.id)}&body=${encodeURIComponent('Hi ' + inv.clientName + ',\n\nHere is your KinCare Agency LLC invoice (' + inv.id + ') for ' + inv.service + ': $' + Number(inv.amount).toFixed(2) + '.\n\nThank you for choosing KinCare!\nNahama Green, CEO')}" class="table-btn" style="text-decoration:none;font-size:0.72rem;padding:0.3rem 0.6rem;">✉️ Email Invoice</a>
+                </td>
+            </tr>
+        `).join('');
+    }
+}
+
+function handleCreateInvoice(e) {
+    if (e) e.preventDefault();
+    if (!window.KinCareAutomator) return;
+    const clientName = document.getElementById('inv-client-name')?.value.trim();
+    const clientEmail = document.getElementById('inv-client-email')?.value.trim();
+    const service = document.getElementById('inv-service')?.value.trim();
+    const amount = parseFloat(document.getElementById('inv-amount')?.value || 100);
+    window.KinCareAutomator.createInvoice({ clientName, clientEmail, service, amount, status: 'Pending' });
+    renderFinancialsAndInvoices();
+    e.target.reset();
+}
+
 /* ═══════════════════════════════════════════
    INITIALIZATION
    ═══════════════════════════════════════════ */
@@ -2028,10 +2185,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(animateBars, 300);
     renderBookings('all', '');
     renderProviders();
+    renderFinancialsAndInvoices();
     loadAgencySettings();
 });
 </script>
 
 <script src="kincare-automation.js"></script>
+<script src="nahama-chat.js"></script>
 </body>
 </html>

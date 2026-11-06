@@ -720,23 +720,66 @@
     </div>
   </section>
 
-  <!-- ==================== FINAL CTA ==================== -->
+  <!-- ==================== FINAL CTA / BOOKING FORM ==================== -->
   <section class="section-padding" id="cta" style="background: var(--bg-primary);">
     <div class="container text-center">
-      <span class="section-label reveal">Ready?</span>
+      <span class="section-label reveal">Ready to Book?</span>
       <h2 class="section-title reveal">Your Family Deserves<br><span class="gradient-text">KinCare</span></h2>
-      <p class="section-subtitle reveal">Join 50,000+ families who stopped juggling apps and started living. Sign up free — your first booking is on us.</p>
+      <p class="section-subtitle reveal">Request a background-checked, body-cam verified caregiver in Greensboro &amp; surrounding NC areas. Fill out your care request below:</p>
 
-      <form class="reveal" id="signupForm" name="family-waitlist" method="POST" data-netlify="true" style="max-width: 500px; margin: 0 auto; display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
-        <input type="hidden" name="form-name" value="family-waitlist">
-        <input type="email" name="email" id="signup-email" placeholder="Enter your email" required
-          style="flex: 1; min-width: 250px; padding: 14px 20px; border-radius: var(--radius-full); border: 2px solid var(--mist); background: var(--bg-card); color: var(--text-primary); font-family: var(--font-body); font-size: 1rem; outline: none; transition: border-color 0.3s;">
-        <button type="submit" class="btn btn-primary" id="signup-submit">
-          Get Started Free
+      <form class="reveal" id="signupForm" name="family-booking-request" method="POST" data-netlify="true" style="max-width: 680px; margin: 0 auto; background: var(--bg-card); padding: 2rem; border-radius: 20px; border: 1px solid rgba(50,205,50,0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.08); text-align: left;">
+        <input type="hidden" name="form-name" value="family-booking-request">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:1rem;margin-bottom:1rem;">
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Parent / Client Name *</label>
+            <input type="text" name="parent-name" required placeholder="Your Full Name" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Email Address *</label>
+            <input type="email" name="email" id="signup-email" required placeholder="parent@email.com" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:1rem;margin-bottom:1rem;">
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Phone Number *</label>
+            <input type="tel" name="phone" required placeholder="(336) 555-0000" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Service Needed *</label>
+            <select name="service-needed" required style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+              <option value="Babysitting">Babysitting</option>
+              <option value="Pet Care">Pet Care / Dog Walking</option>
+              <option value="Kid Transport">Kid Transport</option>
+              <option value="Senior Companion">Senior Companion Care</option>
+              <option value="Home Help">Home Help</option>
+              <option value="Tutoring">Tutoring</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Preferred Language / Idioma</label>
+            <select name="preferred-language" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+              <option value="English">🇺🇸 English</option>
+              <option value="Español">🇪🇸 Español (Bilingual)</option>
+              <option value="Either">🌐 Either / Cualquiera</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:1rem;margin-bottom:1.25rem;">
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">Requested Date &amp; Time *</label>
+            <input type="text" name="date-time" required placeholder="e.g. Saturday 6:00 PM (4 hrs)" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;margin-bottom:0.3rem;color:var(--text-secondary);">City &amp; Special Notes</label>
+            <input type="text" name="notes" placeholder="Greensboro, NC — 2 kids, ages 4 &amp; 7" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--mist);background:var(--bg-primary);color:var(--text-primary);font-size:0.95rem;">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="signup-submit" style="width:100%;justify-content:center;padding:15px;font-size:1.05rem;">
+          Request Vetted Caregiver Now
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </form>
-      <p class="reveal" style="color: var(--text-secondary); font-size: 0.85rem; margin-top: var(--space-md);">Free forever plan available. No credit card required.</p>
+      <p class="reveal" style="color: var(--text-secondary); font-size: 0.85rem; margin-top: var(--space-md);">100% Checkr Background Screened • Live Body-Cam &amp; GPS Included.</p>
     </div>
   </section>
 
@@ -800,6 +843,7 @@
   </footer>
 
   <script src="app.js"></script>
+  <script src="kincare-automation.js"></script>
   <script src="nahama-chat.js"></script>
 </body>
 </html>

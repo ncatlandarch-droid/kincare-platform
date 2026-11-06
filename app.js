@@ -146,31 +146,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---------- Email Signup Form ----------
+  // ---------- Family Booking Request Form (Netlify AJAX) ----------
   const signupForm = document.getElementById('signupForm');
   const signupEmail = document.getElementById('signup-email');
 
   if (signupForm && signupEmail) {
-  signupForm.addEventListener('submit', (e) => {
+  signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = signupEmail.value.trim();
     if (!email) return;
 
-    // Simulate signup
-    const btn = signupForm.querySelector('button');
+    const btn = signupForm.querySelector('button[type="submit"]') || signupForm.querySelector('button');
     const originalHTML = btn.innerHTML;
-    btn.innerHTML = '✓ You\'re In!';
+    btn.innerHTML = 'Submitting Care Request...';
+    btn.disabled = true;
+
+    try {
+      const formData = new FormData(signupForm);
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+    } catch (_) {}
+
+    btn.innerHTML = '✓ Care Request Received! Nahama Will Contact You Shortly.';
     btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
     btn.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.4)';
-    signupEmail.value = '';
-    signupEmail.placeholder = 'Check your inbox! 🎉';
+    signupForm.reset();
 
     setTimeout(() => {
       btn.innerHTML = originalHTML;
       btn.style.background = '';
       btn.style.boxShadow = '';
-      signupEmail.placeholder = 'Enter your email';
-    }, 4000);
+      btn.disabled = false;
+    }, 5000);
   });
 
   // ---------- Email input focus style ----------
